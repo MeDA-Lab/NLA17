@@ -8,7 +8,8 @@ You will develop a program which computes the dot product of two vectors.
 
 # For this course
 If you use the work-station which we provide in this course, you can do 
-the following steps to complete lab01.
+the following steps to complete lab01.  
+If you have the CUDA coding experience, you can try to finish lab01_ex.cpp first.
 ## Module system
 We build up a module system for using library easily.
 To load the modules, simply type:
@@ -40,4 +41,7 @@ Calculate dot-product
 CUDA answer : 246.747
 ===== DIFF =====
 The diff of two ans: 0
-```  
+```
+## Exercise
+1. Please complete lab01_ex.cpp.
+2. Try to complete lab01_axpy.cpp. (*axpy* : a * x + y).
