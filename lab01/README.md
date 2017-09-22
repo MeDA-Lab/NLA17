@@ -19,11 +19,20 @@ You can use __MKL__ and __CUDA__ library now.
 ## Compile the code
 ```
 g++ lab01.cpp -c  -m64 -I${MKLROOT}/include -I${CUDADIR}/include -std=c++11
-g++ lab01.o -o lab01  -L${MKLROOT}/lib/intel64 -Wl,--no-as-needed 
--lmkl_intel_lp64 -lmkl_gnu_thread -lmkl_core -lgomp -lpthread -lm -ldl 
--L${CUDADIR}/lib64 -lcudart -lcublas
+g++ lab01.o -o lab01  -L${MKLROOT}/lib/intel64 -Wl,--no-as-needed -lmkl_intel_lp64 -lmkl_gnu_thread -lmkl_core -lgomp -lpthread -lm -ldl -L${CUDADIR}/lib64 -lcudart -lcublas
 ```
 ## Run the code
 ```
 ./lab01
 ```
+## the result
+You will see the output like ...  
+> ===== MKL  =====
+> MKL answer : 246.747
+> ===== CUDA =====
+> Allocate device memory
+> Transfer data from CPU to GPU
+> Calculate dot-product
+> CUDA answer : 246.747
+> ===== DIFF =====
+> The diff of two ans: 0
