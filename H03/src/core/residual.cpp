@@ -17,6 +17,8 @@ double residual(int n, int nnz, double *A_val, int *A_row, int *A_col, double *b
 	matdescra[0] = 'G';
 	matdescra[3] = 'C';
 
-	mkl_dcsrmv(&transa, n, n, &alpha, &matdescra, A_val, A_col, A_row, A_row+1, x, &beta, b);
+	mkl_dcsrmv(&transa, &n, &n, &alpha, matdescra, A_val, A_col, A_row, A_row+1, x, &beta, b);
 	r = cblas_dnrm2(n, b, 1);
+
+	return r;
 }
