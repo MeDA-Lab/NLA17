@@ -144,9 +144,9 @@ void solveShiftEVP(
     double *x
 );
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Solve eigenvalue near mu0 on device.
+/// @brief  Solve linear system Ax = b with requested solver on host.
 ///
-/// @param[in]  mu0     initial guess of eigenvalue.
+/// @param[in]  solver    type of solver; Possible options are; 0:LU; 1:Cholesky; 2:QR
 ///
 /// @param[in]  nnz     number of nonzero elements in the matrix.
 ///
@@ -156,11 +156,11 @@ void solveShiftEVP(
 ///
 /// @param[in/out]  A_val  nonzero values of the matrix; pointer.
 ///
-/// @param[in]  m        size of the matrix;
+/// @param[in]  m        size of the matrix.
 ///
-/// @param[out] mu       estimated eigenvalue;
+/// @param[in]  b        RHS of the linear system; pointer.
 ///
-/// @param[out] x        estimated eigenvector w.r.t. mu; pointer.
+/// @param[out] x        estimated solution; pointer.
 ///
 /// @note  All inputs should be stored on host.
 ///
@@ -175,9 +175,9 @@ void solvelsHost(
     int solver
 );
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Solve eigenvalue near mu0 on device.
+/// @brief  Solve linear system Ax = b with requested solver on device.
 ///
-/// @param[in]  mu0     initial guess of eigenvalue.
+/// @param[in]  solver    type of solver; Possible options are; 1:Cholesky; 2:QR
 ///
 /// @param[in]  nnz     number of nonzero elements in the matrix.
 ///
@@ -187,9 +187,9 @@ void solvelsHost(
 ///
 /// @param[in/out]  A_val  nonzero values of the matrix; pointer.
 ///
-/// @param[in]  m        size of the matrix;
+/// @param[in]  m        size of the matrix.
 ///
-/// @param[out] mu       estimated eigenvalue;
+/// @param[in]  b        RHS of the linear system; pointer.
 ///
 /// @param[out] x        estimated eigenvector w.r.t. mu; pointer.
 ///
@@ -206,9 +206,9 @@ void solvels(
     int solver
 );
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Solve eigenvalue near mu0 on device.
+/// @brief  LU linear system solver wrapper on host.
 ///
-/// @param[in]  mu0     initial guess of eigenvalue.
+/// @param[in]  m       size of the matrix.
 ///
 /// @param[in]  nnz     number of nonzero elements in the matrix.
 ///
@@ -218,9 +218,7 @@ void solvels(
 ///
 /// @param[in/out]  A_val  nonzero values of the matrix; pointer.
 ///
-/// @param[in]  m        size of the matrix;
-///
-/// @param[out] mu       estimated eigenvalue;
+/// @param[in]  b        RHS of the linear system; pointer.
 ///
 /// @param[out] x        estimated eigenvector w.r.t. mu; pointer.
 ///
@@ -236,9 +234,11 @@ void lu_Host(
     double *x
 );
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Solve eigenvalue near mu0 on device.
+/// @brief  Generate RHS b of the linear system Ax = b.
 ///
-/// @param[in]  mu0     initial guess of eigenvalue.
+/// @param[in/out]  b         RHS of the linear system; pointer.
+///
+/// @param[in]  n       size of the matrix;
 ///
 /// @param[in]  nnz     number of nonzero elements in the matrix.
 ///
@@ -247,34 +247,26 @@ void lu_Host(
 /// @param[in/out]  A_col     CSR column index; pointer.
 ///
 /// @param[in/out]  A_val  nonzero values of the matrix; pointer.
-///
-/// @param[in]  m        size of the matrix;
-///
-/// @param[out] mu       estimated eigenvalue;
-///
-/// @param[out] x        estimated eigenvector w.r.t. mu; pointer.
 ///
 /// @note  All inputs should be stored on host.
 ///
 void genRHS(double *b, int n, int nnz, double *A_val, int *A_row, int *A_col);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Solve eigenvalue near mu0 on device.
+/// @brief  Compute the error ||Ax - b||.
 ///
-/// @param[in]  mu0     initial guess of eigenvalue.
+/// @param[in]  n       size of the matrix.
 ///
 /// @param[in]  nnz     number of nonzero elements in the matrix.
 ///
-/// @param[in/out]  A_row     CSR row pointer; pointer.
+/// @param[in]  A_row   CSR row pointer; pointer.
 ///
-/// @param[in/out]  A_col     CSR column index; pointer.
+/// @param[in]  A_col   CSR column index; pointer.
 ///
-/// @param[in/out]  A_val  nonzero values of the matrix; pointer.
+/// @param[in]  A_val   nonzero values of the matrix; pointer.
 ///
-/// @param[in]  m        size of the matrix;
+/// @param[in]  b       RHS of the linear system. at the end of the routine it is overwritten; pointer.
 ///
-/// @param[out] mu       estimated eigenvalue;
-///
-/// @param[out] x        estimated eigenvector w.r.t. mu; pointer.
+/// @param[in]  x       estimated solution to the linear system; pointer.
 ///
 /// @note  All inputs should be stored on host.
 ///
