@@ -13,5 +13,5 @@ void genRHS(double *b, int n, int nnz, double *A_val, int *A_row, int *A_col){
 	double *tmp_v = v.data();
 	char transa = 'N';
 
-	mkl_cspblas_dcsrgemv(&transa, n, A_val, A_row, A_col, tmp_v, b);
+	mkl_cspblas_dcsrgemv(&transa, &n, A_val, A_row, A_col, tmp_v, b);
 }
