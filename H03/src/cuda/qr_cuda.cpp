@@ -18,7 +18,7 @@ void qr_host(
     double *x
 ) {
     cusolverSpHandle_t sp_handle;
-    double *x0 = nullptr, tol = 1e-12;
+    double tol = 1e-12;
     int reorder = 1, singularity;
     cusolverSpCreate(&sp_handle);
 
@@ -28,15 +28,12 @@ void qr_host(
     cusparseSetMatIndexBase(descrA, CUSPARSE_INDEX_BASE_ZERO);
     cusparseSetMatDiagType(descrA, CUSPARSE_DIAG_TYPE_NON_UNIT);
 
-    cusolverSpDcsrlsvluHost(sp_handle, m, nnz, descrA, A_val, A_row, A_col, b, tol, reorder, x, &singularity);
+    cusolverSpDcsrlsvqrHost(sp_handle, m, nnz, descrA, A_val, A_row, A_col, b, tol, reorder, x, &singularity);
 
     cusparseDestroyMatDescr(descrA);
     cusolverSpDestroy(sp_handle);
-    delete x0;
 }
 
-// Not supported yet
-/*
 void qr_dev(
     int m,
     int nnz,
@@ -71,18 +68,15 @@ void qr_dev(
     cudaMemcpy(dA_col, A_col, nnz*sizeof(int), cudaMemcpyHostToDevice);
     cudaMemcpy(dA_val, A_val, nnz*sizeof(double), cudaMemcpyHostToDevice);
 
-    cusolverSpDcsrlsvlu(sp_handle, m, nnz, descrA, dA_val, dA_row, dA_col, db, dx0, tol, reorder, dx, &singularity);
+    cusolverSpDcsrlsvqr(sp_handle, m, nnz, descrA, dA_val, dA_row, dA_col, db, tol, reorder, dx, &singularity);
 
     cudaMemcpy(x, dx, m*sizeof(double), cudaMemcpyDeviceToHost);
 
-    cudaFree(dx0);
-    cudaFree(dmu);
+    cudaFree(db);
     cudaFree(dx);
     cudaFree(dA_row);
     cudaFree(dA_col);
     cudaFree(dA_val);
     cusparseDestroyMatDescr(descrA);
     cusolverSpDestroy(sp_handle);
-    delete x0;
 }
-*/
