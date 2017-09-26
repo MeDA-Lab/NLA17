@@ -8,7 +8,7 @@
 #include <cuda_runtime.h>
 #include <cusolverSp.h>
 
-void lu_Host(
+void lu_host(
     int m,
     int nnz,
     const double *A_val,
@@ -18,7 +18,7 @@ void lu_Host(
     double *x
 ) {
     cusolverSpHandle_t sp_handle;
-    double *x0 = nullptr, tol = 1e-12;
+    double tol = 1e-12;
     int reorder = 1, singularity;
     cusolverSpCreate(&sp_handle);
 
@@ -32,7 +32,6 @@ void lu_Host(
 
     cusparseDestroyMatDescr(descrA);
     cusolverSpDestroy(sp_handle);
-    delete x0;
 }
 
 // Not supported yet
