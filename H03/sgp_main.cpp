@@ -115,7 +115,8 @@ int main( int argc, char** argv ){
     }
 
     // Compute redsidual
-    res = redsidual(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x);
+    double res;
+    res = residual(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x);
 
     cout << "||Ax - b|| =  "  << res << endl;
 
