@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @file    lu_cuda.cpp
-/// @brief   The implementation of solving linear system by LU using CUDA
+/// @brief   The implementation of solving linear system by QR using CUDA
 ///
 /// @author  William Liao
 ///
@@ -8,7 +8,7 @@
 #include <cuda_runtime.h>
 #include <cusolverSp.h>
 
-void lu_host(
+void qr_host(
     int m,
     int nnz,
     const double *A_val,
@@ -28,15 +28,13 @@ void lu_host(
     cusparseSetMatIndexBase(descrA, CUSPARSE_INDEX_BASE_ZERO);
     cusparseSetMatDiagType(descrA, CUSPARSE_DIAG_TYPE_NON_UNIT);
 
-    cusolverSpDcsrlsvluHost(sp_handle, m, nnz, descrA, A_val, A_row, A_col, b, tol, reorder, x, &singularity);
+    cusolverSpDcsrlsvqrHost(sp_handle, m, nnz, descrA, A_val, A_row, A_col, b, tol, reorder, x, &singularity);
 
     cusparseDestroyMatDescr(descrA);
     cusolverSpDestroy(sp_handle);
 }
 
-// Not supported yet
-/*
-void lu_dev(
+void qr_dev(
     int m,
     int nnz,
     const double *A_val,
@@ -70,18 +68,15 @@ void lu_dev(
     cudaMemcpy(dA_col, A_col, nnz*sizeof(int), cudaMemcpyHostToDevice);
     cudaMemcpy(dA_val, A_val, nnz*sizeof(double), cudaMemcpyHostToDevice);
 
-    cusolverSpDcsrlsvlu(sp_handle, m, nnz, descrA, dA_val, dA_row, dA_col, db, dx0, tol, reorder, dx, &singularity);
+    cusolverSpDcsrlsvqr(sp_handle, m, nnz, descrA, dA_val, dA_row, dA_col, db, tol, reorder, dx, &singularity);
 
     cudaMemcpy(x, dx, m*sizeof(double), cudaMemcpyDeviceToHost);
 
-    cudaFree(dx0);
-    cudaFree(dmu);
+    cudaFree(db);
     cudaFree(dx);
     cudaFree(dA_row);
     cudaFree(dA_col);
     cudaFree(dA_val);
     cusparseDestroyMatDescr(descrA);
     cusolverSpDestroy(sp_handle);
-    delete x0;
 }
-*/

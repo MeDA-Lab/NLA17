@@ -6,6 +6,7 @@
 ///
 
 #include <iostream>
+#include "cuda_wrapper.hpp"
 
 void solvelsHost(
     int m,
@@ -19,13 +20,13 @@ void solvelsHost(
 ) {
     if ( solver == 0 )
     {
-        lu_host(m, nnz, A_val, A_row, A_col, mu0, b, x);
+        lu_host(m, nnz, A_val, A_row, A_col, b, x);
     }else if ( solver == 1 )
     {
-        chol_host(m, nnz, A_val, A_row, A_col, mu0, b, x);
+        chol_host(m, nnz, A_val, A_row, A_col, b, x);
     }else if ( solver == 2 )
     {
-        qr_host(m, nnz, A_val, A_row, A_col, mu0, b, x);
+        qr_host(m, nnz, A_val, A_row, A_col, b, x);
     }else{
         std::cout << "Unknown option!" << std::endl;
     }
