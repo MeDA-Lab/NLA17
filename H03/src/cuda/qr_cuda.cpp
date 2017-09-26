@@ -44,11 +44,11 @@ void qr_dev(
     double *x
 ) {
     cusolverSpHandle_t sp_handle;
-    double *x0 = nullptr, tol = 1e-12;
-    double *dx0 = nullptr, *dmu = nullptr, *dx = nullptr;
+    double tol = 1e-12;
+    double *db = nullptr, *dx = nullptr;
     int *dA_row = nullptr, *dA_col = nullptr;
     double *dA_val = nullptr;
-    int maxite = 1000;
+    int reorder = 1, singularity;
     cusolverSpCreate(&sp_handle);
 
     cusparseMatDescr_t descrA;
