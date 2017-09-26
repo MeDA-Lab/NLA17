@@ -92,7 +92,6 @@ int main( int argc, char** argv ){
     genRHS(b, n, nnz, csrValA, csrRowIndA, csrColIndA);
 
     // Solve LS
-    double mu0 = 0.18, mu;
     double *x, timer;
     x = new double[n];
     char flag = 'H';
