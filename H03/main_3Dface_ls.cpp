@@ -9,6 +9,7 @@
 #include <iostream>
 #include <harmonic.hpp>
 #include <timer.hpp>
+#include "mkl.h"
 using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,6 +62,7 @@ int main( int argc, char** argv ) {
 
   // Generate RHS
   double *b;
+  int nnz = Lii_row[nv-nb];
   b = new double[nv-nb];
   genRHS(b, nv-nb, nnz, Lib_val, Lib_row, Lib_col);
   cblas_dscal(nv-nb, -1.0, b, 1);
@@ -70,7 +72,7 @@ int main( int argc, char** argv ) {
   double *x;
   x = new double[nv-nb];
   char flag = 'H';
-  int nnz = Lii_row[nv-nb];
+  int solver = 0;
   cout << endl;
   cout << "n = " << nv-nb << endl;
   cout << "nnz = " << nnz << endl;

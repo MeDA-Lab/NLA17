@@ -257,5 +257,67 @@ void solveShiftEVP(
     double *mu,
     double *x
 );
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  Solve linear system Ax = b with requested solver on host.
+///
+/// @param[in]  solver    type of solver; Possible options are; 0:LU; 1:Cholesky; 2:QR
+///
+/// @param[in]  nnz     number of nonzero elements in the matrix.
+///
+/// @param[in/out]  A_row     CSR row pointer; pointer.
+///
+/// @param[in/out]  A_col     CSR column index; pointer.
+///
+/// @param[in/out]  A_val  nonzero values of the matrix; pointer.
+///
+/// @param[in]  m        size of the matrix.
+///
+/// @param[in]  b        RHS of the linear system; pointer.
+///
+/// @param[out] x        estimated solution; pointer.
+///
+/// @note  All inputs should be stored on host.
+///
+void solvelsHost(
+    int m,
+    int nnz,
+    const double *A_val,
+    const int *A_row,
+    const int *A_col,
+    const double *b,
+    double *x,
+    int solver
+);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  Solve linear system Ax = b with requested solver on device.
+///
+/// @param[in]  solver    type of solver; Possible options are; 1:Cholesky; 2:QR
+///
+/// @param[in]  nnz     number of nonzero elements in the matrix.
+///
+/// @param[in/out]  A_row     CSR row pointer; pointer.
+///
+/// @param[in/out]  A_col     CSR column index; pointer.
+///
+/// @param[in/out]  A_val  nonzero values of the matrix; pointer.
+///
+/// @param[in]  m        size of the matrix.
+///
+/// @param[in]  b        RHS of the linear system; pointer.
+///
+/// @param[out] x        estimated eigenvector w.r.t. mu; pointer.
+///
+/// @note  All inputs should be stored on host.
+///
+void solvels(
+    int m,
+    int nnz,
+    const double *A_val,
+    const int *A_row,
+    const int *A_col,
+    const double *b,
+    double *x,
+    int solver
+);
 
 #endif  // SCSC_HARMONIC_HPP
