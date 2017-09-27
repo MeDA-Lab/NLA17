@@ -73,7 +73,6 @@ int main( int argc, char** argv ) {
   x = new double[nv-nb];
   char flag = 'H';
   int solver = 0;
-  cout << endl;
 
   switch (flag){
     case 'H':
@@ -89,6 +88,7 @@ int main( int argc, char** argv ) {
   }
   cout << "n = " << nv-nb << endl;
   cout << "nnz = " << nnz << endl;
+  cout << endl;
 
   // Compute redsidual
   double res;
