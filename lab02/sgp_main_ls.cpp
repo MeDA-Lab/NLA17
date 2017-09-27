@@ -95,8 +95,8 @@ int main( int argc, char** argv ){
     // Solve LS
     double *x, timer;
     x = new double[n];
-    char flag = 'D';
-    int solver = 2;
+    char flag = 'H';
+    int solver = 0;
 
     cout << "Solving Linear System........." << flush;
 

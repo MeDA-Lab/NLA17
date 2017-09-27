@@ -71,8 +71,8 @@ int main( int argc, char** argv ) {
   cout << "Solving Linear System ......................." << flush;
   double *x;
   x = new double[nv-nb];
-  char flag = 'D';
-  int solver = 2;
+  char flag = 'H';
+  int solver = 0;
 
   switch (flag){
     case 'H':
