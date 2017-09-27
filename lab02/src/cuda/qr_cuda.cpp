@@ -20,8 +20,15 @@ void qr_host(
     cusolverSpHandle_t sp_handle;
     double tol = 1e-12;
     int reorder = 1, singularity;
+
+    /*====================================================*/
     // Finish the remaining part of the code from here...
 
+
+
+
+
+    /*====================================================*/
 }
 
 void qr_dev(
@@ -59,7 +66,7 @@ void qr_dev(
     cudaMemcpy(dA_val, A_val, nnz*sizeof(double), cudaMemcpyHostToDevice);
 
     /*======================================================*/
-    // Finish the part that calls the cuda qr solver here...
+    // Finish the part that calls the cuda qr device solver here...
 
 
 
