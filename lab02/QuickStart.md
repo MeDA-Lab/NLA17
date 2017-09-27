@@ -29,7 +29,32 @@ Numerical Linear Algebra(NTU, NCKU), Matrix Computation (NTNU)
 	
 	`module load intel-mkl`
 
-* To build the program, simply type `make` in terminal.
+* To build the program, simply type `make` in terminal. After typing `make`, you will see the following
+
+	```
+	g++ -c sgp_main_ls.cpp -I include -O3 -m64 -std=c++11 -I/opt/intel/mkl/include
+	g++ -c src/core/read_graph.cpp -I include -O3 -m64 -std=c++11 -I/opt/intel/mkl/include -I/usr/local/cuda-8.0/include
+	g++ -c src/core/graph_adjacency.cpp -I include -O3 -m64 -std=c++11 -I/opt/intel/mkl/include -I/usr/local/cuda-8.0/include
+	g++ -c src/core/graph_laplacian.cpp -I include -O3 -m64 -std=c++11 -I/opt/intel/mkl/include -I/usr/local/cuda-8.0/include
+	g++ -c src/cuda/solve_shiftevp_cuda.cpp -I include -O3 -m64 -std=c++11 -I/opt/intel/mkl/include -I/usr/local/cuda-8.0/include
+	g++ -c src/core/map_boundary.cpp -I include -O3 -m64 -std=c++11 -I/opt/intel/mkl/include -I/usr/local/cuda-8.0/include
+	g++ -c src/core/read_args.cpp -I include -O3 -m64 -std=c++11 -I/opt/intel/mkl/include -I/usr/local/cuda-8.0/include
+	g++ -c src/core/read_object.cpp -I include -O3 -m64 -std=c++11 -I/opt/intel/mkl/include -I/usr/local/cuda-8.0/include
+	g++ -c src/core/reorder_vertex.cpp -I include -O3 -m64 -std=c++11 -I/opt/intel/mkl/include -I/usr/local/cuda-8.0/include
+	g++ -c src/sparse/construct_laplacian_sparse.cpp -I include -O3 -m64 -std=c++11 -I/opt/intel/mkl/include -I/usr/local/cuda-8.0/include
+	g++ -c src/sparse/solve_harmonic_sparse.cpp -I include -O3 -m64 -std=c++11 -I/opt/intel/mkl/include -I/usr/local/cuda-8.0/include
+	g++ -c src/sparse/verify_boundary_sparse.cpp -I include -O3 -m64 -std=c++11 -I/opt/intel/mkl/include -I/usr/local/cuda-8.0/include
+	g++ -c src/core/set_graph_type.cpp -I include -O3 -m64 -std=c++11 -I/opt/intel/mkl/include -I/usr/local/cuda-8.0/include
+	g++ -c src/core/residual.cpp -I include -O3 -m64 -std=c++11 -I/opt/intel/mkl/include -I/usr/local/cuda-8.0/include
+	g++ -c src/core/generate_RHS.cpp -I include -O3 -m64 -std=c++11 -I/opt/intel/mkl/include -I/usr/local/cuda-8.0/include
+	g++ -c src/cuda/solve_ls_cuda.cpp -I include -O3 -m64 -std=c++11 -I/opt/intel/mkl/include -I/usr/local/cuda-8.0/include
+	g++ -c src/cuda/lu_cuda.cpp -I include -O3 -m64 -std=c++11 -I/opt/intel/mkl/include -I/usr/local/cuda-8.0/include
+	g++ -c src/cuda/qr_cuda.cpp -I include -O3 -m64 -std=c++11 -I/opt/intel/mkl/include -I/usr/local/cuda-8.0/include
+	g++ -c src/cuda/chol_cuda.cpp -I include -O3 -m64 -std=c++11 -I/opt/intel/mkl/include -I/usr/local/cuda-8.0/include
+	g++ sgp_main_ls.o -o sgp_main_ls.out read_graph.o graph_adjacency.o graph_laplacian.o solve_shiftevp_cuda.o map_boundary.o read_args.o read_object.o reorder_vertex.o construct_laplacian_sparse.o solve_harmonic_sparse.o verify_boundary_sparse.o set_graph_type.o residual.o generate_RHS.o solve_ls_cuda.o lu_cuda.o qr_cuda.o chol_cuda.o -O3 -m64 -std=c++11 -L/opt/intel/mkl/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl -lcudart -lcublas -lcufft -lcusolver -lcusparse -lgomp -lm -ldl
+	g++ -c main_3Dface_ls.cpp -I include -O3 -m64 -std=c++11 -I/opt/intel/mkl/include
+	g++ main_3Dface_ls.o -o main_3Dface_ls.out read_graph.o graph_adjacency.o graph_laplacian.o solve_shiftevp_cuda.o map_boundary.o read_args.o read_object.o reorder_vertex.o construct_laplacian_sparse.o solve_harmonic_sparse.o verify_boundary_sparse.o set_graph_type.o residual.o generate_RHS.o solve_ls_cuda.o lu_cuda.o qr_cuda.o chol_cuda.o -O3 -m64 -std=c++11 -L/opt/intel/mkl/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl -lcudart -lcublas -lcufft -lcusolver -lcusparse -lgomp -lm -ldl 
+	```
 * For graph laplacian, type the following in terminal:
 
 	`./sgp_main.out [data filename]`
@@ -49,3 +74,37 @@ Numerical Linear Algebra(NTU, NCKU), Matrix Computation (NTNU)
 	Example Usage: `./main_3Dface_evp.out -f data/obj/CYHo.obj -t 1`
 	
 	There are some prepared obj data files in the `data/obj` directory.
+	
+## Results
+For graph laplacian, you will see output like
+
+```
+read file......... Done.  
+Size of data is 12x2
+type of graph: simple graph
+Construct adjacency matrix of graph......... Done.  
+size of matrix = 8
+nnz of A = 24
+Construct Laplacian matrix of graph......... Done.  
+nnz of L = 32
+Solving Linear System......... Done.  
+Elapsed time is 0.385103 seconds.
+||Ax - b|| =  1.70194e-15
+```
+For 3D face animation,  you will see output like
+
+```
+dos2unix: converting file data/obj/CYHo.obj to Unix format ...
+Loads from "data/obj/CYHo.obj" with color.
+"data/obj/CYHo.obj" contains 61961 vertices and 123132 faces.
+
+Verifying boundary ..................... Done.  Elapsed time is 0.130582 seconds.
+Reordering vertices .................... Done.  Elapsed time is 0.00731587 seconds.
+Constructing Laplacian ................. Done.  Elapsed time is 0.074718 seconds.
+Mapping Boundary ....................... Done.  Elapsed time is 8.98838e-05 seconds.
+Solving Linear System ....................... Done.  Elapsed time is 8.04763 seconds.
+n = 61173
+nnz = 425981
+
+||Ax - b|| =  1.23811e-12
+```

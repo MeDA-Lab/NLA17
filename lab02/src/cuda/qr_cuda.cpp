@@ -18,6 +18,7 @@ void qr_host(
     double *x
 ) {
     cusolverSpHandle_t sp_handle;
+    cusparseMatDescr_t descrA;
     double tol = 1e-12;
     int reorder = 1, singularity;
 
