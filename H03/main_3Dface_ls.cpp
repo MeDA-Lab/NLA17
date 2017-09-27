@@ -74,8 +74,6 @@ int main( int argc, char** argv ) {
   char flag = 'H';
   int solver = 0;
   cout << endl;
-  cout << "n = " << nv-nb << endl;
-  cout << "nnz = " << nnz << endl;
 
   switch (flag){
     case 'H':
@@ -89,6 +87,8 @@ int main( int argc, char** argv ) {
       toc(&timer); cout << " Done.  " << endl;
       break;
   }
+  cout << "n = " << nv-nb << endl;
+  cout << "nnz = " << nnz << endl;
 
   // Compute redsidual
   double res;
