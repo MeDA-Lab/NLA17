@@ -66,24 +66,25 @@ int main( int argc, char** argv ) {
   x = new double[nv-nb];
   char flag = 'D';
   int nnz = Lii_row[nv-nb];
-  cout << endl;
-  cout << "n = " << nv-nb << endl;
-  cout << "nnz = " << nnz << endl;
 
   switch (flag){
     case 'H':
       tic(&timer);
-      solveShiftEVPHost(nv-nb, nnz, Lii_val, Lii_row, Lii_col, mu0, &mu, x);
+      solveShiftEVPHost(nv-nb, nnz, Lii_val, Lii_row, Lii_col, mu0, &mu, x);cout << " Done.  ";
       toc(&timer);
       break;
     case 'D':
       tic(&timer);
-      solveShiftEVP(nv-nb, nnz, Lii_val, Lii_row, Lii_col, mu0, &mu, x);
+      solveShiftEVP(nv-nb, nnz, Lii_val, Lii_row, Lii_col, mu0, &mu, x);cout << " Done.  ";
       toc(&timer);
       break;
   }
 
-  cout << "The estimated eigenvalue near " << mu0 << " = " << mu << endl;
+  cout << endl;
+  cout << "n = " << nv-nb << endl;
+  cout << "nnz = " << nnz << endl;
+  cout << "The estimated eigenvalue near "  << mu0 << " = ";
+  cout << fixed << setprecision(13) << mu << endl;
 
   cout << endl;
 
