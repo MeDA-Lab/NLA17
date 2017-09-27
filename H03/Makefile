@@ -70,10 +70,10 @@ MakeObj: $(TARGETS_O)
 
 MakeExe:sgp_main.out main_3Dface_evp.out
 
-sgp_main.out: sgp_main.o $(obj)
+sgp_main_ls.out: sgp_main_ls.o $(obj)
 	$(LOADER) $< -o $@ $(obj) $(CCFLAGS) $(MKLLNKS) $(CUDA_LD_FLAGS)
 
-main_3Dface_evp.out: main_3Dface_evp.o $(obj)
+main_3Dface_ls.out: main_3Dface_ls.o $(obj)
 	$(LOADER) $< -o $@ $(obj) $(CCFLAGS) $(MKLLNKS) $(CUDA_LD_FLAGS)
 
 clean:
