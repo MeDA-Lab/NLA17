@@ -20,18 +20,8 @@ void qr_host(
     cusolverSpHandle_t sp_handle;
     double tol = 1e-12;
     int reorder = 1, singularity;
-    cusolverSpCreate(&sp_handle);
+    // Finish the remaining part of the code from here...
 
-    cusparseMatDescr_t descrA;
-    cusparseCreateMatDescr(&descrA); 
-    cusparseSetMatType(descrA, CUSPARSE_MATRIX_TYPE_GENERAL);
-    cusparseSetMatIndexBase(descrA, CUSPARSE_INDEX_BASE_ZERO);
-    cusparseSetMatDiagType(descrA, CUSPARSE_DIAG_TYPE_NON_UNIT);
-
-    cusolverSpDcsrlsvqrHost(sp_handle, m, nnz, descrA, A_val, A_row, A_col, b, tol, reorder, x, &singularity);
-
-    cusparseDestroyMatDescr(descrA);
-    cusolverSpDestroy(sp_handle);
 }
 
 void qr_dev(
@@ -68,7 +58,12 @@ void qr_dev(
     cudaMemcpy(dA_col, A_col, nnz*sizeof(int), cudaMemcpyHostToDevice);
     cudaMemcpy(dA_val, A_val, nnz*sizeof(double), cudaMemcpyHostToDevice);
 
-    cusolverSpDcsrlsvqr(sp_handle, m, nnz, descrA, dA_val, dA_row, dA_col, db, tol, reorder, dx, &singularity);
+    /*======================================================*/
+    // Finish the part that calls the cuda qr solver here...
+
+
+
+    /*======================================================*/
 
     cudaMemcpy(x, dx, m*sizeof(double), cudaMemcpyDeviceToHost);
 
