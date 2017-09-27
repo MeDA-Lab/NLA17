@@ -68,7 +68,13 @@ void chol_dev(
     cudaMemcpy(dA_col, A_col, nnz*sizeof(int), cudaMemcpyHostToDevice);
     cudaMemcpy(dA_val, A_val, nnz*sizeof(double), cudaMemcpyHostToDevice);
 
-    cusolverSpDcsrlsvchol(sp_handle, m, nnz, descrA, dA_val, dA_row, dA_col, db, tol, reorder, dx, &singularity);
+    /*======================================================*/
+    // Finish the part that calls the cuda Cholesky device solver
+    // here...
+
+
+
+    /*======================================================*/
 
     cudaMemcpy(x, dx, m*sizeof(double), cudaMemcpyDeviceToHost);
 
