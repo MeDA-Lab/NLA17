@@ -319,5 +319,43 @@ void solvels(
     double *x,
     int solver
 );
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  Generate RHS b of the linear system Ax = b.
+///
+/// @param[in/out]  b         RHS of the linear system; pointer.
+///
+/// @param[in]  n       size of the matrix;
+///
+/// @param[in]  nnz     number of nonzero elements in the matrix.
+///
+/// @param[in/out]  A_row     CSR row pointer; pointer.
+///
+/// @param[in/out]  A_col     CSR column index; pointer.
+///
+/// @param[in/out]  A_val  nonzero values of the matrix; pointer.
+///
+/// @note  All inputs should be stored on host.
+///
+void genRHS(double *b, int n, int nnz, double *A_val, int *A_row, int *A_col);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  Compute the error ||Ax - b||.
+///
+/// @param[in]  n       size of the matrix.
+///
+/// @param[in]  nnz     number of nonzero elements in the matrix.
+///
+/// @param[in]  A_row   CSR row pointer; pointer.
+///
+/// @param[in]  A_col   CSR column index; pointer.
+///
+/// @param[in]  A_val   nonzero values of the matrix; pointer.
+///
+/// @param[in]  b       RHS of the linear system. at the end of the routine it is overwritten; pointer.
+///
+/// @param[in]  x       estimated solution to the linear system; pointer.
+///
+/// @note  All inputs should be stored on host.
+///
+double residual(int n, int nnz, double *A_val, int *A_row, int *A_col, double *b, double *x);
 
 #endif  // SCSC_HARMONIC_HPP
