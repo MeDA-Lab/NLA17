@@ -72,7 +72,7 @@ int main( int argc, char** argv ) {
   double *x;
   x = new double[nv-nb];
   char flag = 'D';
-  int solver = 1;
+  int solver = 2;
 
   switch (flag){
     case 'H':
