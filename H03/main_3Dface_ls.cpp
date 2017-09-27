@@ -71,19 +71,19 @@ int main( int argc, char** argv ) {
   cout << "Solving Linear System ......................." << flush;
   double *x;
   x = new double[nv-nb];
-  char flag = 'H';
-  int solver = 0;
+  char flag = 'D';
+  int solver = 1;
 
   switch (flag){
     case 'H':
       tic(&timer);
-      solvelsHost(nv-nb, nnz, Lii_val, Lii_row, Lii_col, b, x, solver); cout << " Done.  " << endl;
+      solvelsHost(nv-nb, nnz, Lii_val, Lii_row, Lii_col, b, x, solver); cout << " Done.  ";
       toc(&timer);
       break;
     case 'D':
       tic(&timer);
       solvels(nv-nb, nnz, Lii_val, Lii_row, Lii_col, b, x, solver);
-      toc(&timer); cout << " Done.  " << endl;
+      toc(&timer); cout << " Done.  ";
       break;
   }
   cout << "n = " << nv-nb << endl;
