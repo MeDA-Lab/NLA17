@@ -62,7 +62,7 @@ int main( int argc, char** argv ) {
 
   // Solve EVP
   cout << "Solving Eigenvalue Problem ......................." << flush;
-  double mu0 = 1.0, mu;
+  double mu0 = 1.1, mu;
   double *x;
   x = new double[nv-nb];
   char flag = 'D';
