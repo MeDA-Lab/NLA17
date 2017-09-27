@@ -59,12 +59,17 @@ int main( int argc, char** argv ) {
   mapBoundary(nv, nb, V, U); cout << " Done.  ";
   toc(&timer);
 
-  // Solve EVP
-  cout << "Solving Eigenvalue Problem ......................." << flush;
-  double mu0 = 1.0, mu;
+  // Generate RHS
+  double *b;
+  b = new double[nv-nb];
+  genRHS(b, nv-nb, nnz, Lib_val, Lib_row, Lib_col);
+  cblas_dscal(nv-nb, -1.0, b, 1);
+
+  // Solve LS
+  cout << "Solving Linear System ......................." << flush;
   double *x;
   x = new double[nv-nb];
-  char flag = 'D';
+  char flag = 'H';
   int nnz = Lii_row[nv-nb];
   cout << endl;
   cout << "n = " << nv-nb << endl;
@@ -73,17 +78,21 @@ int main( int argc, char** argv ) {
   switch (flag){
     case 'H':
       tic(&timer);
-      solveShiftEVPHost(nv-nb, nnz, Lii_val, Lii_row, Lii_col, mu0, &mu, x);
+      solvelsHost(nv-nb, nnz, Lii_val, Lii_row, Lii_col, b, x, solver); cout << " Done.  " << endl;
       toc(&timer);
       break;
     case 'D':
       tic(&timer);
-      solveShiftEVP(nv-nb, nnz, Lii_val, Lii_row, Lii_col, mu0, &mu, x);
-      toc(&timer);
+      solvels(nv-nb, nnz, Lii_val, Lii_row, Lii_col, b, x, solver);
+      toc(&timer); cout << " Done.  " << endl;
       break;
   }
 
-  cout << "The estimated eigenvalue near " << mu0 << " = " << mu << endl;
+  // Compute redsidual
+  double res;
+  res = residual(nv-nb, nnz, Lii_val, Lii_row, Lii_col, b, x);
+
+  cout << "||Ax - b|| =  "  << res << endl;
 
   cout << endl;
 
