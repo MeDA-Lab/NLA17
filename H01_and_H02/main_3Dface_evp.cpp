@@ -7,6 +7,7 @@
 ///
 
 #include <iostream>
+#include <iomanip>
 #include <harmonic.hpp>
 #include <timer.hpp>
 using namespace std;
