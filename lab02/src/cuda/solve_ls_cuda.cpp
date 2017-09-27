@@ -48,7 +48,7 @@ void solvels(
         /*
         lu_dev(m, nnz, A_val, A_row, A_col, b, x);
         */
-        std::cout << "Option currently not yet supported" << std::endl;
+        std::cout << "Option currently not yet supported!" << std::endl;
     }else if ( solver == 1 )
     {
         chol_dev(m, nnz, A_val, A_row, A_col, b, x);

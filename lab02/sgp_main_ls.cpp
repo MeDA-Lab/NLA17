@@ -89,6 +89,7 @@ int main( int argc, char** argv ){
 
     // Generate RHS
     double *b;
+    b = new double[n];
     genRHS(b, n, nnz, csrValA, csrRowIndA, csrColIndA);
 
     // Solve LS

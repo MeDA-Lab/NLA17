@@ -206,34 +206,6 @@ void solvels(
     int solver
 );
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  LU linear system solver wrapper on host.
-///
-/// @param[in]  m       size of the matrix.
-///
-/// @param[in]  nnz     number of nonzero elements in the matrix.
-///
-/// @param[in/out]  A_row     CSR row pointer; pointer.
-///
-/// @param[in/out]  A_col     CSR column index; pointer.
-///
-/// @param[in/out]  A_val  nonzero values of the matrix; pointer.
-///
-/// @param[in]  b        RHS of the linear system; pointer.
-///
-/// @param[out] x        estimated eigenvector w.r.t. mu; pointer.
-///
-/// @note  All inputs should be stored on host.
-///
-void lu_Host(
-    int m,
-    int nnz,
-    const double *A_val,
-    const int *A_row,
-    const int *A_col,
-    const double *b,
-    double *x
-);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Generate RHS b of the linear system Ax = b.
 ///
 /// @param[in/out]  b         RHS of the linear system; pointer.
