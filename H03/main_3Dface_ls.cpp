@@ -83,7 +83,8 @@ int main( int argc, char** argv ) {
     case 'D':
       tic(&timer);
       solvels(nv-nb, nnz, Lii_val, Lii_row, Lii_col, b, x, solver);
-      toc(&timer); cout << " Done.  ";
+      cout << " Done.  ";
+      toc(&timer);
       break;
   }
   cout << "n = " << nv-nb << endl;
