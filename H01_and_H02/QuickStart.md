@@ -104,3 +104,19 @@ n = 61173
 nnz = 425981
 The estimated eigenvalue near 1.1 = 0.0000000000000
 ```
+
+## Setting Parameters
+### __Graph Laplacian__
+
+1. Modify `mu0` to change the initial guess of eigenvalue.
+2. Modify `flag` to choose solver on GPU or CPU. Possible options are
+	* `'H'`: solver on host &nbsp;&nbsp;&nbsp;(CPU)
+	* `'D'`: solver on device    (GPU) (default)
+3. Modify `shift_sigma` to set the shift.
+
+### __3D face animation__
+
+1. Modify `mu0` to change the initial guess of eigenvalue.
+2. Modify `flag` to choose solver on GPU or CPU. Possible options are
+	* `'H'`: solver on host &nbsp;&nbsp;&nbsp;(CPU)
+	* `'D'`: solver on device    (GPU) (default)

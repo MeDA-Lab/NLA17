@@ -57,21 +57,21 @@ Numerical Linear Algebra(NTU, NCKU), Matrix Computation (NTNU)
 	```
 * For graph laplacian, type the following in terminal:
 
-	`./sgp_main.out [data filename]`
+	`./sgp_main_ls.out [data filename]`
 
-	Example Usage: `./sgp_main.out data/graph/ChicagoRegional`
+	Example Usage: `./sgp_main_ls.out data/graph/ChicagoRegional`
 	
 	There are some prepared graph data files in the `data/graph` directory.
 
 * For 3D face animation, the basic usage is
 
-	`./main_3Dface_evp.out [OPTIONS]`
+	`./main_3Dface_ls.out [OPTIONS]`
 
 	Type the following in terminal to get more information:
 	
-	`./main_3Dface_evp.out -h` or `./main_3Dface_evp.out --help`
+	`./main_3Dface_ls.out -h` or `./main_3Dface_ls.out --help`
 	
-	Example Usage: `./main_3Dface_evp.out -f data/obj/CYHo.obj -t 1`
+	Example Usage: `./main_3Dface_ls.out -f data/obj/CYHo.obj -t 1`
 	
 	There are some prepared obj data files in the `data/obj` directory.
 	
@@ -108,3 +108,29 @@ nnz = 425981
 
 ||Ax - b|| =  1.23811e-12
 ```
+
+## Setting Parameters
+### __Graph Laplacian__
+
+1. Modify `shift_sigma` to set the shift.
+2. Modify `flag` to choose solver on GPU or CPU. Possible options are
+	* `'H'`: solver on host &nbsp;&nbsp;&nbsp;(CPU)
+	* `'D'`: solver on device    (GPU) (default)
+3. Modify `solver` to switch between different linear solvers. Possible options are
+	* `0`: LU (default)
+	* `1`: Cholesky
+	* `2`: QR
+
+All parameters mentioned above are in the file `sgp_main_ls.cpp`.
+
+### __3D face animation__
+
+1. Modify `flag` to choose solver on GPU or CPU. Possible options are
+	* `'H'`: solver on host &nbsp;&nbsp;&nbsp;(CPU)
+	* `'D'`: solver on device    (GPU) (default)
+2. Modify `solver` to switch between different linear solvers. Possible options are
+	* `0`: LU (default)
+	* `1`: Cholesky
+	* `2`: QR
+
+All parameters mentioned above are in the file `main_3Dface_ls.cpp`.
