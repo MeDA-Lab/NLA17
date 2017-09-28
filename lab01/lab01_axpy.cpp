@@ -29,7 +29,7 @@ int main() {
     for (int i = 0; i < n; i++) {
         mkl_ans[i] = y[i];
     }
-    cblas_daxpy(n, x, 1, mkl_ans, 1);
+    cblas_daxpy(n, alpha, x, 1, mkl_ans, 1);
 
     // cuda: axpy
     // dx, dy: vectors in device (GPU)
