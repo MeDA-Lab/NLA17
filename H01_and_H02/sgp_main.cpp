@@ -68,7 +68,7 @@ int main( int argc, char** argv ){
     // Construct Laplacian
     int *csrRowIndA, *csrColIndA;
     double  *csrValA;
-    double shift_sigma = 0;
+    double shift_sigma = 0; // Modify shift_sigma to set the shift
     cout << "Construct Laplacian matrix of graph........." << flush;
     GraphLaplacian(&nnz, cooRowIndA, cooColIndA, cooValA, n, &csrRowIndA, &csrColIndA, &csrValA, shift_sigma);
     cout << " Done.  " << endl;
@@ -88,10 +88,14 @@ int main( int argc, char** argv ){
     }
 
     // Solve EVP
-    double mu0 = 0.18, mu;
+    double mu0 = 0.18, mu; // Modify mu0 to change the initial
+                           // guess of eigenvalue
     double *x, timer;
     x = new double[n];
-    char flag = 'D';
+    char flag = 'D';       // Modify flag to choose solver on GPU
+                           // or CPU. Possible options are
+                           // 'H': solver on host    (CPU)
+                           // 'D': solver on device  (GPU)
 
     cout << "Solving Eigenvalue Problem........." << flush;
 
@@ -99,12 +103,12 @@ int main( int argc, char** argv ){
     	case 'H':
     		tic(&timer);
     		solveShiftEVPHost(n, nnz, csrValA, csrRowIndA, csrColIndA, mu0, &mu, x);
-            cout << " Done.  " << endl;
+            cout << " Done.  ";
     		toc(&timer);
     		break;
     	case 'D':
     		tic(&timer);
-    		solveShiftEVP(n, nnz, csrValA, csrRowIndA, csrColIndA, mu0, &mu, x); cout << " Done.  " << endl;
+    		solveShiftEVP(n, nnz, csrValA, csrRowIndA, csrColIndA, mu0, &mu, x); cout << " Done.  ";
     		toc(&timer);
     		break;
     }

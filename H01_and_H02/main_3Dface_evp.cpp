@@ -61,11 +61,15 @@ int main( int argc, char** argv ) {
   toc(&timer);
 
   // Solve EVP
-  cout << "Solving Eigenvalue Problem ......................." << flush;
-  double mu0 = 1.5, mu;
+  cout << "Solving Eigenvalue Problem ............." << flush;
+  double mu0 = 1.5, mu; // Modify mu0 to change the initial
+                        // guess of eigenvalue
   double *x;
   x = new double[nv-nb];
-  char flag = 'D';
+  char flag = 'D';      // Modify flag to choose solver on GPU
+                        // or CPU. Possible options are
+                        // 'H': solver on host    (CPU)
+                        // 'D': solver on device  (GPU)
   int nnz = Lii_row[nv-nb];
 
   switch (flag){

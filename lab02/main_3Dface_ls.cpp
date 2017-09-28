@@ -68,11 +68,20 @@ int main( int argc, char** argv ) {
   cblas_dscal(nv-nb, -1.0, b, 1);
 
   // Solve LS
-  cout << "Solving Linear System ......................." << flush;
+  cout << "Solving Linear System .................." << flush;
   double *x;
   x = new double[nv-nb];
-  char flag = 'H';
-  int solver = 0;
+  char flag = 'H';     // Modify flag to choose solver on GPU
+                       // or CPU. Possible options are
+                       // 'H': solver on host    (CPU)
+                       // 'D': solver on device  (GPU)
+  
+  int solver = 0;      // Modify solver to switch between
+                       // different linear solvers. Possible
+                       // options are
+                       // 0: LU
+                       // 1: Cholesky
+                       // 2: QR
 
   switch (flag){
     case 'H':
