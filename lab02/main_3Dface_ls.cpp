@@ -68,7 +68,7 @@ int main( int argc, char** argv ) {
   cblas_dscal(nv-nb, -1.0, b, 1);
 
   // Solve LS
-  cout << "Solving Linear System ..................." << flush;
+  cout << "Solving Linear System .................." << flush;
   double *x;
   x = new double[nv-nb];
   char flag = 'H';     // Modify flag to choose solver on GPU

@@ -108,7 +108,7 @@ int main( int argc, char** argv ){
                           // 1: Cholesky
                           // 2: QR
 
-    cout << "Solving Linear System........" << flush;
+    cout << "Solving Linear System........." << flush;
 
     switch (flag){
     	case 'H':
