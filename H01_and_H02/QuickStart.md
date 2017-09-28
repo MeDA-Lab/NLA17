@@ -114,9 +114,13 @@ The estimated eigenvalue near 1.1 = 0.0000000000000
 	* `'D'`: solver on device    (GPU) (default)
 3. Modify `shift_sigma` to set the shift.
 
+All parameters mentioned above are in the file `sgp_main.cpp`.
+
 ### __3D face animation__
 
 1. Modify `mu0` to change the initial guess of eigenvalue.
 2. Modify `flag` to choose solver on GPU or CPU. Possible options are
 	* `'H'`: solver on host &nbsp;&nbsp;&nbsp;(CPU)
 	* `'D'`: solver on device    (GPU) (default)
+
+All parameters mentioned above are in the file `main_3Dface_evp.cpp`.
