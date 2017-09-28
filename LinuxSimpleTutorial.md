@@ -39,4 +39,35 @@ For example,
 ```
 git clone https://github.com/wlab-pro/NLA17.git NLA17_test
 ```
-## wget or Fillzilla
+## wget or Filezilla
+In the release page, we can download the previous released file.
+![image of release page](images/git_release.jpg)
+You can select *.zip or *.tar.gz
+![image of release download](images/git_release_page.jpg)
+### FileZilla
+Go to [FileZilla](https://filezilla-project.org) website to download the FileZilla Client
+1. Connect to the workstation
+![image of filezilla connection](images/filezilla_connect.jpg)
+2. Upload the file
+Drag files to the right window for uploading files.
+![image of filezilla uploading](images/filezilla_upload.jpg)
+### wget
+Copy the download link in the release page.
+Download it by this command
+```
+wget [download-url]
+```
+For example,
+```
+wget https://github.com/wlab-pro/NLA17/archive/lab01.zip
+```
+For *.zip, use unzip to decompress it
+```
+unzip [*.zip]
+```
+![image of wget zip](images/wget_zip.jpg)
+For *.tar.gz, use tar zxvf to decompress it
+```
+tar zxvf [*.tar.gz]
+```
+![image of wget targz](images/wget_targz.jpg)
