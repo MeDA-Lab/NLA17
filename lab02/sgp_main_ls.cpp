@@ -114,12 +114,12 @@ int main( int argc, char** argv ){
     	case 'H':
     		tic(&timer);
     		solvelsHost(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x, solver);
-            cout << " Done.  " << endl;
+            cout << " Done.  ";
     		toc(&timer);
     		break;
     	case 'D':
     		tic(&timer);
-    		solvels(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x, solver); cout << " Done.  " << endl;
+    		solvels(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x, solver); cout << " Done.  ";
     		toc(&timer);
     		break;
     }

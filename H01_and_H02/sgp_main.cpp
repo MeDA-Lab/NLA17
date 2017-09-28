@@ -103,12 +103,12 @@ int main( int argc, char** argv ){
     	case 'H':
     		tic(&timer);
     		solveShiftEVPHost(n, nnz, csrValA, csrRowIndA, csrColIndA, mu0, &mu, x);
-            cout << " Done.  " << endl;
+            cout << " Done.  ";
     		toc(&timer);
     		break;
     	case 'D':
     		tic(&timer);
-    		solveShiftEVP(n, nnz, csrValA, csrRowIndA, csrColIndA, mu0, &mu, x); cout << " Done.  " << endl;
+    		solveShiftEVP(n, nnz, csrValA, csrRowIndA, csrColIndA, mu0, &mu, x); cout << " Done.  ";
     		toc(&timer);
     		break;
     }
