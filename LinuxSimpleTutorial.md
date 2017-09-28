@@ -71,3 +71,18 @@ For *.tar.gz, use tar zxvf to decompress it
 tar zxvf [*.tar.gz]
 ```
 ![image of wget targz](images/wget_targz.jpg)
+
+# Linux commands
+## File managing
+We usually use 'cd', 'ls', 'mkdir', 'mv', 'cp'
+Please see websites [鳥哥的私房菜 Linux 檔案與目錄管理](http://linux.vbird.org/linux_basic/0220filemanager.php)
+or [wikibook]https://en.wikibooks.org/wiki/Guide_to_Unix/Commands/File_System_Utilities
+## Workstaion Editor
+Use 'vi', 'vim' or 'nano' on the workstation
+Please see websites [鳥哥的私房菜 vim 程式編輯器](http://linux.vbird.org/linux_basic/0310vi.php)
+
+# Local Editor
+I recommand 'Sublime Text' and 'Visual Studio Code'.  
+They allow us to edit file in our workstation. Upload files to the workstation automatically when we save files.
+For Sublime Text, install 'Package Control' and then install 'SFTP'.  
+For Visual Studio Code, install 'ftp-sync'.
