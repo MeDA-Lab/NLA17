@@ -68,7 +68,8 @@ int main( int argc, char** argv ){
     // Construct Laplacian
     int *csrRowIndA, *csrColIndA;
     double  *csrValA;
-    double shift_sigma = 0.5;
+    double shift_sigma = 1e-5; // Modify shift_sigma to set the
+                               // shift
     cout << "Construct Laplacian matrix of graph........." << flush;
     GraphLaplacian(&nnz, cooRowIndA, cooColIndA, cooValA, n, &csrRowIndA, &csrColIndA, &csrValA, shift_sigma);
     cout << " Done.  " << endl;
@@ -95,8 +96,17 @@ int main( int argc, char** argv ){
     // Solve LS
     double *x, timer;
     x = new double[n];
-    char flag = 'H';
-    int solver = 0;
+    char flag = 'H';      // Modify flag to choose solver on GPU
+                          // or CPU. Possible options are
+                          // 'H': solver on host    (CPU)
+                          // 'D': solver on device  (GPU)
+    
+    int solver = 0;       // Modify solver to switch between
+                          // different linear solvers. Possible
+                          // options are
+                          // 0: LU
+                          // 1: Cholesky
+                          // 2: QR
 
     cout << "Solving Linear System........." << flush;
 
@@ -104,12 +114,12 @@ int main( int argc, char** argv ){
     	case 'H':
     		tic(&timer);
     		solvelsHost(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x, solver);
-            cout << " Done.  " << endl;
+            cout << " Done.  ";
     		toc(&timer);
     		break;
     	case 'D':
     		tic(&timer);
-    		solvels(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x, solver); cout << " Done.  " << endl;
+    		solvels(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x, solver); cout << " Done.  ";
     		toc(&timer);
     		break;
     }
