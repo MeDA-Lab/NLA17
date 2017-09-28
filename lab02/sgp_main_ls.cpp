@@ -68,8 +68,8 @@ int main( int argc, char** argv ){
     // Construct Laplacian
     int *csrRowIndA, *csrColIndA;
     double  *csrValA;
-    double shift_sigma = 0.5; // Modify shift_sigma to set the
-                              // shift
+    double shift_sigma = 1e-5; // Modify shift_sigma to set the
+                               // shift
     cout << "Construct Laplacian matrix of graph........." << flush;
     GraphLaplacian(&nnz, cooRowIndA, cooColIndA, cooValA, n, &csrRowIndA, &csrColIndA, &csrValA, shift_sigma);
     cout << " Done.  " << endl;
