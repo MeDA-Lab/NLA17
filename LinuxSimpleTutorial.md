@@ -1,9 +1,9 @@
 # Linux Simple Tutorial
 This is a simple tutorial for linux beginner.
-- [Login workstation](# Login workstation)
-- [Get this repository](# Get this repository)
-- [Linux commands](# Linux commands)
-- [Local Editor](# Local Editor)
+* [Login workstation](#Login-workstation)
+* [Get this repository](#Get-this-repository)
+* [Linux commands](#Linux-commands)
+* [Local Editor](#Local-Editor)
 # Login workstation
 ## Windows User
 Please download putty or pietty  
