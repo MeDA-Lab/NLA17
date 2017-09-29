@@ -52,6 +52,8 @@ CUDA answer : 246.747
 ===== DIFF =====
 The diff of two ans: 0
 ```
+## Sreenshot
+![image of lab01](lab01_image.jpg)
 ## Exercise
 Some hints in the *.cpp
 1. Please complete lab01_ex.cpp.

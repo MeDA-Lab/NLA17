@@ -1,6 +1,9 @@
 # Linux Simple Tutorial
 This is a simple tutorial for linux beginner.
-
+- [Login workstation](# Login workstation)
+- [Get this repository](# Get this repository)
+- [Linux commands](# Linux commands)
+- [Local Editor](# Local Editor)
 # Login workstation
 ## Windows User
 Please download putty or pietty  
@@ -39,6 +42,9 @@ For example,
 ```
 git clone https://github.com/wlab-pro/NLA17.git NLA17_test
 ```
+__Note__:  
+If the folder already exists, git clone will fail.  
+Please delete the folder or clone into another folder.
 ## wget or Filezilla
 In the release page, we can download the previous released file.
 ![image of release page](images/git_release.jpg)
