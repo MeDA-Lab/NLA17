@@ -43,7 +43,7 @@ git clone https://github.com/wlab-pro/NLA17.git NLA17_test
 In the release page, we can download the previous released file.
 ![image of release page](images/git_release.jpg)
 You can select *.zip or *.tar.gz
-<img src="images/git_release_page.jpg" width="826px" height="726px">
+<img src="images/git_release_page.jpg" width="50%" height="50%">
 ### FileZilla
 Go to [FileZilla](https://filezilla-project.org) website to download the FileZilla Client
 1. Connect to the workstation
