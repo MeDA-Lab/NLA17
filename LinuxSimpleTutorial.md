@@ -74,8 +74,33 @@ tar zxvf [*.tar.gz]
 
 # Linux commands
 ## File managing
-We usually use 'cd', 'ls', 'mkdir', 'mv', 'cp'
-Please see websites [鳥哥的私房菜 Linux 檔案與目錄管理](http://linux.vbird.org/linux_basic/0220filemanager.php)
+We usually use 'pwd', 'cd', 'ls', 'mkdir', 'mv'
+- pwd
+It tells us the path where we are now.
+```
+pwd
+```
+- cd
+```
+cd [folder-path]
+```
+- ls
+List the files and directories.
+```
+ls
+```
+- mkdir
+Make a new directory
+```
+mkdir [folder-name]
+```
+- mv
+Move file or directory
+```
+mv [source] [destination]
+```
+![image of linux file](images/linux_files.jpg)
+Please see websites [鳥哥的私房菜 Linux 檔案與目錄管理] (http://linux.vbird.org/linux_basic/0220filemanager.php)
 or [wikibook]https://en.wikibooks.org/wiki/Guide_to_Unix/Commands/File_System_Utilities
 ## Workstaion Editor
 Use 'vi', 'vim' or 'nano' on the workstation

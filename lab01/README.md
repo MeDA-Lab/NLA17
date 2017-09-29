@@ -46,5 +46,6 @@ CUDA answer : 246.747
 The diff of two ans: 0
 ```
 ## Exercise
+Some hints in the *.cpp
 1. Please complete lab01_ex.cpp.
 2. Try to complete lab01_axpy.cpp. (*axpy* : a * x + y).
