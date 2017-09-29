@@ -21,18 +21,25 @@ module load intel-mkl
 module load cuda-dev
 ```
 You can use __MKL__ and __CUDA__ libraries now.
-## Step 2: Code compilation
+## Step 2: Get the repository
+More detail of each comment is in [__LinuxSimpleTutorial__](../LinuxSimpleTutorial.md)
+```
+git clone https://github.com/wlab-pro/NLA17.git
+cd NLA17/lab01
+```
+__Note__ : The following commands are run in __lab01__ directory
+## Step 3: Code compilation
 ```
 g++ lab01.cpp -c  -m64 -I${MKLROOT}/include -I${CUDADIR}/include -std=c++11
 g++ lab01.o -o lab01  -L${MKLROOT}/lib/intel64 -Wl,--no-as-needed \
 -lmkl_intel_lp64 -lmkl_gnu_thread -lmkl_core -lgomp -lpthread -lm -ldl \
 -L${CUDADIR}/lib64 -lcudart -lcublas
 ```
-## Step 3: Code execution
+## Step 4: Code execution
 ```
 ./lab01
 ```
-## Step 4: Results
+## Step 5: Results
 You will see similar output like
 ```
 ===== MKL  =====
@@ -49,3 +56,27 @@ The diff of two ans: 0
 Some hints in the *.cpp
 1. Please complete lab01_ex.cpp.
 2. Try to complete lab01_axpy.cpp. (*axpy* : a * x + y).
+
+### How to compile those code
+```
+g++ [filename.cpp] -c  -m64 -I${MKLROOT}/include -I${CUDADIR}/include -std=c++11
+g++ [filename.o] -o [filename]  -L${MKLROOT}/lib/intel64 -Wl,--no-as-needed \
+-lmkl_intel_lp64 -lmkl_gnu_thread -lmkl_core -lgomp -lpthread -lm -ldl \
+-L${CUDADIR}/lib64 -lcudart -lcublas
+```
+For example,
+```
+g++ lab01_axpy.cpp -c  -m64 -I${MKLROOT}/include -I${CUDADIR}/include -std=c++11
+g++ lab01_axpy.o -o lab01_axpy -L${MKLROOT}/lib/intel64 -Wl,--no-as-needed \
+-lmkl_intel_lp64 -lmkl_gnu_thread -lmkl_core -lgomp -lpthread -lm -ldl \
+-L${CUDADIR}/lib64 -lcudart -lcublas
+```
+### How to Run those code
+In your excutation program directory
+```
+./[filename]
+```
+For example,
+```
+./lab01_axpy
+```

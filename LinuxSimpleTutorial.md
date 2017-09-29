@@ -99,7 +99,7 @@ Move file or directory
 ```
 mv [source] [destination]
 ```
-![image of linux file](images/linux_files.jpg)
+![image of linux file](images/linux_file.jpg)
 Please see websites [鳥哥的私房菜 Linux 檔案與目錄管理] (http://linux.vbird.org/linux_basic/0220filemanager.php)
 or [wikibook]https://en.wikibooks.org/wiki/Guide_to_Unix/Commands/File_System_Utilities
 ## Workstaion Editor

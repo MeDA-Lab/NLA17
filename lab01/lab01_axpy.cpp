@@ -56,7 +56,7 @@ int main() {
     // todo : create/destroy handle and use cublasDaxpy.
     // hint : see alpha type carefully (it is *double not double)
     // - create the cublasHandle (cublasCreate)
-    
+
     // - use cublasDaxpy
 
     // - destroy the cublasHandle (cublasDestroy)
