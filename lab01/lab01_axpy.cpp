@@ -39,7 +39,7 @@ int main() {
     // Step 1: Allocate memory in GPU by cudaMalloc
     std::cout << "Allocate device memory\n";
     // todo : allocate memory
-    // - Allocate dx memory
+    // - Allocate dx memory (cudaMalloc)
 
     // - Allocate dy memory
 

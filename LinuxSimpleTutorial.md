@@ -113,7 +113,7 @@ or [wikibook](https://en.wikibooks.org/wiki/Guide_to_Unix/Commands/File_System_U
 Use 'vi', 'vim' or 'nano' on the workstation  
 For nano, its command is at the bottom of window.  
 Note. ^ means Control button, so '^X' means 'Control + X'.  
-For vi, lease see websites [鳥哥的私房菜 vim 程式編輯器](http://linux.vbird.org/linux_basic/0310vi.php)
+For vi, Please see websites [鳥哥的私房菜 vim 程式編輯器](http://linux.vbird.org/linux_basic/0310vi.php)
 
 # Local Editor
 I recommand 'Sublime Text' and 'Visual Studio Code'.  
