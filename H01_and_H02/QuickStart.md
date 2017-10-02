@@ -50,11 +50,13 @@ Numerical Linear Algebra(NTU, NCKU), Matrix Computation (NTNU)
 	g++ main_3Dface_evp.o -o main_3Dface_evp.out read_graph.o graph_adjacency.o graph_laplacian.o solve_shiftevp_cuda.o map_boundary.o read_args.o read_object.o reorder_vertex.o construct_laplacian_sparse.o solve_harmonic_sparse.o verify_boundary_sparse.o set_graph_type.o -O3 -m64 -std=c++11 -L/opt/intel/mkl/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl -lcudart -lcublas -lcufft -lcusolver -lcusparse -lgomp -lm -ldl
 	```
 
-* For graph laplacian, type the following in terminal:
+* For graph laplacian, the usage is
 
 	`./sgp_main.out [data filename]`
 
-	Example Usage: `./sgp_main.out data/graph/ChicagoRegional`
+	Example Usage: Type the following in terminal
+	
+	`./sgp_main.out data/graph/ChicagoRegional`
 	
 	There are some prepared graph data files in the `data/graph` directory.
 
@@ -66,7 +68,9 @@ Numerical Linear Algebra(NTU, NCKU), Matrix Computation (NTNU)
 	
 	`./main_3Dface_evp.out -h` or `./main_3Dface_evp.out --help`
 	
-	Example Usage: `./main_3Dface_evp.out -f data/obj/CYHo.obj -t 1`
+	Example Usage: Type the following in terminal
+	
+	`./main_3Dface_evp.out -f data/obj/CYHo.obj -t 1`
 	
 	There are some prepared obj data files in the `data/obj` directory.
 

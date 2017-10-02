@@ -55,11 +55,13 @@ Numerical Linear Algebra(NTU, NCKU), Matrix Computation (NTNU)
 	g++ -c main_3Dface_ls.cpp -I include -O3 -m64 -std=c++11 -I/opt/intel/mkl/include
 	g++ main_3Dface_ls.o -o main_3Dface_ls.out read_graph.o graph_adjacency.o graph_laplacian.o solve_shiftevp_cuda.o map_boundary.o read_args.o read_object.o reorder_vertex.o construct_laplacian_sparse.o solve_harmonic_sparse.o verify_boundary_sparse.o set_graph_type.o residual.o generate_RHS.o solve_ls_cuda.o lu_cuda.o qr_cuda.o chol_cuda.o -O3 -m64 -std=c++11 -L/opt/intel/mkl/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl -lcudart -lcublas -lcufft -lcusolver -lcusparse -lgomp -lm -ldl 
 	```
-* For graph laplacian, type the following in terminal:
+* For graph laplacian, the usage is:
 
 	`./sgp_main_ls.out [data filename]`
 
-	Example Usage: `./sgp_main_ls.out data/graph/ChicagoRegional`
+	Example Usage: Type the following in the terminal
+	
+	`./sgp_main_ls.out data/graph/ChicagoRegional`
 	
 	There are some prepared graph data files in the `data/graph` directory.
 
@@ -71,7 +73,9 @@ Numerical Linear Algebra(NTU, NCKU), Matrix Computation (NTNU)
 	
 	`./main_3Dface_ls.out -h` or `./main_3Dface_ls.out --help`
 	
-	Example Usage: `./main_3Dface_ls.out -f data/obj/CYHo.obj -t 1`
+	Example Usage: Type the following in the terminal
+	
+	`./main_3Dface_ls.out -f data/obj/CYHo.obj -t 1`
 	
 	There are some prepared obj data files in the `data/obj` directory.
 	
