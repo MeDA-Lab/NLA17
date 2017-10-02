@@ -20,7 +20,7 @@ Please read the [__QuickStart__](QuickStart.md) for more information.
 	* For the host function `qr_host()` please refer to the function `chol_host()` in `chol_cuda.cpp` for an example.
 	* For the device function `qr_dev()` use [`cusolverSpDcsrlsvqr`](http://docs.nvidia.com/cuda/cusolver/index.html#cusolver-lt-t-gt-csrlsvqr)
 
-	You only need to add codes inside the parts highlighted by
+	For __1.__ and __2.__, you only need to add codes inside the parts highlighted by
 	
 	```
 	/*======================================================*/
