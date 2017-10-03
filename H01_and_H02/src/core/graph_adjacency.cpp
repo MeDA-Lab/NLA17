@@ -68,7 +68,7 @@ int GraphAdjacency(int *E, int E_size,
 		job[0] = 2;
 	  	job[1] = 1;
 	  	job[2] = 0;
-	  	job[4] = (*n)*(*n);
+	  	job[4] = 0;
 	  	job[5] = 0;
 		mkl_dcsrcoo(job, n, csrVal, csrColInd, csrRowInd, nnz, cooVal, cooRowInd, cooColInd, &info);
 		delete cooVal;
