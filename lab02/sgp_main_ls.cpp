@@ -74,7 +74,7 @@ int main( int argc, char** argv ){
     double  *csrValA;
     double shift_sigma = 1e-5; // Modify shift_sigma to set the
                                // shift
-    cout << "Construct Laplacian matrix of graph......................." << flush;
+    cout << "Construct Laplacian matrix of graph........." << flush;
     GraphLaplacian(&nnz, cooRowIndA, cooColIndA, cooValA, n, &csrRowIndA, &csrColIndA, &csrValA, shift_sigma);
     cout << " Done.  " << endl;
     cout << "nnz of L = " << nnz << endl;
@@ -112,7 +112,7 @@ int main( int argc, char** argv ){
                           // 1: Cholesky
                           // 2: QR
 
-    cout << "Solving Linear System........." << flush;
+    cout << "Solving Linear System......................." << flush;
 
     switch (flag){
     	case 'H':
