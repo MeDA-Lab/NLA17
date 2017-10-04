@@ -16,6 +16,7 @@
 #include <vector>
 #include <cuda_runtime.h>
 #include "cusparse.h"
+#include "mkl.h"
 
 using namespace std;
 
