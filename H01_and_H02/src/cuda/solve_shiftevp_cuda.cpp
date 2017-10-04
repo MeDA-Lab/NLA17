@@ -71,7 +71,6 @@ void solveShiftEVP(
         x0[i] = 0;
     }
     x0[0] = 1.0;
-    cout << "test point 1" << endl;
 
     cudaMalloc(&dx0, m*sizeof(double));
     cudaMalloc(&dmu, sizeof(double));
@@ -85,10 +84,8 @@ void solveShiftEVP(
     cudaMemcpy(dA_col, A_col, nnz*sizeof(int), cudaMemcpyHostToDevice);
     cudaMemcpy(dA_val, A_val, nnz*sizeof(double), cudaMemcpyHostToDevice);
 
-    cout << "test point 2" << endl;
     cusolverSpDcsreigvsi(sp_handle, m, nnz, descrA, dA_val, dA_row, dA_col,
                          mu0, dx0, maxite, tol, dmu, dx);
-    cout << "test point 3" << endl;
 
     cudaMemcpy(mu, dmu, sizeof(double), cudaMemcpyDeviceToHost);
     cudaMemcpy(x, dx, m*sizeof(double), cudaMemcpyDeviceToHost);
