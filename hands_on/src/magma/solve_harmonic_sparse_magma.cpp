@@ -52,7 +52,7 @@ void solveHarmonicSparse(
   magma_init();
   magma_queue_t queue;
   magma_queue_create(0, &queue);
-  int ni=nv-nb;
+  int ni = nv-nb;
   double *dLii_val, *dLib_val;
   int *dLii_row, *dLii_col, *dLib_row, *dLib_col;
   magma_malloc((void**) &dLii_val, Lii_row[ni]*sizeof(double) );
@@ -69,33 +69,30 @@ void solveHarmonicSparse(
   magma_setvector(ni+1, sizeof(int), Lib_row, 1, dLib_row, 1, queue);
   magma_d_matrix dLii, dLib;
   magma_d_matrix dx, du, drhs;
-//   double *dX = NULL, *dU = NULL;
-  magma_dvinit( &du, Magma_DEV, nb, 1, 0, queue);
-  magma_dvinit( &dx, Magma_DEV, ni, 1, 0, queue);
-  magma_dvinit( &drhs, Magma_DEV, ni, 1, 0, queue);
-//   magma_malloc((void **)&dX, ni*2*sizeof(double)))
-//   magma_malloc((void **)&dU, nv*2*sizeof(double));
-//   magma_setvector(nv*2, sizeof(double), U, 1, dU.dval, 1, queue);
+  magma_dvinit(&du, Magma_DEV, nb, 1, 0, queue);
+  magma_dvinit(&dx, Magma_DEV, ni, 1, 0, queue);
+  magma_dvinit(&drhs, Magma_DEV, ni, 1, 0, queue);
 
   magma_dcsrset_gpu(ni, nb, dLib_row, dLib_col, dLib_val, &dLib, queue);
   magma_dcsrset_gpu(ni, ni, dLii_row, dLii_col, dLii_val, &dLii, queue);
-//   magma_d_mtransfer(Lii, &dLii, Magma_CPU, Magma_DEV, queue);
-//   magma_d_mtransfer(Lib, &dLib, Magma_CPU, Magma_DEV, queue);
 
   magma_dopts dopts;
-  int argc=4, k=1;
+  // argc : length of argv
+  // argv : {"first item", ..., "last item"}.
+  //        First item and last item are unused.
+  int argc = 4, k = 1;
   char *argv[]={"./solver", "--solver", "CG", "A.mtx"};
-  for (int i=0; i<2; i++){
+  for (int i = 0; i < 2; i++) {
     magma_setvector(nb, sizeof(double), U+i*nv, 1, du.dval, 1, queue);
     magma_d_spmv(-1, dLib, du, 0, drhs, queue);
     magma_dparse_opts(argc, argv, &dopts, &k, queue);
-    magma_dsolverinfo_init( &dopts.solver_par, &dopts.precond_par, queue );
-    magma_d_precondsetup( dLii, drhs, &dopts.solver_par, &dopts.precond_par, queue );
-    magma_d_solver( dLii, drhs, &dx, &dopts, queue );
-    magma_dsolverinfo (&dopts.solver_par, &dopts.precond_par, queue);
+    magma_dsolverinfo_init(&dopts.solver_par, &dopts.precond_par, queue);
+    magma_d_precondsetup(dLii, drhs,
+      &dopts.solver_par, &dopts.precond_par, queue);
+    magma_d_solver(dLii, drhs, &dx, &dopts, queue);
+    magma_dsolverinfo(&dopts.solver_par, &dopts.precond_par, queue);
     magma_getvector(ni, sizeof(double), dx.dval, 1, U+i*nv+nb, 1, queue);
-    // magma_getvector(nv*2, sizeof(double), dU, 1, U, 1, queue);
-    magma_dsolverinfo_free( &dopts.solver_par, &dopts.precond_par, queue );
+    magma_dsolverinfo_free(&dopts.solver_par, &dopts.precond_par, queue);
   }
   magma_dmfree(&dLii, queue);
   magma_dmfree(&dLib, queue);
