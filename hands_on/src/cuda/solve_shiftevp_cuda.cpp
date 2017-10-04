@@ -8,7 +8,7 @@
 #include <iostream>
 #include <cuda_runtime.h>
 #include <cusolverSp.h>
-
+#include "sgp.hpp"
 using namespace std;
 
 void solveShiftEVPHost(
