@@ -92,7 +92,7 @@ int main( int argc, char** argv ){
     }
 
     // Solve EVP
-    double mu0 = 0.5, mu; // Modify mu0 to change the initial
+    double mu0 = 0.6, mu; // Modify mu0 to change the initial
                            // guess of eigenvalue
     double *x, timer;
     x = new double[n];
