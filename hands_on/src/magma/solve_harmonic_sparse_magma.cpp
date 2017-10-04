@@ -89,13 +89,13 @@ void solveHarmonicSparse(
     magma_setvector(nb, sizeof(double), U+i*nv, 1, du.dval, 1, queue);
     magma_d_spmv(-1, dLib, du, 0, drhs, queue);
     magma_dparse_opts(argc, argv, &dopts, &k, queue);
-    // magma_dsolverinfo_init( &dopts.solver_par, &dopts.precond_par, queue );
+    magma_dsolverinfo_init( &dopts.solver_par, &dopts.precond_par, queue );
     magma_d_precondsetup( dLii, drhs, &dopts.solver_par, &dopts.precond_par, queue );
     magma_d_solver( dLii, drhs, &dx, &dopts, queue );
-    // magma_dsolverinfo (&dopts.solver_par, &dopts.precond_par, queue);
+    magma_dsolverinfo (&dopts.solver_par, &dopts.precond_par, queue);
     magma_getvector(ni, sizeof(double), dx.dval, 1, U+i*nv+nb, 1, queue);
     // magma_getvector(nv*2, sizeof(double), dU, 1, U, 1, queue);
-    // magma_dsolverinfo_free( &dopts.solver_par, &dopts.precond_par, queue );
+    magma_dsolverinfo_free( &dopts.solver_par, &dopts.precond_par, queue );
   }
   magma_dmfree(&dLii, queue);
   magma_dmfree(&dLib, queue);
