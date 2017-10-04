@@ -40,32 +40,32 @@ int main() {
     std::cout << "Allocate device memory\n";
     // todo : allocate memory
     // - Allocate dx memory (cudaMalloc)
-
+    cudaMalloc((void**) &dx, n*sizeof(double));
     // - Allocate dy memory
-
+    cudaMalloc((void**) &dy, n*sizeof(double));
     // Step 2: Transfer data from CPU to GPU by cudaMemcpy
     std::cout << "Transfer data from CPU to GPU\n";
     // todo : transfer data
     // - Transfer x to dx (Host to Device)(cudaMemcpy, cudaMemcpyHostToDevice)
-
+    cudaMemcpy(dx, x, n*sizeof(double), cudaMemcpyHostToDevice);
     // - Transfer y to dy (Host to Device)(cudaMemcpy, cudaMemcpyHostToDevice)
-
+    cudaMemcpy(dy, y, n*sizeof(double), cudaMemcpyHostToDevice);
     // Step 3: Compute axpy by cublasDaxpy
     std::cout << "Calculate y <- a*x+y\n";
     cublasHandle_t handle;
     // todo : create/destroy handle and use cublasDaxpy.
     // hint : see alpha type carefully (it is *double not double)
     // - create the cublasHandle (cublasCreate)
-
+    cublasCreate(&handle);
     // - use cublasDaxpy
-
+    cublasDaxpy(handle, n, &alpha, dx, 1, dy, 1);
     // - destroy the cublasHandle (cublasDestroy)
-
+    cublasDestroy(handle);
     // Step 4: Transfer answer from GPU to CPU
     // todo : transfer answer
     // - transfer dy to cuda_ans (Device to Host)
     // -- (cudaMemcpy, cudaMemcpyDeviceToHost)
-
+    cudaMemcpy(cuda_ans, dy, n*sizeof(double), cudaMemcpyDeviceToHost);
     // Compare two answers
     std::cout << "===== DIFF =====\n";
     std::cout << "The diff of two ans: " << diff(n, mkl_ans, cuda_ans) << "\n";
