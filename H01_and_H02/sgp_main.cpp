@@ -54,6 +54,10 @@ int main( int argc, char** argv ){
     }else if ( type == 2 ){
         flag1 = 'W';
         cout << "type of graph: directed weighted graph" << endl;
+    }else if ( type == 3 )
+    {
+        flag1 = 'U';
+        cout << "type of graph: undirected weighted graph" << endl;
     }
 
     // Construct adjacency matrix of graph

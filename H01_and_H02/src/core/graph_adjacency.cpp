@@ -27,7 +27,6 @@ int GraphAdjacency(int *E, int E_size,
 	int *d_cooRowIndA, *d_cooColIndA;
 	double  *d_val, *d_val_sorted;
 	double *tmp_array, beta = 1.0;
-	vector<double> v1 (2*E_size , 1.0);
 	cusparseHandle_t handle;
 	cusparseIndexBase_t idxBase = CUSPARSE_INDEX_BASE_ZERO;
 	cusparseStatus_t stat;
@@ -47,6 +46,8 @@ int GraphAdjacency(int *E, int E_size,
 
 	if( flag == 'S' )
 	{
+		vector<double> v1 (2*E_size , 1.0);
+
 		*cooRowIndA = new int[2*E_size];
 		*cooColIndA = new int[2*E_size];
 		*cooValA    = new double[2*E_size];
@@ -67,6 +68,7 @@ int GraphAdjacency(int *E, int E_size,
 		copy(E+E_size, E+2*E_size, *cooColIndA);
 		copy(E+2*E_size, E+3*E_size, *cooValA);
 	}else if( flag == 'D' ){
+		vector<double> v1 (E_size , 1.0);
 		//cout << "debug D" << endl;
 		*nnz = E_size;
 		*cooValA    = new double[*nnz];
@@ -75,6 +77,18 @@ int GraphAdjacency(int *E, int E_size,
 		copy(E , E+E_size , *cooRowIndA);
 		copy(E+E_size, E+2*E_size, *cooColIndA);
 		copy(v1.begin(), v1.end(), *cooValA);
+	}else if( flag == 'U' ){
+		*cooRowIndA = new int[2*E_size];
+		*cooColIndA = new int[2*E_size];
+		*cooValA    = new double[2*E_size];
+
+		// A+trans(A)
+		*nnz = 2*E_size;
+		copy(E , E+2*E_size , *cooRowIndA);
+		copy(E+E_size, E+2*E_size, *cooColIndA);
+		copy(E, E+E_size, (*cooColIndA)+E_size);
+		copy(E+2*E_size, E+3*E_size, *cooValA);
+		copy(E+2*E_size, E+3*E_size, (*cooValA)+E_size);
 	}
 
 	stat = cusparseCreate(&handle);
