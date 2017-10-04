@@ -38,19 +38,23 @@ int main( int argc, char** argv ) {
   idx_b = new int[nv];
   cout << "Verifying boundary ....................." << flush;
   tic(&timer);
-  verifyBoundarySparse(nv, nf, F, &nb, idx_b); cout << " Done.  ";
+  verifyBoundarySparse(nv, nf, F, &nb, idx_b);
+  cout << " Done.  ";
   toc(&timer);
 
   // Reorder vertices
   cout << "Reordering vertices ...................." << flush;
   tic(&timer);
-  reorderVertex(nv, nb, nf, V, C, F, idx_b); cout << " Done.  ";
+  reorderVertex(nv, nb, nf, V, C, F, idx_b);
+  cout << " Done.  ";
   toc(&timer);
 
   // Construct Laplacian
   cout << "Constructing Laplacian ................." << flush;
   tic(&timer);
-  constructLaplacianSparse(method, nv, nb, nf, V, F, &Lii_val, &Lii_row, &Lii_col, &Lib_val, &Lib_row, &Lib_col);
+  constructLaplacianSparse(method, nv, nb, nf, V, F,
+    &Lii_val, &Lii_row, &Lii_col,
+    &Lib_val, &Lib_row, &Lib_col);
   cout << " Done.  ";
   toc(&timer);
 
@@ -58,24 +62,25 @@ int main( int argc, char** argv ) {
   U = new double[2 * nv];
   cout << "Mapping Boundary ......................." << flush;
   tic(&timer);
-  mapBoundary(nv, nb, V, U); cout << " Done.  ";
+  mapBoundary(nv, nb, V, U);
+  cout << " Done.  ";
   toc(&timer);
 
   // Solve harmonic
   cout << "Solving Harmonic ......................." << flush;
   tic(&timer);
-  solveHarmonicSparse(nv, nb, Lii_val, Lii_row, Lii_col, Lib_val, Lib_row, Lib_col, U); cout << " Done.  ";
+  solveHarmonicSparse(nv, nb, Lii_val, Lii_row, Lii_col,
+    Lib_val, Lib_row, Lib_col, U);
+    cout << " Done.  ";
   toc(&timer);
-
   cout << endl;
-   
   // Write object
   writeObject(output, nv, nf, U, C, F);
-   
+
   if (evp != EVP::NONE) {
     cout << "Solving Eigenvalue Problem ............." << flush;
-    double mu0 = 1.5, mu; // Modify mu0 to change the initial
-                          // guess of eigenvalue
+    double mu0 = 1.5, mu;  // Modify mu0 to change the initial
+                           // guess of eigenvalue
     double *x;
     x = new double[nv-nb];
     char flag = 'D';      // Modify flag to choose solver on GPU
@@ -84,15 +89,18 @@ int main( int argc, char** argv ) {
                           // 'D': solver on device  (GPU)
     int nnz = Lii_row[nv-nb];
 
-    switch (evp){
+    switch (evp) {
       case EVP::HOST:
         tic(&timer);
-        solveShiftEVPHost(nv-nb, nnz, Lii_val, Lii_row, Lii_col, mu0, &mu, x);cout << " Done.  ";
+        solveShiftEVPHost(nv-nb, nnz, Lii_val, Lii_row, Lii_col,
+          mu0, &mu, x);
+          cout << " Done.  ";
         toc(&timer);
         break;
       case EVP::DEVICE:
         tic(&timer);
-        solveShiftEVP(nv-nb, nnz, Lii_val, Lii_row, Lii_col, mu0, &mu, x);cout << " Done.  ";
+        solveShiftEVP(nv-nb, nnz, Lii_val, Lii_row, Lii_col, mu0, &mu, x);
+        cout << " Done.  ";
         toc(&timer);
         break;
     }
