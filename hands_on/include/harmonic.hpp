@@ -3,7 +3,7 @@
 /// @brief   The main header.
 ///
 /// @author  Mu Yang <<emfomy@gmail.com>>
-///
+/// @author  Yuhsiang Mike Tsai
 
 #ifndef SCSC_HARMONIC_HPP
 #define SCSC_HARMONIC_HPP
@@ -20,6 +20,15 @@ enum class Method {
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  The enumeration of Laplacian construction methods.
+///
+enum class EVP {
+    NONE = 0,   ///< Do not calculate EVP
+    HOST = 1,   ///< Use host function to calculate EVP
+    DEVICE = 2, ///< Use device function to calculate EVP
+    COUNT,      ///< Used for counting number of methods.
+  };
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the arguments.
 ///
 /// @param[in]   argc    The number of input arguments.
@@ -29,7 +38,7 @@ enum class Method {
 /// @param[out]  output  The output file.
 /// @param[out]  method  The method.
 ///
-void readArgs( int argc, char** argv, const char *&input, const char *&output, Method &method );
+void readArgs( int argc, char** argv, const char *&input, const char *&output, Method &method, EVP &evp);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the object file.

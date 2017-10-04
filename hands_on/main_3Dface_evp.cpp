@@ -21,13 +21,13 @@ int main( int argc, char** argv ) {
   const char *input  = "input.obj";
   const char *output = "output.obj";
   Method method  = Method::KIRCHHOFF;
-
+  EVP evp = EVP::NONE;
   int nv, nf, nb, *F = nullptr, *idx_b, *Lii_row = nullptr, *Lii_col = nullptr, *Lib_row = nullptr, *Lib_col = nullptr;
   double timer, *V = nullptr, *C = nullptr, *Lii_val = nullptr, *Lib_val = nullptr, *U;
 
 
   // Read arguments
-  readArgs(argc, argv, input, output, method);
+  readArgs(argc, argv, input, output, method, evp);
 
   // Read object
   readObject(input, &nv, &nf, &V, &C, &F);
@@ -72,39 +72,40 @@ int main( int argc, char** argv ) {
   // Write object
   writeObject(output, nv, nf, U, C, F);
    
-  // Solve EVP
-  // cout << "Solving Eigenvalue Problem ............." << flush;
-  // double mu0 = 1.5, mu; // Modify mu0 to change the initial
-  //                       // guess of eigenvalue
-  // double *x;
-  // x = new double[nv-nb];
-  // char flag = 'D';      // Modify flag to choose solver on GPU
-  //                       // or CPU. Possible options are
-  //                       // 'H': solver on host    (CPU)
-  //                       // 'D': solver on device  (GPU)
-  // int nnz = Lii_row[nv-nb];
+  if (evp != EVP::NONE) {
+    cout << "Solving Eigenvalue Problem ............." << flush;
+    double mu0 = 1.5, mu; // Modify mu0 to change the initial
+                          // guess of eigenvalue
+    double *x;
+    x = new double[nv-nb];
+    char flag = 'D';      // Modify flag to choose solver on GPU
+                          // or CPU. Possible options are
+                          // 'H': solver on host    (CPU)
+                          // 'D': solver on device  (GPU)
+    int nnz = Lii_row[nv-nb];
 
-  // switch (flag){
-  //   case 'H':
-  //     tic(&timer);
-  //     solveShiftEVPHost(nv-nb, nnz, Lii_val, Lii_row, Lii_col, mu0, &mu, x);cout << " Done.  ";
-  //     toc(&timer);
-  //     break;
-  //   case 'D':
-  //     tic(&timer);
-  //     solveShiftEVP(nv-nb, nnz, Lii_val, Lii_row, Lii_col, mu0, &mu, x);cout << " Done.  ";
-  //     toc(&timer);
-  //     break;
-  // }
+    switch (evp){
+      case EVP::HOST:
+        tic(&timer);
+        solveShiftEVPHost(nv-nb, nnz, Lii_val, Lii_row, Lii_col, mu0, &mu, x);cout << " Done.  ";
+        toc(&timer);
+        break;
+      case EVP::DEVICE:
+        tic(&timer);
+        solveShiftEVP(nv-nb, nnz, Lii_val, Lii_row, Lii_col, mu0, &mu, x);cout << " Done.  ";
+        toc(&timer);
+        break;
+    }
 
-  // cout << endl;
-  // cout << "n = " << nv-nb << endl;
-  // cout << "nnz = " << nnz << endl;
-  // cout << "The estimated eigenvalue near "  << mu0 << " = ";
-  // cout << fixed << setprecision(13) << mu << endl;
+    cout << endl;
+    cout << "n = " << nv-nb << endl;
+    cout << "nnz = " << nnz << endl;
+    cout << "The estimated eigenvalue near "  << mu0 << " = ";
+    cout << fixed << setprecision(13) << mu << endl;
 
-  // cout << endl;
-  // delete x
+    cout << endl;
+    delete x;
+  }
   // Free memory
   delete[] V;
   delete[] C;
