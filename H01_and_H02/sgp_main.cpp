@@ -29,7 +29,7 @@ int main( int argc, char** argv ){
 
     // read file
     int E_size_r, E_size_c, *E;
-    cout << "read file........." << flush;
+    cout << "Read the graph data from file..............." << flush;
     err_test = readGraph(argv[1], &E, &E_size_r, &E_size_c);
     assert( err_test == 0 ); cout << " Done.  " << endl;
     cout << "Size of data is " << E_size_r << "x" << E_size_c << endl;
@@ -54,6 +54,10 @@ int main( int argc, char** argv ){
     }else if ( type == 2 ){
         flag1 = 'W';
         cout << "type of graph: directed weighted graph" << endl;
+    }else if ( type == 3 )
+    {
+        flag1 = 'U';
+        cout << "type of graph: undirected weighted graph" << endl;
     }
 
     // Construct adjacency matrix of graph
@@ -88,7 +92,7 @@ int main( int argc, char** argv ){
     }
 
     // Solve EVP
-    double mu0 = 0.18, mu; // Modify mu0 to change the initial
+    double mu0 = 0.5, mu; // Modify mu0 to change the initial
                            // guess of eigenvalue
     double *x, timer;
     x = new double[n];
@@ -97,7 +101,7 @@ int main( int argc, char** argv ){
                            // 'H': solver on host    (CPU)
                            // 'D': solver on device  (GPU)
 
-    cout << "Solving Eigenvalue Problem........." << flush;
+    cout << "Solving Eigenvalue Problem.................." << flush;
 
     switch (flag){
     	case 'H':

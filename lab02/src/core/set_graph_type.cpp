@@ -16,7 +16,7 @@ int setgraphtype(int E_size_c){
 	int type;
 	if (E_size_c == 3)
 	{
-		type = 2;
+		type = 3;
 	}else{
 		type = 0;
 	}
