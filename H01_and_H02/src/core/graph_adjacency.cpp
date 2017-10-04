@@ -16,7 +16,6 @@
 #include <vector>
 #include <cuda_runtime.h>
 #include "cusparse.h"
-#include <mkl.h>
 
 using namespace std;
 
@@ -27,7 +26,7 @@ int GraphAdjacency(int *E, int E_size,
 	int *d_cooRowIndA, *d_cooColIndA;
 	double  *d_val, *d_val_sorted;
 	double *tmp_array, beta = 1.0;
-	vector<double> v1 (E_size , 1.0);
+	vector<double> v1 (2*E_size , 1.0);
 	cusparseHandle_t handle;
 	cusparseIndexBase_t idxBase = CUSPARSE_INDEX_BASE_ZERO;
 	cusparseStatus_t stat;
@@ -47,19 +46,16 @@ int GraphAdjacency(int *E, int E_size,
 
 	if( flag == 'S' )
 	{
-		int  *job, *csrRowInd, *csrColInd, *cooRowInd, *cooColInd;
-		double  *csrVal, *cooVal;
-
-		cooRowInd = new int[2*E_size];
-		cooColInd = new int[2*E_size];
-		cooVal    = new double[2*E_size];
+		*cooRowIndA = new int[2*E_size];
+		*cooColIndA = new int[2*E_size];
+		*cooValA    = new double[2*E_size];
 
 		// A+trans(A)
-		*nnz = E_size;
-		copy(E , E+2*E_size , cooRowInd);
-		copy(E+E_size, E+2*E_size, cooColInd);
-		copy(E, E+E_size, cooColInd+E_size);
-		copy(v1.begin(), v1.end(), cooVal);
+		*nnz = 2*E_size;
+		copy(E , E+2*E_size , *cooRowIndA);
+		copy(E+E_size, E+2*E_size, *cooColIndA);
+		copy(E, E+E_size, (*cooColIndA)+E_size);
+		copy(v1.begin(), v1.end(), *cooValA);
 	}else if( flag == 'W' ){
 		//cout << "debug W" << endl;
 		*nnz = E_size;
