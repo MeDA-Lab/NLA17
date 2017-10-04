@@ -84,7 +84,6 @@ void GraphLaplacian(int *nnz, int *cooRowIndA,
       k++;
     }
   }
-  cout << "tmp1 = " << tmp1 << endl;
 
   //L = D - A
   job[0] = 2;
