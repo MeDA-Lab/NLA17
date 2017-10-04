@@ -29,7 +29,7 @@ int main( int argc, char** argv ){
 
     // read file
     int E_size_r, E_size_c, *E;
-    cout << "read file........." << flush;
+    cout << "Read the graph data from file..............." << flush;
     err_test = readGraph(argv[1], &E, &E_size_r, &E_size_c);
     assert( err_test == 0 ); cout << " Done.  " << endl;
     cout << "Size of data is " << E_size_r << "x" << E_size_c << endl;
@@ -54,6 +54,10 @@ int main( int argc, char** argv ){
     }else if ( type == 2 ){
         flag1 = 'W';
         cout << "type of graph: directed weighted graph" << endl;
+    }else if ( type == 3 )
+    {
+        flag1 = 'U';
+        cout << "type of graph: undirected weighted graph" << endl;
     }
 
     // Construct adjacency matrix of graph
@@ -108,7 +112,7 @@ int main( int argc, char** argv ){
                           // 1: Cholesky
                           // 2: QR
 
-    cout << "Solving Linear System........." << flush;
+    cout << "Solving Linear System......................." << flush;
 
     switch (flag){
     	case 'H':

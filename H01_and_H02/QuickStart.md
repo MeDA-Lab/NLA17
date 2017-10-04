@@ -52,11 +52,29 @@ Numerical Linear Algebra(NTU, NCKU), Matrix Computation (NTNU)
 
 * For graph laplacian, the usage is
 
-	`./sgp_main.out [data filename]`
-
-	Example Usage: Type the following in terminal
+	`./sgp_main.out [data filename] [type of graph (optional)]`
 	
-	`./sgp_main.out data/graph/ChicagoRegional`
+	Currently, 2 types of graph are supported:
+	* `0`: __simple graph__
+	* `3`: __undirected weighted graph__
+
+	Example Usage: Type the following commands in the terminal
+	
+	* for __simple graph__, type
+	
+		`./sgp_main.out data/graph/ChicagoRegional`
+		
+		or
+		
+		`./sgp_main.out data/graph/ChicagoRegional 0`
+		
+	* for __undirected weighted graph__, type
+	
+		`./sgp_main.out data/graph/moreno_kangaroo_kangaroo`
+		
+		or
+		
+		`./sgp_main.out data/graph/moreno_kangaroo_kangaroo 1`
 	
 	There are some prepared graph data files in the `data/graph` directory.
 

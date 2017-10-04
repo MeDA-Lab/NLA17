@@ -5,8 +5,11 @@
 /// @author  Yuhsiang Mike Tsai
 ///
 
+#include <iostream>
 #include <cuda_runtime.h>
 #include <cusolverSp.h>
+
+using namespace std;
 
 void solveShiftEVPHost(
     int m,
@@ -67,7 +70,7 @@ void solveShiftEVP(
     for (int i = 0; i < m; i++) {
         x0[i] = 0;
     }
-    x0[0] = 1;
+    x0[0] = 1.0;
 
     cudaMalloc(&dx0, m*sizeof(double));
     cudaMalloc(&dmu, sizeof(double));
