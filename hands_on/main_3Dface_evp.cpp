@@ -4,6 +4,7 @@
 ///
 /// @author  Mu Yang <<emfomy@gmail.com>>
 /// @author  William Liao
+/// @author  Yuhsiang Mike Tsai
 ///
 
 #include <iostream>
@@ -60,39 +61,50 @@ int main( int argc, char** argv ) {
   mapBoundary(nv, nb, V, U); cout << " Done.  ";
   toc(&timer);
 
+  // Solve harmonic
+  cout << "Solving Harmonic ......................." << flush;
+  tic(&timer);
+  solveHarmonicSparse(nv, nb, Lii_val, Lii_row, Lii_col, Lib_val, Lib_row, Lib_col, U); cout << " Done.  ";
+  toc(&timer);
+
+  cout << endl;
+   
+  // Write object
+  writeObject(output, nv, nf, U, C, F);
+   
   // Solve EVP
-  cout << "Solving Eigenvalue Problem ............." << flush;
-  double mu0 = 1.5, mu; // Modify mu0 to change the initial
-                        // guess of eigenvalue
-  double *x;
-  x = new double[nv-nb];
-  char flag = 'D';      // Modify flag to choose solver on GPU
-                        // or CPU. Possible options are
-                        // 'H': solver on host    (CPU)
-                        // 'D': solver on device  (GPU)
-  int nnz = Lii_row[nv-nb];
+  // cout << "Solving Eigenvalue Problem ............." << flush;
+  // double mu0 = 1.5, mu; // Modify mu0 to change the initial
+  //                       // guess of eigenvalue
+  // double *x;
+  // x = new double[nv-nb];
+  // char flag = 'D';      // Modify flag to choose solver on GPU
+  //                       // or CPU. Possible options are
+  //                       // 'H': solver on host    (CPU)
+  //                       // 'D': solver on device  (GPU)
+  // int nnz = Lii_row[nv-nb];
 
-  switch (flag){
-    case 'H':
-      tic(&timer);
-      solveShiftEVPHost(nv-nb, nnz, Lii_val, Lii_row, Lii_col, mu0, &mu, x);cout << " Done.  ";
-      toc(&timer);
-      break;
-    case 'D':
-      tic(&timer);
-      solveShiftEVP(nv-nb, nnz, Lii_val, Lii_row, Lii_col, mu0, &mu, x);cout << " Done.  ";
-      toc(&timer);
-      break;
-  }
+  // switch (flag){
+  //   case 'H':
+  //     tic(&timer);
+  //     solveShiftEVPHost(nv-nb, nnz, Lii_val, Lii_row, Lii_col, mu0, &mu, x);cout << " Done.  ";
+  //     toc(&timer);
+  //     break;
+  //   case 'D':
+  //     tic(&timer);
+  //     solveShiftEVP(nv-nb, nnz, Lii_val, Lii_row, Lii_col, mu0, &mu, x);cout << " Done.  ";
+  //     toc(&timer);
+  //     break;
+  // }
 
-  cout << endl;
-  cout << "n = " << nv-nb << endl;
-  cout << "nnz = " << nnz << endl;
-  cout << "The estimated eigenvalue near "  << mu0 << " = ";
-  cout << fixed << setprecision(13) << mu << endl;
+  // cout << endl;
+  // cout << "n = " << nv-nb << endl;
+  // cout << "nnz = " << nnz << endl;
+  // cout << "The estimated eigenvalue near "  << mu0 << " = ";
+  // cout << fixed << setprecision(13) << mu << endl;
 
-  cout << endl;
-
+  // cout << endl;
+  // delete x
   // Free memory
   delete[] V;
   delete[] C;

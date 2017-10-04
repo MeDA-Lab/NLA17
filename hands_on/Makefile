@@ -45,12 +45,12 @@ MAGMALIBS  = -L$(MAGMAROOT)/lib
 MAGMALNKS  = -lmagma_sparse -lmagma
 #==============================================================
 
-obj = map_boundary.o verify_boundary_sparse.o \
+obj = map_boundary.o verify_boundary_sparse.o write_object.o \
 	read_args.o read_object.o reorder_vertex.o \
     construct_laplacian_sparse.o solve_shiftevp_cuda.o \
     solve_harmonic_sparse.o
 	  
-magma_obj = map_boundary.o verify_boundary_sparse.o \
+magma_obj = map_boundary.o verify_boundary_sparse.o write_object.o \
 	read_args.o read_object.o reorder_vertex.o \
     construct_laplacian_sparse.o solve_shiftevp_cuda.o \
     solve_harmonic_sparse_magma.o
