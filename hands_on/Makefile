@@ -39,7 +39,7 @@ CUDALIBS  = -L$(CUDAROOT)/lib64
 CUDALNKS  = -lcublas -lcusparse -lcudart -lcusolver
 
 #MAGMA
-MAGMAROOT ?= /opt/magma/2.2
+MAGMAROOT ?= /opt/magma/2.2f
 MAGMAINCS  = -isystem $(MAGMAROOT)/include
 MAGMALIBS  = -L$(MAGMAROOT)/lib
 MAGMALNKS  = -lmagma_sparse -lmagma
