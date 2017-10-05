@@ -10,6 +10,7 @@
 #include <cmath>
 #include <cassert>
 #include <mkl_spblas.h>
+#include "sgp.hpp"
 using namespace std;
 
 void GraphLaplacian(int *nnz, int *cooRowIndA,

@@ -1,18 +1,6 @@
-# NLA2017fall
-Numerical Linear Algebra(NTU, NCKU), Matrix Computation (NTNU)
+# NLA17 - Hands-on
+This is the C codes for hands-on of NLA17.
 
-## Information
-
-### Git
-* https://github.com/wlab-pro/scsc17summer/NLA_src
-
-### Author
-* Yuhsiang Tsai <<yhmtsai@gmail.com>>
-* Mu Yang <<emfomy@gmail.com>>
-* Yen-Chen Chen <<yanjen224@gmail.com>>
-* Dawei D. Chang <<davidzan830@gmail.com>>
-* Ting-Hui Wu <<b99201017@gmail.com>>
-* Wei-Chien Liao <<b00201028.ntu@gmail.com>>
 
 ## Requirements
 * C++ compiler with C++11 support.
@@ -24,11 +12,11 @@ Numerical Linear Algebra(NTU, NCKU), Matrix Computation (NTNU)
 
 ## Usage
 * You may need to load the required libraries first before building the program. Execute the following commands in a terminal:
-
 	`module load cuda-dev/8.0`
-	
-	`module load intel-mkl`
-
+	`module load intel-mkl`  
+If you want to use `magma_3Dface_evp`, you need to load extra module.  
+`module load magma-dev/2.2f`
+<!-- 
 * To build the program, simply type `make` in terminal. After typing `make`, you will see the following
 
 	```
@@ -48,7 +36,11 @@ Numerical Linear Algebra(NTU, NCKU), Matrix Computation (NTNU)
 	g++ sgp_main.o -o sgp_main.out read_graph.o graph_adjacency.o graph_laplacian.o solve_shiftevp_cuda.o map_boundary.o read_args.o read_object.o reorder_vertex.o construct_laplacian_sparse.o solve_harmonic_sparse.o verify_boundary_sparse.o set_graph_type.o -O3 -m64 -std=c++11 -L/opt/intel/mkl/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl -lcudart -lcublas -lcufft -lcusolver -lcusparse -lgomp -lm -ldl
 	g++ -c main_3Dface_evp.cpp -I include -O3 -m64 -std=c++11 -I/opt/intel/mkl/include
 	g++ main_3Dface_evp.o -o main_3Dface_evp.out read_graph.o graph_adjacency.o graph_laplacian.o solve_shiftevp_cuda.o map_boundary.o read_args.o read_object.o reorder_vertex.o construct_laplacian_sparse.o solve_harmonic_sparse.o verify_boundary_sparse.o set_graph_type.o -O3 -m64 -std=c++11 -L/opt/intel/mkl/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl -lcudart -lcublas -lcufft -lcusolver -lcusparse -lgomp -lm -ldl
-	```
+	``` -->
+* To build the program, you can select what you need.  
+`make sgp_main.out` for bipartition.  
+`make main_3Dface_evp.out` for 3Dface animation without any solver.  
+`make magma_3Dface_evp.out` for 3Dface animation with magma solver.  
 
 * For graph laplacian, the usage is
 
@@ -143,6 +135,7 @@ All parameters mentioned above are in the file `sgp_main.cpp`.
 1. Modify `mu0` to change the initial guess of eigenvalue.
 2. Modify `flag` to choose solver on GPU or CPU. Possible options are
 	* `'H'`: solver on host &nbsp;&nbsp;&nbsp;(CPU)
-	* `'D'`: solver on device    (GPU) (default)
+	* `'D'`: solver on device    (GPU)
+	* Note it is assigned by command-line.
 
 All parameters mentioned above are in the file `main_3Dface_evp.cpp`.
