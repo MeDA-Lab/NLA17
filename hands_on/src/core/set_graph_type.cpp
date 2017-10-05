@@ -11,7 +11,7 @@
 #include <cassert>
 #include <iostream>
 #include <string>
-
+#include "sgp.hpp"
 int setgraphtype(int E_size_c){
 	int type;
 	if (E_size_c == 3)

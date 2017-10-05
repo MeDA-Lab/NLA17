@@ -1,6 +1,7 @@
 # NLA17
 For Numerical Linear Algebra course
 # Information
+* [Information](Information.md)
 * [LinuxSimpleTutorial](LinuxSimpleTutorial.md)
 # Announcement
 - 09/22 : release lab01

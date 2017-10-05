@@ -12,13 +12,14 @@
 
 using namespace std;
 
-const char* const short_opt = "hf:t:o:";
+const char* const short_opt = "hf:t:o:e:";
 
 const struct option long_opt[] = {
   {"help",   0, NULL, 'h'},
   {"file",   1, NULL, 'f'},
   {"type",   1, NULL, 't'},
   {"output", 1, NULL, 'o'},
+  {"evp",    1, NULL, 'e'},
   {NULL,     0, NULL, 0}
 };
 
@@ -34,9 +35,10 @@ void dispUsage( const char *bin ) {
   cout << "  -f<file>, --file <file>    The graph file" << endl;
   cout << "  -t<num>,  --type <num>     0: KIRCHHOFF(default), 1: COTANGENT" << endl;
   cout << "  -o<file>, --output <file>  The output file" << endl;
+  cout << "  -e<num>,  --evp <num>      0: None(default), 1: Host, 2: Device" << endl;
 }
 
-void readArgs( int argc, char** argv, const char *&input, const char *&output, Method &method ) {
+void readArgs( int argc, char** argv, const char *&input, const char *&output, Method &method, EVP &evp) {
   char c = 0;
   while ( (c = getopt_long(argc, argv, short_opt, long_opt, NULL)) != -1 ) {
     switch ( c ) {
@@ -60,7 +62,12 @@ void readArgs( int argc, char** argv, const char *&input, const char *&output, M
         output = optarg;
         break;
       }
-
+      
+      case 'e': {
+        evp = static_cast<EVP>(atoi(optarg));
+        assert(evp >= EVP::NONE && evp < EVP::COUNT );
+        break;
+      }
       case ':': {
         cout << "Option -" << c << " requires an argument.\n";
         abort();

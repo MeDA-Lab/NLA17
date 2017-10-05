@@ -13,7 +13,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-
+#include "sgp.hpp"
 int readGraph(char *input, int **E, int *E_size_r, int *E_size_c){
 	std::fstream pfile;
 	int count = 0, n = 0;
