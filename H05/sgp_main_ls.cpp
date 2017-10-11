@@ -112,6 +112,7 @@ int main( int argc, char** argv ){
                           // 1: Cholesky
                           // 2: QR
 
+    cudasolverinfo(flag, solver);
     cout << "Solving Linear System......................." << flush;
 
     switch (flag){
