@@ -45,7 +45,8 @@ obj = read_graph.o graph_adjacency.o graph_laplacian.o \
       construct_laplacian_sparse.o solve_harmonic_sparse.o \
       verify_boundary_sparse.o set_graph_type.o \
       residual.o generate_RHS.o \
-      solve_ls_cuda.o lu_cuda.o qr_cuda.o chol_cuda.o
+      solve_ls_cuda.o lu_cuda.o qr_cuda.o chol_cuda.o \
+      cuda_solverinfo.o
 
 INCS = -I include
 TARGETS_O	:= $(TARGETS_SRC:.cpp=.o)
