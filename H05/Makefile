@@ -62,7 +62,7 @@ INCS = -I include
 
 .PHONY: all clean
 
-all: main_3Dface_evp.out sgp_main.out
+all: main_3Dface_evp.out sgp_main_ls_test.out
 
 
 %.o: %.cpp
