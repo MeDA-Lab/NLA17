@@ -53,10 +53,14 @@ obj = map_boundary.o verify_boundary_sparse.o write_object.o \
 magma_obj = map_boundary.o verify_boundary_sparse.o write_object.o \
 	read_args.o read_object.o reorder_vertex.o \
     construct_laplacian_sparse.o solve_shiftevp_cuda.o \
-    solve_harmonic_sparse_magma.o solve_sgp_sparse_magma.o
+    solve_harmonic_sparse_magma.o
 
 sgp_obj = read_graph.o graph_adjacency.o graph_laplacian.o \
-	solve_shiftevp_cuda.o set_graph_type.o 
+	solve_shiftevp_cuda.o set_graph_type.o generate_RHS.o
+
+sgp_magma_obj = read_graph.o graph_adjacency.o graph_laplacian.o \
+	solve_shiftevp_cuda.o set_graph_type.o generate_RHS.o \
+	solve_sgp_sparse_magma.o
 
 INCS = -I include
 
@@ -85,7 +89,7 @@ MakeExe:sgp_main.out main_3Dface_evp.out sgp_main_ls_test.out
 sgp_main.out: sgp_main.o $(sgp_obj)
 	$(LOADER) $(CCFLAGS) -o $@ $< $(sgp_obj) $(MKLLNKS) $(CUDALNKS)
 
-sgp_main_ls_test.out: sgp_main_ls_test.o $(sgp_obj) $(magma_obj)
+sgp_main_ls_test.out: sgp_main_ls_test.o $(sgp_magma_obj)
 	$(LOADER) $(CCFLAGS) -o $@ $< $(sgp_obj) $(MAGMALIBS) $(MKLLNKS) $(CUDALNKS) $(MAGMALNKS)
 
 main_3Dface_evp.out: main_3Dface_evp.o $(obj)
