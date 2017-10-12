@@ -102,6 +102,7 @@ int main( int argc, char** argv ){
     x = new double[n];
 
     cout << "Solving Linear System......................." << flush;
+    cout << endl;
 
     solveGraph(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x);
 
