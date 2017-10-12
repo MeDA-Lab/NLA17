@@ -90,7 +90,7 @@ sgp_main.out: sgp_main.o $(sgp_obj)
 	$(LOADER) $(CCFLAGS) -o $@ $< $(sgp_obj) $(MKLLNKS) $(CUDALNKS)
 
 sgp_main_ls_test.out: sgp_main_ls_test.o $(sgp_magma_obj)
-	$(LOADER) $(CCFLAGS) -o $@ $< $(sgp_obj) $(MAGMALIBS) $(MKLLNKS) $(CUDALNKS) $(MAGMALNKS)
+	$(LOADER) $(CCFLAGS) -o $@ $< $(sgp_magma_obj) $(MAGMALIBS) $(MKLLNKS) $(CUDALNKS) $(MAGMALNKS)
 
 main_3Dface_evp.out: main_3Dface_evp.o $(obj)
 	$(LOADER) $(CCFLAGS) -o $@ $< $(obj) $(MKLLNKS) $(CUDALNKS)
