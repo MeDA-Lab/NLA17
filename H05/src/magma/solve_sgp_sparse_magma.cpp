@@ -61,8 +61,7 @@ void solveGraph(
   magma_d_matrix dx, drhs;
   magma_dvinit(&dx, Magma_DEV, m, 1, 0, queue);
   magma_dvset_dev(m, 1, db, &drhs, queue);
-  magma_dprint_vector(drhs, 0, m-1, queue);
-
+  
   magma_dcsrset_gpu(m, m, dA_row, dA_col, dA_val, &dA, queue);
 
   magma_dopts dopts;
