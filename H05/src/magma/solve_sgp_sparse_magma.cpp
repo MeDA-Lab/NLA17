@@ -11,7 +11,7 @@
 #include "magma_lapack.h"
 using namespace std;
 
-void solveGraph(
+void solveGraphSparse(
     int m,
     int nnz,
     const double *A_val,

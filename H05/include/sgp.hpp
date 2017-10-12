@@ -268,7 +268,7 @@ int cudasolverinfo(char flag, int solver);
 ///
 /// @param[out] x       the estimated solution.
 ///
-void solveGraph(
+void solveGraphSparse(
     int m,
     int nnz,
     const double *A_val,
