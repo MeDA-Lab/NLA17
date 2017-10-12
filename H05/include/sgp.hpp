@@ -251,4 +251,30 @@ double residual(int n, int nnz, double *A_val, int *A_row, int *A_col, double *b
 /// @param[in]  solver  indicates type of solver.
 ///
 int cudasolverinfo(char flag, int solver);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  MAGMA iterative linear system solver wrapper.
+///
+/// @param[in]  m       size of the Laplacian matrix.
+///
+/// @param[in]  nnz     number of nonzeros of the Laplacian matrix.
+///
+/// @param[in]  A_val   value of the Laplacian matrix.
+///
+/// @param[in]  A_row   row pointer of the Laplacian matrix.
+///
+/// @param[in]  A_col   column index of the Laplacian matrix.
+///
+/// @param[in]  b       the RHS of AX = b.
+///
+/// @param[out] x       the estimated solution.
+///
+void solveGraph(
+    int m,
+    int nnz,
+    const double *A_val,
+    const int *A_row,
+    const int *A_col,
+    const double *b,
+    double *x,
+)
 #endif  // SCSC_SGP_HPP
