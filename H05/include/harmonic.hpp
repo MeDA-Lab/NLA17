@@ -3,7 +3,7 @@
 /// @brief   The main header.
 ///
 /// @author  Mu Yang <<emfomy@gmail.com>>
-///
+/// @author  Yuhsiang Mike Tsai
 
 #ifndef SCSC_HARMONIC_HPP
 #define SCSC_HARMONIC_HPP
@@ -20,6 +20,15 @@ enum class Method {
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  The enumeration of Laplacian construction methods.
+///
+enum class EVP {
+    NONE = 0,   ///< Do not calculate EVP
+    HOST = 1,   ///< Use host function to calculate EVP
+    DEVICE = 2, ///< Use device function to calculate EVP
+    COUNT,      ///< Used for counting number of methods.
+  };
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the arguments.
 ///
 /// @param[in]   argc    The number of input arguments.
@@ -29,7 +38,7 @@ enum class Method {
 /// @param[out]  output  The output file.
 /// @param[out]  method  The method.
 ///
-void readArgs( int argc, char** argv, const char *&input, const char *&output, Method &method );
+void readArgs( int argc, char** argv, const char *&input, const char *&output, Method &method, EVP &evp);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the object file.
@@ -257,113 +266,5 @@ void solveShiftEVP(
     double *mu,
     double *x
 );
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Solve linear system Ax = b with requested solver on host.
-///
-/// @param[in]  solver    type of solver; Possible options are; 0:LU; 1:Cholesky; 2:QR
-///
-/// @param[in]  nnz     number of nonzero elements in the matrix.
-///
-/// @param[in/out]  A_row     CSR row pointer; pointer.
-///
-/// @param[in/out]  A_col     CSR column index; pointer.
-///
-/// @param[in/out]  A_val  nonzero values of the matrix; pointer.
-///
-/// @param[in]  m        size of the matrix.
-///
-/// @param[in]  b        RHS of the linear system; pointer.
-///
-/// @param[out] x        estimated solution; pointer.
-///
-/// @note  All inputs should be stored on host.
-///
-void solvelsHost(
-    int m,
-    int nnz,
-    const double *A_val,
-    const int *A_row,
-    const int *A_col,
-    const double *b,
-    double *x,
-    int solver
-);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Solve linear system Ax = b with requested solver on device.
-///
-/// @param[in]  solver    type of solver; Possible options are; 1:Cholesky; 2:QR
-///
-/// @param[in]  nnz     number of nonzero elements in the matrix.
-///
-/// @param[in/out]  A_row     CSR row pointer; pointer.
-///
-/// @param[in/out]  A_col     CSR column index; pointer.
-///
-/// @param[in/out]  A_val  nonzero values of the matrix; pointer.
-///
-/// @param[in]  m        size of the matrix.
-///
-/// @param[in]  b        RHS of the linear system; pointer.
-///
-/// @param[out] x        estimated eigenvector w.r.t. mu; pointer.
-///
-/// @note  All inputs should be stored on host.
-///
-void solvels(
-    int m,
-    int nnz,
-    const double *A_val,
-    const int *A_row,
-    const int *A_col,
-    const double *b,
-    double *x,
-    int solver
-);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Generate RHS b of the linear system Ax = b.
-///
-/// @param[in/out]  b         RHS of the linear system; pointer.
-///
-/// @param[in]  n       size of the matrix;
-///
-/// @param[in]  nnz     number of nonzero elements in the matrix.
-///
-/// @param[in/out]  A_row     CSR row pointer; pointer.
-///
-/// @param[in/out]  A_col     CSR column index; pointer.
-///
-/// @param[in/out]  A_val  nonzero values of the matrix; pointer.
-///
-/// @note  All inputs should be stored on host.
-///
-void genRHS(double *b, int n, int nnz, double *A_val, int *A_row, int *A_col);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Compute the error ||Ax - b||.
-///
-/// @param[in]  n       size of the matrix.
-///
-/// @param[in]  nnz     number of nonzero elements in the matrix.
-///
-/// @param[in]  A_row   CSR row pointer; pointer.
-///
-/// @param[in]  A_col   CSR column index; pointer.
-///
-/// @param[in]  A_val   nonzero values of the matrix; pointer.
-///
-/// @param[in]  b       RHS of the linear system. at the end of the routine it is overwritten; pointer.
-///
-/// @param[in]  x       estimated solution to the linear system; pointer.
-///
-/// @note  All inputs should be stored on host.
-///
-double residual(int n, int nnz, double *A_val, int *A_row, int *A_col, double *b, double *x);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Print CUDA linear system solver info.
-///
-/// @param[in]  flag    indicates solver on CPU or GPU.
-///
-/// @param[in]  solver  indicates type of solver.
-///
-int cudasolverinfo(char flag, int solver);
 
 #endif  // SCSC_HARMONIC_HPP
