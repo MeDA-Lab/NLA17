@@ -357,5 +357,13 @@ void genRHS(double *b, int n, int nnz, double *A_val, int *A_row, int *A_col);
 /// @note  All inputs should be stored on host.
 ///
 double residual(int n, int nnz, double *A_val, int *A_row, int *A_col, double *b, double *x);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  Print CUDA linear system solver info.
+///
+/// @param[in]  flag    indicates solver on CPU or GPU.
+///
+/// @param[in]  solver  indicates type of solver.
+///
+int cudasolverinfo(char flag, int solver);
 
 #endif  // SCSC_HARMONIC_HPP

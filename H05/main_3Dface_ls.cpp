@@ -68,7 +68,6 @@ int main( int argc, char** argv ) {
   cblas_dscal(nv-nb, -1.0, b, 1);
 
   // Solve LS
-  cout << "Solving Linear System .................." << flush;
   double *x;
   x = new double[nv-nb];
   char flag = 'H';     // Modify flag to choose solver on GPU
@@ -82,6 +81,9 @@ int main( int argc, char** argv ) {
                        // 0: LU
                        // 1: Cholesky
                        // 2: QR
+
+  cudasoverinfo(flag, solver);
+  cout << "Solving Linear System .................." << flush;
 
   switch (flag){
     case 'H':
