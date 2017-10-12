@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @file    sgp_main.cpp
-/// @brief   The main function.
+/// @file    sgp_main_ls_test.cpp
+/// @brief   The main function (debug).
 ///
 /// @author  William Liao
 ///
@@ -103,7 +103,7 @@ int main( int argc, char** argv ){
 
     cout << "Solving Linear System......................." << flush;
 
-    solveGraph(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x);
+    solveGraphSparse(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x);
 
     return 0;
 }
