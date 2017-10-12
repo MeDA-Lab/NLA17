@@ -103,7 +103,7 @@ int main( int argc, char** argv ){
 
     cout << "Solving Linear System......................." << flush;
 
-    solveGraphSparse(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x);
+    solveGraph(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x);
 
     return 0;
 }

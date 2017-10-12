@@ -268,13 +268,13 @@ int cudasolverinfo(char flag, int solver);
 ///
 /// @param[out] x       the estimated solution.
 ///
-void solveGraphSparse(
+void solveGraph(
     int m,
     int nnz,
     const double *A_val,
     const int *A_row,
     const int *A_col,
     const double *b,
-    double *x,
+    double *x
 );
 #endif  // SCSC_SGP_HPP

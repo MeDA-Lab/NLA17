@@ -11,14 +11,14 @@
 #include "magma_lapack.h"
 using namespace std;
 
-void solveGraphSparse(
+void solveGraph(
     int m,
     int nnz,
     const double *A_val,
     const int *A_row,
     const int *A_col,
     const double *b,
-    double *x,
+    double *x
 ) {
   magma_init();
   magma_queue_t queue;
