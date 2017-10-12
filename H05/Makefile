@@ -1,8 +1,9 @@
 #################################################
 ##   Makefile for spectral graph partitioning  ##
 ##   Create by Wei-Chien Liao                  ##
+##   Modified by Yuhsiang Tsai				   ##
 ##   Date  : 2017/09/04                        ##
-##   Update:                                   ##
+##   Update: 2017/10/12                        ##
 #################################################
 
 #=======================
@@ -19,63 +20,79 @@ RANLIB      = ranlib
 #=======================
 # Flag settings.
 #=======================
-CCFLAGS		= -O3 -m64 -std=c++11
+CCFLAGS		= -O3 -m64 -std=c++11 -fopenmp
 NVCCFLAGS	= -m64 -std=c++11
 
 #======================
 # Library PATH settings
 #======================
 #MKL
-MKLROOT = /opt/intel/mkl
-MKLINCS = -I${MKLROOT}/include
-MKLLNKS = -L${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl
+# MKLROOT = /opt/intel/mkl
+MKLINCS = -m64 -I$(MKLROOT)/include
+MKLLIBS = -L$(MKLROOT)/lib/intel64
+MKLLNKS =  -Wl,--no-as-needed -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl
 
 #CUDA
-CUDA_PATH = /usr/local/cuda-8.0
-CUDA_INC  = -I$(CUDA_PATH)/include
-CUDA_LIB_PATH   = $(CUDA_PATH)/lib64
-CUDA_LD_FLAGS   = -lcudart -lcublas -lcufft -lcusolver -lcusparse -lgomp -lm -ldl
-CUDA_LD_LIB	    = -L$(CUDA_LIB_PATH) $(CUDA_LD_FLAGS)
+CUDAROOT ?= /usr/local/cuda-8.0
+CUDAINCS  = -I$(CUDAROOT)/include
+CUDALIBS  = -L$(CUDAROOT)/lib64
+CUDALNKS  = -lcublas -lcusparse -lcudart -lcusolver
 
+#MAGMA
+MAGMAROOT ?= /opt/magma/2.2f
+MAGMAINCS  = -isystem $(MAGMAROOT)/include
+MAGMALIBS  = -L$(MAGMAROOT)/lib
+MAGMALNKS  = -lmagma_sparse -lmagma
 #==============================================================
 
-obj = read_graph.o graph_adjacency.o graph_laplacian.o \
-      solve_shiftevp_cuda.o map_boundary.o \
-      read_args.o read_object.o reorder_vertex.o \
-      construct_laplacian_sparse.o solve_harmonic_sparse.o \
-      verify_boundary_sparse.o set_graph_type.o \
-      residual.o generate_RHS.o \
-      solve_ls_cuda.o lu_cuda.o qr_cuda.o chol_cuda.o \
-      cuda_solverinfo.o solve_sgp_sparse_magma.o
+obj = map_boundary.o verify_boundary_sparse.o write_object.o \
+	read_args.o read_object.o reorder_vertex.o \
+    construct_laplacian_sparse.o solve_shiftevp_cuda.o \
+    solve_harmonic_sparse.o
+	  
+magma_obj = map_boundary.o verify_boundary_sparse.o write_object.o \
+	read_args.o read_object.o reorder_vertex.o \
+    construct_laplacian_sparse.o solve_shiftevp_cuda.o \
+    solve_harmonic_sparse_magma.o solve_sgp_sparse_magma.o
+
+sgp_obj = read_graph.o graph_adjacency.o graph_laplacian.o \
+	solve_shiftevp_cuda.o set_graph_type.o 
 
 INCS = -I include
-TARGETS_O	:= $(TARGETS_SRC:.cpp=.o)
 
 .PHONY: all clean
 
-all: MakeObj MakeExe
+all: main_3Dface_evp.out sgp_main.out
 
-MakeObj: $(TARGETS_O)
 
 %.o: %.cpp
-	$(CC) -c $< $(INCS) $(CCFLAGS) $(MKLINCS)
+	$(CC) $(CCFLAGS) -c $< $(INCS)  $(MKLINCS)
 
 %.o: src/core/%.cpp
-	$(CC) -c $< $(INCS) $(CCFLAGS) $(MKLINCS) $(CUDA_INC)
+	$(CC) $(CCFLAGS) -c $< $(INCS) $(MKLINCS) $(CUDAINCS)
 
 %.o: src/cuda/%.cpp
-	$(CC) -c $< $(INCS) $(CCFLAGS) $(MKLINCS) $(CUDA_INC)
+	$(CC) $(CCFLAGS) -c $< $(INCS) $(MKLINCS) $(CUDAINCS)
 
 %.o: src/sparse/%.cpp
-	$(CC) -c $< $(INCS) $(CCFLAGS) $(MKLINCS) $(CUDA_INC)
+	$(CC) $(CCFLAGS) -c $< $(INCS) $(MKLINCS) $(CUDAINCS)
 
-MakeExe:sgp_main_ls.out main_3Dface_ls.out
+%.o: src/magma/%.cpp
+	$(CC) $(CCFLAGS) -c $< $(INCS) $(MKLINCS) $(CUDAINCS) $(MAGMAINCS)
 
-sgp_main_ls.out: sgp_main_ls.o $(obj)
-	$(LOADER) $< -o $@ $(obj) $(CCFLAGS) $(MKLLNKS) $(CUDA_LD_FLAGS)
+MakeExe:sgp_main.out main_3Dface_evp.out sgp_main_ls_test.out
 
-main_3Dface_ls.out: main_3Dface_ls.o $(obj)
-	$(LOADER) $< -o $@ $(obj) $(CCFLAGS) $(MKLLNKS) $(CUDA_LD_FLAGS)
+sgp_main.out: sgp_main.o $(sgp_obj)
+	$(LOADER) $(CCFLAGS) -o $@ $< $(sgp_obj) $(MKLLNKS) $(CUDALNKS)
+
+sgp_main_ls_test.out: sgp_main_ls_test.o $(sgp_obj) $(magma_obj)
+	$(LOADER) $(CCFLAGS) -o $@ $< $(sgp_obj) $(MAGMALIBS) $(MKLLNKS) $(CUDALNKS) $(MAGMALNKS)
+
+main_3Dface_evp.out: main_3Dface_evp.o $(obj)
+	$(LOADER) $(CCFLAGS) -o $@ $< $(obj) $(MKLLNKS) $(CUDALNKS)
+
+magma_3Dface_evp.out: main_3Dface_evp.o $(magma_obj)
+	$(LOADER) $(CCFLAGS) -o $@ $< $(magma_obj) $(MKLLIBS) $(CUDALIBS) $(MAGMALIBS) $(MKLLNKS) $(CUDALNKS) $(MAGMALNKS)
 
 clean:
 	-rm *.o -f
