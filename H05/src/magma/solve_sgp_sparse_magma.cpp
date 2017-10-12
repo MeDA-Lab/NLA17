@@ -52,6 +52,7 @@ void solveGraph(
   magma_malloc((void**) &dA_val, nnz*sizeof(double));
   magma_malloc((void**) &dA_col, nnz*sizeof(int));
   magma_malloc((void**) &dA_row, (m+1)*sizeof(int));
+  magma_malloc((void**) &db, m*sizeof(double));
   magma_setvector(m, sizeof(double), b, 1, db, 1, queue);
   magma_setvector(nnz, sizeof(int), A_col, 1, dA_col, 1, queue);
   magma_setvector(m+1, sizeof(int), A_row, 1, dA_row, 1, queue);
