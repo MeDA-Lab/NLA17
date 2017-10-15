@@ -1,0 +1,18 @@
+# Laplacian Parameters
+sigma 1e-5 # Shift sigma A+sigma*I
+# EVP
+mu0 1.5 # Initial guess of eigenvalue
+eigtol 1e-12 # Tolerance for eigensolver
+eigmaxite 1000 # Maximum number of iterations for eigensolver
+# LS
+solver CHOL # Type of linear solver
+tol default # Tolerance for cuda direct linear solver
+atol default # Absolute residual for iterative linear solver
+rtol default # Relative residual for iterative linear solver
+maxiter default # Set an upper limit for the iteration count
+precond NONE # Possibility to choose a preconditioner
+restart default # Only take effects for GMRES and IDR
+# For more information on iterative solver parameter settings,
+# please see the file solver_arguments.txt
+# Availabe types of linear solver are LU, Cholesky, QR and
+# MAGMA iterative solvers.

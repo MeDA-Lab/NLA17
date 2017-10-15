@@ -11,6 +11,48 @@
 #include <cassert>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  The enumeration of Laplacian construction methods.
+///
+enum class Method {
+  SIMPLE = 0,    ///< Simple graph.
+  DIRECTED = 1,  ///< Directed (multi) graph
+  WEIGHTED = 2,  ///< Directed weighted graph
+  UW = 3,        ///< Undirected weighted graph
+  COUNT,         ///< Used for counting number of methods.
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  The enumeration of eigenvalue problem class.
+///
+enum class EVP {
+    NONE = 0,   ///< Do not calculate EVP
+    HOST = 1,   ///< Use host function to calculate EVP
+    DEVICE = 2, ///< Use device function to calculate EVP
+    COUNT,      ///< Used for counting number of methods.
+  };
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  The enumeration of linear system problem class.
+///
+enum class LS {
+    NONE = 0,      ///< Do not calculate LS
+    HOST = 1,      ///< Use host direct solver to calculate LS
+    DEVICE = 2,    ///< Use device direct solver to calculate LS
+    ITERATIVE = 3, ///< Use iterative solver to calculate LS
+    COUNT,         ///< Used for counting number of methods.
+  };
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  The enumeration of linear solver type.
+///
+enum class LSOLVER {
+    LU = 0,        ///< LU factorization
+    CHOL = 1,      ///< Cholesky factorization
+    QR = 2,        ///< QR factorization
+    ITERATIVE = 3, ///< Iterative solver
+    COUNT,         ///< Used for counting number of methods.
+  };
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the graph file.
 ///
 /// @param[in]   input   the path to the object file.
@@ -26,9 +68,9 @@ int readGraph(char *input, int **E, int *E_size_r, int *E_size_c);
 ///
 /// @param[in]   E_size_c   number of data pair in edge lists.
 ///
-/// @param[out]  type  number of data pair in edge lists.
+/// @param[out]  method     graph type.
 ///
-int setgraphtype(int E_size_c);
+void setgraphtype(Method &method, int E_size_c)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Sets the graph type.
 ///
@@ -36,7 +78,7 @@ int setgraphtype(int E_size_c);
 ///
 /// @param[in]   E_size_c   number of data pair in edge lists.
 ///
-/// @param[out]  type  number of data pair in edge lists.
+/// @param[out]  type       graph type.
 ///
 int setgraphtype(char *input, int E_size_c);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

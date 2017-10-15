@@ -11,17 +11,16 @@
 #include <cassert>
 #include <iostream>
 #include <string>
+#include "sgp.hpp"
 
-int setgraphtype(int E_size_c){
+void setgraphtype(Method &method, int E_size_c){
 	int type;
 	if (E_size_c == 3)
 	{
-		type = 3;
+		method = Method::UW;
 	}else{
-		type = 0;
+		method = Method::SIMPLE;
 	}
-
-	return type;
 }
 
 int setgraphtype(char *input, int E_size_c){
