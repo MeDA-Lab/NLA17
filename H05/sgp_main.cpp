@@ -22,7 +22,6 @@ using namespace std;
 int main( int argc, char** argv ){
     const char *input = NULL;
     const char *parafile = NULL;
-    const char *solver = "CHOL"; // type of linear solver
     LSOLVER solflag = LSOLVER::CHOL;
     Method method;
     EVP evp = EVP::NONE;
@@ -83,6 +82,7 @@ int main( int argc, char** argv ){
     double tol;
     // Parameters for iterative linear solver
     string atol, rtol, maxiter, precond, restart;
+    string solver; // type of linear solver
     cout << "Setting Laplacian and solver parameters....." << flush;
     if ( evp != EVP::NONE && ls != LS::NONE )
     {
