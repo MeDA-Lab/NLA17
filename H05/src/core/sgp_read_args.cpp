@@ -41,7 +41,7 @@ void dispUsage( const char *bin ) {
   cout << setw(74) << "1: directed (multi) graph (not supported yet)" << endl;
   cout << setw(75) << "2: directed weighted graph (not supported yet)" << endl;
   cout << setw(99) << "3: undirected weighted graph (default if the graph data has 3 columns)" << endl;
-  cout << "  -p<file>, --para <file>  The parameter setting file" << endl;
+  cout << "  -p<file>, --para <file>    The parameter setting file" << endl;
   //cout << "  -o<file>, --output <file>  The output file" << endl;
   cout << "  -e<num>,  --evp <num>      0: None(default), 1: Host, 2: Device" << endl;
   cout << "  -l<num>,  --ls <num>       0: None, 1: Direct Host, 2: Direct Device(default), 3: Iterative" << endl;
