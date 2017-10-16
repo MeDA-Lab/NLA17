@@ -48,7 +48,8 @@ void dispUsage( const char *bin ) {
 
 void readArgs( int argc, char** argv, const char *&input, const char *&para, Method &method, EVP &evp, LS &ls, int &tflag,
   int &pflag) {
-  int fflag = 0, tflag = 0, pflag = 0;
+  int fflag = 0;
+  tflag = 0, pflag = 0;
   char c = 0;
   while ( (c = getopt_long(argc, argv, short_opt, long_opt, NULL)) != -1 ) {
     switch ( c ) {
@@ -83,7 +84,7 @@ void readArgs( int argc, char** argv, const char *&input, const char *&para, Met
       }
 
       case 'l': {
-        evp = static_cast<LS>(atoi(optarg));
+        ls = static_cast<LS>(atoi(optarg));
         assert(evp >= LS::NONE && evp < LS::COUNT );
         break;
       }
