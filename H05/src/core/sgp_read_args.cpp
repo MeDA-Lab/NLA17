@@ -8,6 +8,7 @@
 ///
 
 #include <iostream>
+#include <iomanip>
 #include <sgp.hpp>
 #include <getopt.h>
 
@@ -85,7 +86,7 @@ void readArgs( int argc, char** argv, const char *&input, const char *&para, Met
 
       case 'l': {
         ls = static_cast<LS>(atoi(optarg));
-        assert(evp >= LS::NONE && evp < LS::COUNT );
+        assert(ls >= LS::NONE && ls < LS::COUNT );
         break;
       }
 
