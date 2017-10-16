@@ -196,6 +196,14 @@ void readParaEVP(const char *parafile,
 ///
 /// @param[in]   E_size_c   number of data pair in edge lists.
 ///
+/// @param[out]  type  number of data pair in edge lists.
+///
+int setgraphtype(int E_size_c);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  Sets the graph type.
+///
+/// @param[in]   E_size_c   number of data pair in edge lists.
+///
 /// @param[out]  method     graph type.
 ///
 void setgraphtype(Method &method, int E_size_c);
