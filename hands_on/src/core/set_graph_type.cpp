@@ -12,6 +12,7 @@
 #include <iostream>
 #include <string>
 #include "sgp.hpp"
+
 int setgraphtype(int E_size_c){
 	int type;
 	if (E_size_c == 3)
@@ -22,6 +23,16 @@ int setgraphtype(int E_size_c){
 	}
 
 	return type;
+}
+
+void setgraphtype(Method &method, int E_size_c){
+	int type;
+	if (E_size_c == 3)
+	{
+		method = Method::UW;
+	}else{
+		method = Method::SIMPLE;
+	}
 }
 
 int setgraphtype(char *input, int E_size_c){
