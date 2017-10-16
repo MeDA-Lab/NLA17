@@ -93,7 +93,7 @@ int main( int argc, char** argv ){
             readParaDEVP(parafile, shift_sigma, mu0, eigtol, eigmaxite, solflag, solver, tol);
         }else if ( pflag == 1 && ls == LS::ITERATIVE )
         {
-            readParaIEVP(parafile, shift_sigma, mu0, eigtol, eigmaxite, solflag, solver, atol, rtol, maxiter, precond, restart);
+            readParaIEVP(parafile, shift_sigma, mu0, eigtol, eigmaxite, solver, atol, rtol, maxiter, precond, restart);
         }
     }else if ( evp != EVP::NONE && ls == LS::NONE )
     {
@@ -110,7 +110,7 @@ int main( int argc, char** argv ){
             readParaDLS(parafile, shift_sigma, solflag, solver, tol);
         }else if ( pflag == 1 && ls == LS::ITERATIVE )
         {
-            readParaILS(parafile, shift_sigma, solflag, solver, atol, rtol, maxiter, precond, restart);
+            readParaILS(parafile, shift_sigma, solver, atol, rtol, maxiter, precond, restart);
         }
     }
     cout << " Done.  " << endl;

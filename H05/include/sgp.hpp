@@ -49,7 +49,6 @@ enum class LSOLVER {
     LU = 0,        ///< LU factorization
     CHOL = 1,      ///< Cholesky factorization
     QR = 2,        ///< QR factorization
-    ITERATIVE = 3, ///< Iterative solver
     COUNT,         ///< Used for counting number of methods.
   };
 
@@ -113,7 +112,6 @@ void readParaDEVP(const char *parafile,
 /// @param[in/out]  mu0         initial guess of eigenvalue.
 /// @param[in/out]  eigtol      tolerance for eigensolver.
 /// @param[in/out]  eigmaxite   max iteration number for eigensolver.
-/// @param[in/out]  solflag     linear solver flag.
 /// @param[in/out]  solver      type of linear solver.
 /// @param[in/out]  atol        absolute residual.
 /// @param[in/out]  rtol        relative residual.
@@ -127,7 +125,6 @@ void readParaIEVP(const char *parafile,
     double &mu0,
     double &eigtol,
     int &eigmaxite,
-    LSOLVER &solflag,
     const char *&solver,
     std::string &atol,
     std::string &rtol,
@@ -139,7 +136,6 @@ void readParaIEVP(const char *parafile,
 ///
 /// @param[in]      parafile    the path to the setting file.
 ///
-/// @param[in/out]  solflag     linear solver flag.
 /// @param[in/out]  solver      type of linear solver.
 /// @param[in/out]  atol        absolute residual.
 /// @param[in/out]  rtol        relative residual.
@@ -150,7 +146,6 @@ void readParaIEVP(const char *parafile,
 ///
 void readParaILS(const char *parafile,
     double &shift_sigma,
-    LSOLVER &solflag,
     const char *&solver,
     std::string &atol,
     std::string &rtol,
