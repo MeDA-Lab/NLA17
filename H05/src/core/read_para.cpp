@@ -74,6 +74,7 @@ void readParaDEVP(const char *parafile,
     				pfile >> str;
     				cout << "str: " << str << endl;
     				solver = str.c_str();
+    				cout << "solver: " << solver << endl;
     				if ( solver == "LU" )
     				{
     					solflag = LSOLVER::LU;
