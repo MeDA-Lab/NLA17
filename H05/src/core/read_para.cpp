@@ -75,13 +75,13 @@ void readParaDEVP(const char *parafile,
     				cout << "str: " << str << endl;
     				solver = str.c_str();
     				cout << "solver: " << solver << endl;
-    				if ( solver == "LU" )
+    				if ( solver == "LU\0" )
     				{
     					solflag = LSOLVER::LU;
-    				}else if ( solver == "CHOL" )
+    				}else if ( solver == "CHOL\0" )
     				{
     					solflag = LSOLVER::CHOL;
-    				}else if ( solver == "QR" )
+    				}else if ( solver == "QR\0" )
     				{
     					solflag = LSOLVER::QR;
     				}else{
