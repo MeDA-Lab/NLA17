@@ -129,7 +129,10 @@ void readParaDEVP(const char *parafile,
 			}else if ( str1 == "eigmaxite")
 			{
 				pfile >> eigmaxite;
-			}else{
+			}else if ( str1 == "sigma")
+			{
+				pfile >> shift_sigma;
+			} else{
 				cout << "Unknown parameter!" << endl;
 				abort();
 			}
