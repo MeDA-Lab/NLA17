@@ -35,10 +35,10 @@ void readParaDEVP(const char *parafile,
 
     while( !pfile.eof() && pfile.peek()!=EOF ){
     	pfile >> str1;
-    	if ( str1[0] == '#' )
+    	if ( str1 == "#" )
     	{
     		pfile.ignore(4096, '\n');
-    	}else if ( str1[0] == '%' )
+    	}else if ( str1 == "%" )
     	{
     		pfile >> str2;
     		if ( str2 == "EVP" )
