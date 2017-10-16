@@ -260,7 +260,7 @@ void readParaIEVP(const char *parafile,
 			}else if ( str1 == "sigma")
 			{
 				pfile >> shift_sigma;
-			}else if ( str3 == "atol" )
+			}else if ( str1 == "atol" )
 			{
 				pfile >> str;
 				if ( str == "default" )
@@ -269,7 +269,7 @@ void readParaIEVP(const char *parafile,
 				}else{
 					atol = str;
 				}
-			}else if ( str3 == "rtol" )
+			}else if ( str1 == "rtol" )
 			{
 				pfile >> str;
 				if ( str == "default" )
@@ -278,7 +278,7 @@ void readParaIEVP(const char *parafile,
 				}else{
 					rtol = str;
 				}
-			}else if ( str3 == "maxiter" )
+			}else if ( str1 == "maxiter" )
 			{
 				pfile >> str;
 				if ( str == "default" )
@@ -287,10 +287,10 @@ void readParaIEVP(const char *parafile,
 				}else{
 					maxiter = str;
 				}
-			}else if ( str3 == "precond" )
+			}else if ( str1 == "precond" )
 			{
 				pfile >> precond;
-			}else if ( str3 == "restart" )
+			}else if ( str1 == "restart" )
 			{
 				pfile >> str;
 				if ( str == "default" )
@@ -590,7 +590,7 @@ void readParaILS(const char *parafile,
     		if ( str1 == "sigma")
 			{
 				pfile >> shift_sigma;
-			}else if ( str3 == "atol" )
+			}else if ( str1 == "atol" )
 			{
 				pfile >> str;
 				if ( str == "default" )
@@ -599,7 +599,7 @@ void readParaILS(const char *parafile,
 				}else{
 					atol = str;
 				}
-			}else if ( str3 == "rtol" )
+			}else if ( str1 == "rtol" )
 			{
 				pfile >> str;
 				if ( str == "default" )
@@ -608,7 +608,7 @@ void readParaILS(const char *parafile,
 				}else{
 					rtol = str;
 				}
-			}else if ( str3 == "maxiter" )
+			}else if ( str1 == "maxiter" )
 			{
 				pfile >> str;
 				if ( str == "default" )
@@ -617,10 +617,10 @@ void readParaILS(const char *parafile,
 				}else{
 					maxiter = str;
 				}
-			}else if ( str3 == "precond" )
+			}else if ( str1 == "precond" )
 			{
 				pfile >> precond;
-			}else if ( str3 == "restart" )
+			}else if ( str1 == "restart" )
 			{
 				pfile >> str;
 				if ( str == "default" )
