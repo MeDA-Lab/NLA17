@@ -23,11 +23,70 @@
 ///
 /// @param[in]  b        RHS of the linear system; pointer.
 ///
-/// @param[out] x        estimated eigenvector w.r.t. mu; pointer.
+/// @param[out] x        estimated solution; pointer.
 ///
 /// @note  All inputs should be stored on host.
 ///
 void lu_host(
+    int m,
+    int nnz,
+    const double *A_val,
+    const int *A_row,
+    const int *A_col,
+    const double *b,
+    double *x
+);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  LU linear system solver wrapper on host.
+///
+/// @param[in]  m       size of the matrix.
+///
+/// @param[in]  nnz     number of nonzero elements in the matrix.
+///
+/// @param[in/out]  A_row     CSR row pointer; pointer.
+///
+/// @param[in/out]  A_col     CSR column index; pointer.
+///
+/// @param[in/out]  A_val  nonzero values of the matrix; pointer.
+///
+/// @param[in]  b        RHS of the linear system; pointer.
+///
+/// @param[out] x        estimated solution; pointer.
+///
+/// @param[out] tol      tolerance.
+///
+/// @note  All inputs should be stored on host.
+///
+void lu_hostcust(
+    int m,
+    int nnz,
+    const double *A_val,
+    const int *A_row,
+    const int *A_col,
+    const double *b,
+    double *x,
+    double tol
+);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  Cholesky linear system solver wrapper on host.
+///
+/// @param[in]  m       size of the matrix.
+///
+/// @param[in]  nnz     number of nonzero elements in the matrix.
+///
+/// @param[in/out]  A_row     CSR row pointer; pointer.
+///
+/// @param[in/out]  A_col     CSR column index; pointer.
+///
+/// @param[in/out]  A_val  nonzero values of the matrix; pointer.
+///
+/// @param[in]  b        RHS of the linear system; pointer.
+///
+/// @param[out] x        estimated solution; pointer.
+///
+/// @note  All inputs should be stored on host.
+///
+void chol_host(
     int m,
     int nnz,
     const double *A_val,
@@ -51,11 +110,42 @@ void lu_host(
 ///
 /// @param[in]  b        RHS of the linear system; pointer.
 ///
-/// @param[out] x        estimated eigenvector w.r.t. mu; pointer.
+/// @param[out] x        estimated solution; pointer.
+///
+/// @param[out] tol      tolerance.
 ///
 /// @note  All inputs should be stored on host.
 ///
-void chol_host(
+void chol_hostcust(
+    int m,
+    int nnz,
+    const double *A_val,
+    const int *A_row,
+    const int *A_col,
+    const double *b,
+    double *x,
+    double tol
+);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  Cholesky linear system solver wrapper on device.
+///
+/// @param[in]  m       size of the matrix.
+///
+/// @param[in]  nnz     number of nonzero elements in the matrix.
+///
+/// @param[in/out]  A_row     CSR row pointer; pointer.
+///
+/// @param[in/out]  A_col     CSR column index; pointer.
+///
+/// @param[in/out]  A_val  nonzero values of the matrix; pointer.
+///
+/// @param[in]  b        RHS of the linear system; pointer.
+///
+/// @param[out] x        estimated solution; pointer.
+///
+/// @note  All inputs should be stored on host.
+///
+void chol_dev(
     int m,
     int nnz,
     const double *A_val,
@@ -79,11 +169,42 @@ void chol_host(
 ///
 /// @param[in]  b        RHS of the linear system; pointer.
 ///
-/// @param[out] x        estimated eigenvector w.r.t. mu; pointer.
+/// @param[out] x        estimated solution; pointer.
+///
+/// @param[out] tol      tolerance.
 ///
 /// @note  All inputs should be stored on host.
 ///
-void chol_dev(
+void chol_devcust(
+    int m,
+    int nnz,
+    const double *A_val,
+    const int *A_row,
+    const int *A_col,
+    const double *b,
+    double *x
+    double tol
+);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  QR linear system solver wrapper on host.
+///
+/// @param[in]  m       size of the matrix.
+///
+/// @param[in]  nnz     number of nonzero elements in the matrix.
+///
+/// @param[in/out]  A_row     CSR row pointer; pointer.
+///
+/// @param[in/out]  A_col     CSR column index; pointer.
+///
+/// @param[in/out]  A_val  nonzero values of the matrix; pointer.
+///
+/// @param[in]  b        RHS of the linear system; pointer.
+///
+/// @param[out] x        estimated solution; pointer.
+///
+/// @note  All inputs should be stored on host.
+///
+void qr_host(
     int m,
     int nnz,
     const double *A_val,
@@ -107,18 +228,21 @@ void chol_dev(
 ///
 /// @param[in]  b        RHS of the linear system; pointer.
 ///
-/// @param[out] x        estimated eigenvector w.r.t. mu; pointer.
+/// @param[out] x        estimated solution; pointer.
+///
+/// @param[out] tol      tolerance.
 ///
 /// @note  All inputs should be stored on host.
 ///
-void qr_host(
+void qr_hostcust(
     int m,
     int nnz,
     const double *A_val,
     const int *A_row,
     const int *A_col,
     const double *b,
-    double *x
+    double *x,
+    double tol
 );
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  QR linear system solver wrapper on device.
@@ -147,5 +271,36 @@ void qr_dev(
     const int *A_col,
     const double *b,
     double *x
+);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  QR linear system solver wrapper on device.
+///
+/// @param[in]  m       size of the matrix.
+///
+/// @param[in]  nnz     number of nonzero elements in the matrix.
+///
+/// @param[in/out]  A_row     CSR row pointer; pointer.
+///
+/// @param[in/out]  A_col     CSR column index; pointer.
+///
+/// @param[in/out]  A_val  nonzero values of the matrix; pointer.
+///
+/// @param[in]  b        RHS of the linear system; pointer.
+///
+/// @param[out] x        estimated eigenvector w.r.t. mu; pointer.
+///
+/// @param[out] tol      tolerance.
+///
+/// @note  All inputs should be stored on host.
+///
+void qr_devcust(
+    int m,
+    int nnz,
+    const double *A_val,
+    const int *A_row,
+    const int *A_col,
+    const double *b,
+    double *x,
+    double tol
 );
 #endif  // SCSC_SGP_HPP

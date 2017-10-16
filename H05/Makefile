@@ -56,7 +56,8 @@ magma_obj = map_boundary.o verify_boundary_sparse.o write_object.o \
     solve_harmonic_sparse_magma.o
 
 sgp_obj = read_graph.o graph_adjacency.o graph_laplacian.o \
-	solve_shiftevp_cuda.o set_graph_type.o generate_RHS.o
+	solve_shiftevp_cuda.o set_graph_type.o generate_RHS.o \
+	sgp_read_args.o read_para.o solve_sgp_sparse_magma.o
 
 sgp_magma_obj = read_graph.o graph_adjacency.o graph_laplacian.o \
 	solve_shiftevp_cuda.o set_graph_type.o generate_RHS.o \
@@ -87,7 +88,7 @@ all: main_3Dface_evp.out sgp_main_ls_test.out
 MakeExe: main_3Dface_evp.out sgp_main_ls_test.out
 
 sgp_main.out: sgp_main.o $(sgp_obj)
-	$(LOADER) $(CCFLAGS) -o $@ $< $(sgp_obj) $(MKLLNKS) $(CUDALNKS)
+	$(LOADER) $(CCFLAGS) -o $@ $< $(sgp_obj) $(MAGMALIBS) $(MAGMALNKS) $(MKLLNKS) $(CUDALNKS)
 
 sgp_main_ls_test.out: sgp_main_ls_test.o $(sgp_magma_obj)
 	$(LOADER) $(CCFLAGS) -o $@ $< $(sgp_magma_obj) $(MAGMALIBS) $(MKLLNKS) $(CUDALNKS) $(MAGMALNKS)

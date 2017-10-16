@@ -32,6 +32,31 @@ void solvelsHost(
     }
 }
 
+void solvelsHostCust(
+    int m,
+    int nnz,
+    const double *A_val,
+    const int *A_row,
+    const int *A_col,
+    const double *b,
+    double *x,
+    int solver,
+    double tol
+) {
+    if ( solver == 0 )
+    {
+        lu_hostcust(m, nnz, A_val, A_row, A_col, b, x, tol);
+    }else if ( solver == 1 )
+    {
+        chol_hostcust(m, nnz, A_val, A_row, A_col, b, x, tol);
+    }else if ( solver == 2 )
+    {
+        qr_hostcust(m, nnz, A_val, A_row, A_col, b, x, tol);
+    }else{
+        std::cout << "Unknown option!" << std::endl;
+    }
+}
+
 void solvels(
     int m,
     int nnz,
@@ -48,13 +73,42 @@ void solvels(
         /*
         lu_dev(m, nnz, A_val, A_row, A_col, b, x);
         */
-        std::cout << "Option currently not yet supported!" << std::endl;
+        std::cout << "Option currently not supported!" << std::endl;
     }else if ( solver == 1 )
     {
         chol_dev(m, nnz, A_val, A_row, A_col, b, x);
     }else if ( solver == 2 )
     {
         qr_dev(m, nnz, A_val, A_row, A_col, b, x);
+    }else{
+        std::cout << "Unknown option!" << std::endl;
+    }
+}
+
+void solvelsCust(
+    int m,
+    int nnz,
+    const double *A_val,
+    const int *A_row,
+    const int *A_col,
+    const double *b,
+    double *x,
+    int solver,
+    double tol
+) {
+    if ( solver == 0 )
+    {
+        // CUDA lu solver currently host only!
+        /*
+        lu_dev(m, nnz, A_val, A_row, A_col, b, x);
+        */
+        std::cout << "Option currently not supported!" << std::endl;
+    }else if ( solver == 1 )
+    {
+        chol_devcust(m, nnz, A_val, A_row, A_col, b, x, tol);
+    }else if ( solver == 2 )
+    {
+        qr_devcust(m, nnz, A_val, A_row, A_col, b, x, tol);
     }else{
         std::cout << "Unknown option!" << std::endl;
     }

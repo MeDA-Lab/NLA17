@@ -52,6 +52,23 @@ enum class LSOLVER {
     ITERATIVE = 3, ///< Iterative solver
     COUNT,         ///< Used for counting number of methods.
   };
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  Reads the arguments.
+///
+/// @param[in]   argc    The number of input arguments.
+/// @param[in]   argv    The input arguments.
+///
+/// @param[out]  input   The input file.
+/// @param[out]  para    The parameter setting file.
+/// @param[out]  method  The method (type of graph).
+/// @param[out]  evp     Eigenvalue problem indicator.
+/// @param[out]  ls      Linear system problem indicator.
+/// @param[out]  tflag   Method flag.
+/// @param[out]  pflag   Parameter setting file flag.
+///
+void readArgs( int argc, char** argv, const char *&input, const char *&para, Method &method, EVP &evp, LS &ls, int &tflag,
+  int &pflag);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the graph file.
 ///
@@ -136,15 +153,83 @@ void GraphLaplacian(int *nnz, int *cooRowPtrA,
 ///
 /// @param[in/out]  A_val  nonzero values of the matrix; pointer.
 ///
-/// @param[in]  m        size of the matrix;
+/// @param[in]  m        size of the matrix.
 ///
-/// @param[out] mu       estimated eigenvalue;
+/// @param[out] mu       estimated eigenvalue.
 ///
 /// @param[out] x        estimated eigenvector w.r.t. mu; pointer.
 ///
 /// @note  All inputs should be stored on host.
 ///
 void solveShiftEVPHost(
+    int m,
+    int nnz,
+    const double *A_val,
+    const int *A_row,
+    const int *A_col,
+    const double mu0,
+    double *mu,
+    double *x
+);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  Solve eigenvalue near mu0 on host.
+///
+/// @param[in]  mu0     initial guess of eigenvalue.
+///
+/// @param[in]  nnz     number of nonzero elements in the matrix.
+///
+/// @param[in/out]  A_row     CSR row pointer; pointer.
+///
+/// @param[in/out]  A_col     CSR column index; pointer.
+///
+/// @param[in/out]  A_val  nonzero values of the matrix; pointer.
+///
+/// @param[in]  m        size of the matrix.
+///
+/// @param[in]  tol      tolerance.
+///
+/// @param[in]  maxite   upper limit for the iteration count.
+///
+/// @param[out] mu       estimated eigenvalue.
+///
+/// @param[out] x        estimated eigenvector w.r.t. mu; pointer.
+///
+/// @note  All inputs should be stored on host.
+///
+void solveShiftEVPHostCust(
+    int m,
+    int nnz,
+    const double *A_val,
+    const int *A_row,
+    const int *A_col,
+    const double mu0,
+    double *mu,
+    double *x,
+    double tol, 
+    int maxite
+);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  Solve eigenvalue near mu0 on device.
+///
+/// @param[in]  mu0     initial guess of eigenvalue.
+///
+/// @param[in]  nnz     number of nonzero elements in the matrix.
+///
+/// @param[in/out]  A_row     CSR row pointer; pointer.
+///
+/// @param[in/out]  A_col     CSR column index; pointer.
+///
+/// @param[in/out]  A_val  nonzero values of the matrix; pointer.
+///
+/// @param[in]  m        size of the matrix.
+///
+/// @param[out] mu       estimated eigenvalue.
+///
+/// @param[out] x        estimated eigenvector w.r.t. mu; pointer.
+///
+/// @note  All inputs should be stored on host.
+///
+void solveShiftEVP(
     int m,
     int nnz,
     const double *A_val,
@@ -167,15 +252,19 @@ void solveShiftEVPHost(
 ///
 /// @param[in/out]  A_val  nonzero values of the matrix; pointer.
 ///
-/// @param[in]  m        size of the matrix;
+/// @param[in]  m        size of the matrix.
 ///
-/// @param[out] mu       estimated eigenvalue;
+/// @param[in]  tol      tolerance.
+///
+/// @param[in]  maxite   upper limit for the iteration count.
+///
+/// @param[out] mu       estimated eigenvalue.
 ///
 /// @param[out] x        estimated eigenvector w.r.t. mu; pointer.
 ///
 /// @note  All inputs should be stored on host.
 ///
-void solveShiftEVP(
+void solveShiftEVPCust(
     int m,
     int nnz,
     const double *A_val,
@@ -183,7 +272,9 @@ void solveShiftEVP(
     const int *A_col,
     const double mu0,
     double *mu,
-    double *x
+    double *x,
+    double tol, 
+    int maxite
 );
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Solve linear system Ax = b with requested solver on host.
@@ -217,7 +308,41 @@ void solvelsHost(
     int solver
 );
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Solve linear system Ax = b with requested solver on device.
+/// @brief  Solve linear system Ax = b with requested direct solver on host.
+///
+/// @param[in]  solver    type of solver; Possible options are; 0:LU; 1:Cholesky; 2:QR
+///
+/// @param[in]  nnz     number of nonzero elements in the matrix.
+///
+/// @param[in/out]  A_row     CSR row pointer; pointer.
+///
+/// @param[in/out]  A_col     CSR column index; pointer.
+///
+/// @param[in/out]  A_val  nonzero values of the matrix; pointer.
+///
+/// @param[in]  m        size of the matrix.
+///
+/// @param[in]  b        RHS of the linear system; pointer.
+///
+/// @param[out] x        estimated solution; pointer.
+///
+/// @param[out] tol      tolerance.
+///
+/// @note  All inputs should be stored on host.
+///
+void solvelsHostCust(
+    int m,
+    int nnz,
+    const double *A_val,
+    const int *A_row,
+    const int *A_col,
+    const double *b,
+    double *x,
+    int solver,
+    double tol
+);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  Solve linear system Ax = b with requested direct solver on device.
 ///
 /// @param[in]  solver    type of solver; Possible options are; 1:Cholesky; 2:QR
 ///
@@ -233,7 +358,7 @@ void solvelsHost(
 ///
 /// @param[in]  b        RHS of the linear system; pointer.
 ///
-/// @param[out] x        estimated eigenvector w.r.t. mu; pointer.
+/// @param[out] x        estimated solution; pointer.
 ///
 /// @note  All inputs should be stored on host.
 ///
@@ -246,6 +371,40 @@ void solvels(
     const double *b,
     double *x,
     int solver
+);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  Solve linear system Ax = b with requested direct solver on device.
+///
+/// @param[in]  solver    type of solver; Possible options are; 1:Cholesky; 2:QR
+///
+/// @param[in]  nnz     number of nonzero elements in the matrix.
+///
+/// @param[in/out]  A_row     CSR row pointer; pointer.
+///
+/// @param[in/out]  A_col     CSR column index; pointer.
+///
+/// @param[in/out]  A_val  nonzero values of the matrix; pointer.
+///
+/// @param[in]  m        size of the matrix.
+///
+/// @param[in]  b        RHS of the linear system; pointer.
+///
+/// @param[out] x        estimated solution; pointer.
+///
+/// @param[out] tol      tolerance.
+///
+/// @note  All inputs should be stored on host.
+///
+void solvelsCust(
+    int m,
+    int nnz,
+    const double *A_val,
+    const int *A_row,
+    const int *A_col,
+    const double *b,
+    double *x,
+    int solver,
+    double tol
 );
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Generate RHS b of the linear system Ax = b.
@@ -292,7 +451,7 @@ double residual(int n, int nnz, double *A_val, int *A_row, int *A_col, double *b
 ///
 /// @param[in]  solver  indicates type of solver.
 ///
-int cudasolverinfo(char flag, int solver);
+int cudasolverinfo(int flag, int solver);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  MAGMA iterative linear system solver wrapper.
 ///
@@ -318,5 +477,49 @@ void solveGraph(
     const int *A_col,
     const double *b,
     double *x
+);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  MAGMA iterative linear system solver wrapper.
+///
+/// @param[in]  m       size of the Laplacian matrix.
+///
+/// @param[in]  nnz     number of nonzeros of the Laplacian matrix.
+///
+/// @param[in]  A_val   value of the Laplacian matrix.
+///
+/// @param[in]  A_row   row pointer of the Laplacian matrix.
+///
+/// @param[in]  A_col   column index of the Laplacian matrix.
+///
+/// @param[in]  b       the RHS of AX = b.
+///
+/// @param[in]  solver  type of iterative solver.
+///
+/// @param[in]  atol    absolute residual.
+///
+/// @param[in]  rtol    relative residual.
+///
+/// @param[in]  maxiter upper limit for the iteration count.
+///
+/// @param[in]  precond type of preconditioner.
+///
+/// @param[in]  restart Only take effects for GMRES and IDR.
+///
+/// @param[out] x       the estimated solution.
+///
+void solveGraphCust(
+    int m,
+    int nnz,
+    const double *A_val,
+    const int *A_row,
+    const int *A_col,
+    const double *b,
+    double *x,
+    const char *&solver, 
+    std::string atol,
+    std::string rtol, 
+    std::string maxiter,
+    std::string precond,
+    std::string restart
 );
 #endif  // SCSC_SGP_HPP

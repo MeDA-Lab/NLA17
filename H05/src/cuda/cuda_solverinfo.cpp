@@ -13,8 +13,8 @@
 
 using namespace std;
 
-int cudasolverinfo(char flag, int solver){
-	if ( flag == 'H' )
+int cudasolverinfo(int flag, int solver){
+	if ( flag == 1 )
 	{
 		if ( solver == 0 )
 		{
@@ -26,7 +26,7 @@ int cudasolverinfo(char flag, int solver){
 		{
 			cout << "Solver: CUDA QR Host" << endl;
 		}
-	}else if ( flag == 'D' )
+	}else if ( flag == 2 )
 	{
 		if ( solver == 0 )
 		{

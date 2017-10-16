@@ -92,8 +92,7 @@ int readGraph(char *input, int **E, int *E_size_r, int *E_size_c){
             pfile >> b[n];
             pfile >> c[n];
             n++;
-            pfile.ignore(4096, '\n');
-            pfile.get();
+            file.get();
         }
         // Change to zero base
         for (int i = 0; i < count; i++)
@@ -124,7 +123,6 @@ int readGraph(char *input, int **E, int *E_size_r, int *E_size_c){
             pfile >> a[n];
             pfile >> b[n];
             n++;
-            pfile.ignore(4096, '\n');
             pfile.get();
         }
         // Change to zero base

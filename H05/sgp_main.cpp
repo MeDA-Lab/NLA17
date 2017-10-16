@@ -88,9 +88,12 @@ int main( int argc, char** argv ){
     {
         mu0 = 0.6; // Modify mu0 to change the initial
                    // guess of eigenvalue
-        if ( pflag == 1 )
+        if ( pflag == 1 && ls != LS::ITERATIVE )
         {
-            readPara(parafile, shift_sigma, mu0, eigtol, eigmaxite, solflag, solver, tol, atol, rtol, maxiter, precond, restart);
+            readParaDEVP(parafile, shift_sigma, mu0, eigtol, eigmaxite, solflag, solver, tol);
+        }else if ( pflag == 1 && ls == LS::ITERATIVE )
+        {
+            readParaIEVP(parafile, shift_sigma, mu0, eigtol, eigmaxite, solflag, solver, atol, rtol, maxiter, precond, restart);
         }
     }else if ( evp != EVP::NONE && ls == LS::NONE )
     {
@@ -98,13 +101,16 @@ int main( int argc, char** argv ){
                    // guess of eigenvalue
         if ( pflag == 1 )
         {
-            readPara(parafile, shift_sigma, mu0, eigtol, eigmaxite);
+            readParaEVP(parafile, shift_sigma, mu0, eigtol, eigmaxite);
         }
     }else if ( evp == EVP::NONE && ls != LS::NONE )
     {
-        if ( pflag == 1 )
+        if ( pflag == 1 && ls != LS::ITERATIVE )
         {
-            readPara(parafile, shift_sigma, solflag, solver, tol, atol, rtol, maxiter, precond, restart);
+            readParaDLS(parafile, shift_sigma, solflag, solver, tol);
+        }else if ( pflag == 1 && ls == LS::ITERATIVE )
+        {
+            readParaILS(parafile, shift_sigma, solflag, solver, atol, rtol, maxiter, precond, restart);
         }
     }
     cout << " Done.  " << endl;
@@ -139,24 +145,28 @@ int main( int argc, char** argv ){
 
         // Solve LS
         double *x, timer;
+        int solverid;
         x = new double[n];
 
-        cudasolverinfo(flag, solver);
+        if ( ls != LS::ITERATIVE )
+        {
+            solverid = static_cast<int>(solflag);
+            cudasoverinfo(static_cast<int>(ls), solver);
+        }
         cout << "Solving Linear System......................." << flush;
 
         switch (ls){
             case LS::HOST:
-                solver = static_cast<int>(solflag);
                 if ( pflag == 0 )
                 {
                     tic(&timer);
-                    solvelsHost(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x, solver);
+                    solvelsHost(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x, solverid);
                     cout << " Done.  ";
                     toc(&timer);
                 }else if ( pflag == 1 )
                 {
                     tic(&timer);
-                    solvelsHostCust(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x, solver, tol);
+                    solvelsHostCust(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x, solverid, tol);
                     cout << " Done.  ";
                     toc(&timer);
                 }
@@ -166,16 +176,15 @@ int main( int argc, char** argv ){
                 cout << "||Ax - b|| =  "  << res << endl;
                 break;
             case LS::DEVICE:
-                solver = static_cast<int>(solflag);
                 if ( pflag == 0 )
                 {
                     tic(&timer);
-                    solvels(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x, solver); cout << " Done.  ";
+                    solvels(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x, solverid); cout << " Done.  ";
                     toc(&timer);
                 }else if ( pflag == 1 )
                 {
                     tic(&timer);
-                    solvelsCust(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x, solver, tol);
+                    solvelsCust(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x, solverid, tol);
                     cout << " Done.  ";
                     toc(&timer);
                 }
@@ -190,10 +199,56 @@ int main( int argc, char** argv ){
                     solveGraph(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x);
                 }else if ( pflag == 1 )
                 {
-                    solveGraphCust(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x, solver, tol, atol, rtol, maxiter, precond, restart);
+                    solveGraphCust(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x, solver, atol, rtol, maxiter, precond, restart);
                 }
                 break;
         }
+    }
+
+    if ( evp != EVP::NONE )
+    {
+        // Solve EVP
+        double mu;
+        double *x, timer;
+        x = new double[n];
+
+        cout << "Solving Eigenvalue Problem.................." << flush;
+
+        switch (evp){
+            case EVP::HOST:
+                if ( pflag == 0 )
+                {
+                    tic(&timer);
+                    solveShiftEVPHost(n, nnz, csrValA, csrRowIndA, csrColIndA, mu0, &mu, x);
+                    cout << " Done.  ";
+                    toc(&timer);
+                }else if ( pflag == 1 )
+                {
+                    tic(&timer);
+                    solveShiftEVPHostCust(n, nnz, csrValA, csrRowIndA, csrColIndA, mu0, &mu, x, eigtol, eigmaxite);
+                    cout << " Done.  ";
+                    toc(&timer);
+                }
+                break;
+            case EVP::DEVICE:
+                if ( pflag == 0 )
+                {
+                    tic(&timer);
+                    solveShiftEVP(n, nnz, csrValA, csrRowIndA, csrColIndA, mu0, &mu, x);
+                    cout << " Done.  ";
+                    toc(&timer);
+                }else if ( pflag == 1 )
+                {
+                    tic(&timer);
+                    solveShiftEVPCust(n, nnz, csrValA, csrRowIndA, csrColIndA, mu0, &mu, x, eigtol, eigmaxite);
+                    cout << " Done.  ";
+                    toc(&timer);
+                }
+                break;
+        }
+
+        cout << "The estimated eigenvalue near "  << mu0 << " = ";
+        cout << fixed << setprecision(13) << mu << endl;
     }
 
     return 0;
