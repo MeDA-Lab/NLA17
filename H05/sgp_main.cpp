@@ -145,13 +145,14 @@ int main( int argc, char** argv ){
 
         // Solve LS
         double *x, timer;
+        double res;
         int solverid;
         x = new double[n];
 
         if ( ls != LS::ITERATIVE )
         {
             solverid = static_cast<int>(solflag);
-            cudasoverinfo(static_cast<int>(ls), solver);
+            cudasolverinfo(static_cast<int>(ls), solver);
         }
         cout << "Solving Linear System......................." << flush;
 
@@ -171,7 +172,6 @@ int main( int argc, char** argv ){
                     toc(&timer);
                 }
                 // Compute redsidual
-                double res;
                 res = residual(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x);
                 cout << "||Ax - b|| =  "  << res << endl;
                 break;
@@ -189,7 +189,6 @@ int main( int argc, char** argv ){
                     toc(&timer);
                 }
                 // Compute redsidual
-                double res;
                 res = residual(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x);
                 cout << "||Ax - b|| =  "  << res << endl;
                 break;
