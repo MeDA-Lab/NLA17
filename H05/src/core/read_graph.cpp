@@ -91,7 +91,7 @@ int readGraph(char *input, int **E, int *E_size_r, int *E_size_c){
             pfile >> b[n];
             pfile >> c[n];
             n++;
-            file.get();
+            pfile.get();
         }
         // Change to zero base
         for (int i = 0; i < count; i++)
