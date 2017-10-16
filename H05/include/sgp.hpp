@@ -79,7 +79,7 @@ void readArgs( int argc, char** argv, const char *&input, const char *&para, Met
 /// @param[out]   E_size_c  number of data pair in edge lists.
 /// @note  The arrays are allocated by this routine (using new).
 ///
-int readGraph(char *input, int **E, int *E_size_r, int *E_size_c);
+int readGraph(const char *input, int **E, int *E_size_r, int *E_size_c);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the parameter setting file for direct linear solver and eigensolver.
 ///
