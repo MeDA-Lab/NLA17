@@ -24,7 +24,6 @@ void readParaDEVP(const char *parafile,
 	double &eigtol,
 	int &eigmaxite,
 	LSOLVER &solflag,
-	const char *&solver,
 	double &tol){
 	fstream pfile;
 	string str, str1, str2, str3;
@@ -68,7 +67,6 @@ void readParaDEVP(const char *parafile,
     			if ( str3 == "solver" )
     			{
     				pfile >> str;
-    				solver = str.c_str();
     				if ( str == "LU" )
     				{
     					solflag = LSOLVER::LU;
@@ -140,7 +138,7 @@ void readParaIEVP(const char *parafile,
 	double &mu0,
 	double &eigtol,
 	int &eigmaxite,
-	const char *&solver,
+	std::string &solver,
 	std::string &atol,
 	std::string &rtol,
 	std::string &maxiter,
@@ -187,8 +185,7 @@ void readParaIEVP(const char *parafile,
     			pfile >> str3;
     			if ( str3 == "solver" )
     			{
-    				pfile >> str;
-    				solver = str.c_str();
+    				pfile >> solver;
     				pfile.ignore(4096, '\n');
     			}else{
     				cout << "Unknown parameter!" << endl;
@@ -401,7 +398,6 @@ void readParaEVP(const char *parafile,
 void readParaDLS(const char *parafile,
 	double &shift_sigma,
 	LSOLVER &solflag,
-	const char *&solver,
 	double &tol){
 	fstream pfile;
 	string str, str1, str2, str3;
@@ -433,7 +429,6 @@ void readParaDLS(const char *parafile,
     			if ( str3 == "solver" )
     			{
     				pfile >> str;
-    				solver = str.c_str();
     				if ( str == "LU" )
     				{
     					solflag = LSOLVER::LU;
@@ -493,7 +488,7 @@ void readParaDLS(const char *parafile,
 
 void readParaILS(const char *parafile,
 	double &shift_sigma,
-	const char *&solver,
+	std::string &solver,
 	std::string &atol,
 	std::string &rtol,
 	std::string &maxiter,
@@ -528,8 +523,7 @@ void readParaILS(const char *parafile,
     			pfile >> str3;
     			if ( str3 == "solver" )
     			{
-    				pfile >> str;
-    				solver = str.c_str();
+    				pfile >> solver;
     				cout << "solver in para: " << solver << endl;
     				pfile.ignore(4096, '\n');
     			}else{

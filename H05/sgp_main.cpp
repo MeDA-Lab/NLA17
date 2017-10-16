@@ -90,7 +90,7 @@ int main( int argc, char** argv ){
                    // guess of eigenvalue
         if ( pflag == 1 && ls != LS::ITERATIVE )
         {
-            readParaDEVP(parafile, shift_sigma, mu0, eigtol, eigmaxite, solflag, solver, tol);
+            readParaDEVP(parafile, shift_sigma, mu0, eigtol, eigmaxite, solflag, tol);
         }else if ( pflag == 1 && ls == LS::ITERATIVE )
         {
             readParaIEVP(parafile, shift_sigma, mu0, eigtol, eigmaxite, solver, atol, rtol, maxiter, precond, restart);
@@ -107,7 +107,7 @@ int main( int argc, char** argv ){
     {
         if ( pflag == 1 && ls != LS::ITERATIVE )
         {
-            readParaDLS(parafile, shift_sigma, solflag, solver, tol);
+            readParaDLS(parafile, shift_sigma, solflag, tol);
         }else if ( pflag == 1 && ls == LS::ITERATIVE )
         {
             readParaILS(parafile, shift_sigma, solver, atol, rtol, maxiter, precond, restart);

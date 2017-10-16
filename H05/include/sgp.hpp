@@ -90,7 +90,6 @@ int readGraph(const char *input, int **E, int *E_size_r, int *E_size_c);
 /// @param[in/out]  eigtol      tolerance for eigensolver.
 /// @param[in/out]  eigmaxite   max iteration number for eigensolver.
 /// @param[in/out]  solflag     linear solver flag.
-/// @param[in/out]  solver      type of linear solver.
 /// @param[in/out]  tol         tolerance for direct linear solver.
 /// @note  The arrays are allocated by this routine (using new).
 ///
@@ -100,7 +99,6 @@ void readParaDEVP(const char *parafile,
     double &eigtol,
     int &eigmaxite,
     LSOLVER &solflag,
-    const char *&solver,
     double &tol);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the parameter setting file for iterative linear solver and eigensolver.
@@ -125,7 +123,7 @@ void readParaIEVP(const char *parafile,
     double &mu0,
     double &eigtol,
     int &eigmaxite,
-    const char *&solver,
+    std::string &solver,
     std::string &atol,
     std::string &rtol,
     std::string &maxiter,
@@ -146,7 +144,7 @@ void readParaIEVP(const char *parafile,
 ///
 void readParaILS(const char *parafile,
     double &shift_sigma,
-    const char *&solver,
+    std::string &solver,
     std::string &atol,
     std::string &rtol,
     std::string &maxiter,
@@ -160,14 +158,12 @@ void readParaILS(const char *parafile,
 /// @param[in/out]  shift_sigma shift for Laplacian matrix.
 ///
 /// @param[in/out]  solflag     linear solver flag.
-/// @param[in/out]  solver      type of linear solver.
 /// @param[in/out]  tol         tolerance for direct linear solver.
 /// @note  The arrays are allocated by this routine (using new).
 ///
 void readParaDLS(const char *parafile,
     double &shift_sigma,
     LSOLVER &solflag,
-    const char *&solver,
     double &tol);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the parameter setting file for eigensolver.
