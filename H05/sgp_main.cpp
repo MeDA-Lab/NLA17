@@ -114,7 +114,7 @@ int main( int argc, char** argv ){
         }
     }
     cout << " Done.  " << endl;
-    cout << "solver in main = " << *solver << endl;
+    cout << "solver in main = " << solver << endl;
 
     // Construct Laplacian
     int *csrRowIndA, *csrColIndA;
