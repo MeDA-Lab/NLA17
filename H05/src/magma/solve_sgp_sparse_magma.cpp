@@ -108,7 +108,7 @@ void solveGraphCust(
     const int *A_col,
     const double *b,
     double *x,
-    const char *solver, 
+    std::string solver, 
     std::string atol,
     std::string rtol, 
     std::string maxiter,
