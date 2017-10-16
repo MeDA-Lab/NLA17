@@ -27,8 +27,7 @@ void readParaDEVP(const char *parafile,
 	const char *&solver,
 	double &tol){
 	fstream pfile;
-	string str1, str2, str3;
-	const string str = "default";
+	string str, str1, str2, str3;
 	int count = 0, n = 0;
 
 	pfile.open(parafile, ios::in);
@@ -69,7 +68,7 @@ void readParaDEVP(const char *parafile,
     			if ( str3 == "solver" )
     			{
     				pfile >> str;
-    				strcpy(solver, str.c_str());
+    				solver = str.c_str();
     				if ( solver == "LU" )
     				{
     					solflag = LSOLVER::LU;
