@@ -35,16 +35,19 @@ void readParaDEVP(const char *parafile,
 
     while( !pfile.eof() && pfile.peek()!=EOF ){
     	pfile >> str1;
+    	cout << "str1: " << str1 << endl;
     	if ( str1 == "#" )
     	{
     		pfile.ignore(4096, '\n');
     	}else if ( str1 == "%" )
     	{
     		pfile >> str2;
+    		cout << "str2: " << str2 << endl;
     		if ( str2 == "EVP" )
     		{
     			pfile.ignore(4096, '\n');
     			pfile >> str3;
+    			cout << "str3: " << str3 << endl;
     			if ( str3 == "mu0" )
     			{
     				pfile >> mu0;
@@ -65,9 +68,11 @@ void readParaDEVP(const char *parafile,
     		{
     			pfile.ignore(4096, '\n');
     			pfile >> str3;
+    			cout << "str3: " << str3 << endl;
     			if ( str3 == "solver" )
     			{
     				pfile >> str;
+    				cout << "str: " << str << endl;
     				solver = str.c_str();
     				if ( solver == "LU" )
     				{
@@ -91,6 +96,7 @@ void readParaDEVP(const char *parafile,
     		{
     			pfile.ignore(4096, '\n');
     			pfile >> str3;
+    			cout << "str3: " << str3 << endl;
     			if ( str3 == "tol" )
     			{
     				pfile >> str;
