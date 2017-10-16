@@ -114,6 +114,7 @@ int main( int argc, char** argv ){
         }
     }
     cout << " Done.  " << endl;
+    cout << "tol = " << tol << endl;
 
     // Construct Laplacian
     int *csrRowIndA, *csrColIndA;
