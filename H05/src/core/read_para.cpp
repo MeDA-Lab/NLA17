@@ -9,6 +9,7 @@
 #include <cstdio>
 #include <cmath>
 #include <cassert>
+#include <cstring>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -66,7 +67,8 @@ void readParaDEVP(const char *parafile,
     			pfile >> str3;
     			if ( str3 == "solver" )
     			{
-    				pfile >> *solver;
+    				pfile >> str;
+    				strcpy(solver, str.c_str());
     				if ( solver == "LU" )
     				{
     					solflag = LSOLVER::LU;
