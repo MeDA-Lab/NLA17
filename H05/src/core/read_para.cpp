@@ -129,3 +129,38 @@ void readParaDEVP(const char *parafile,
     }
     pfile.close();
 }
+
+void readParaIEVP(const char *parafile,
+	double &shift_sigma,
+	double &mu0,
+	double &eigtol,
+	int &eigmaxite,
+	LSOLVER &solflag,
+	const char *&solver,
+	std::string &atol,
+	std::string &rtol,
+	std::string &maxiter,
+	std::string &precond,
+	std::string &restart){}
+
+void readParaEVP(const char *parafile,
+	double &shift_sigma,
+	double &mu0,
+	double &eigtol,
+	int &eigmaxite){}
+
+void readParaDLS(const char *parafile,
+	double &shift_sigma,
+	LSOLVER &solflag,
+	const char *&solver,
+	double &tol){}
+
+void readParaILS(const char *parafile,
+	double &shift_sigma,
+	LSOLVER &solflag,
+	const char *&solver,
+	std::string &atol,
+	std::string &rtol,
+	std::string &maxiter,
+	std::string &precond,
+	std::string &restart){}

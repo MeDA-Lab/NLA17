@@ -81,13 +81,124 @@ void readArgs( int argc, char** argv, const char *&input, const char *&para, Met
 ///
 int readGraph(char *input, int **E, int *E_size_r, int *E_size_c);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  Reads the parameter setting file for direct linear solver and eigensolver.
+///
+/// @param[in]      parafile    the path to the setting file.
+///
+/// @param[in/out]  shift_sigma shift for Laplacian matrix.
+///
+/// @param[in/out]  mu0         initial guess of eigenvalue.
+/// @param[in/out]  eigtol      tolerance for eigensolver.
+/// @param[in/out]  eigmaxite   max iteration number for eigensolver.
+/// @param[in/out]  solflag     linear solver flag.
+/// @param[in/out]  solver      type of linear solver.
+/// @param[in/out]  tol         tolerance for direct linear solver.
+/// @note  The arrays are allocated by this routine (using new).
+///
+void readParaDEVP(const char *parafile,
+    double &shift_sigma,
+    double &mu0,
+    double &eigtol,
+    int &eigmaxite,
+    LSOLVER &solflag,
+    const char *&solver,
+    double &tol);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  Reads the parameter setting file for iterative linear solver and eigensolver.
+///
+/// @param[in]      parafile    the path to the setting file.
+///
+/// @param[in/out]  shift_sigma shift for Laplacian matrix.
+///
+/// @param[in/out]  mu0         initial guess of eigenvalue.
+/// @param[in/out]  eigtol      tolerance for eigensolver.
+/// @param[in/out]  eigmaxite   max iteration number for eigensolver.
+/// @param[in/out]  solflag     linear solver flag.
+/// @param[in/out]  solver      type of linear solver.
+/// @param[in/out]  atol        absolute residual.
+/// @param[in/out]  rtol        relative residual.
+/// @param[in/out]  maxiter     max iteration number for iterative linear solver.
+/// @param[in/out]  precond     type of preconditioner.
+/// @param[in/out]  restart     Only take effects for GMRES and IDR.
+/// @note  The arrays are allocated by this routine (using new).
+///
+void readParaIEVP(const char *parafile,
+    double &shift_sigma,
+    double &mu0,
+    double &eigtol,
+    int &eigmaxite,
+    LSOLVER &solflag,
+    const char *&solver,
+    std::string &atol,
+    std::string &rtol,
+    std::string &maxiter,
+    std::string &precond,
+    std::string &restart);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  Reads the parameter setting file for iterative linear solver.
+///
+/// @param[in]      parafile    the path to the setting file.
+///
+/// @param[in/out]  solflag     linear solver flag.
+/// @param[in/out]  solver      type of linear solver.
+/// @param[in/out]  atol        absolute residual.
+/// @param[in/out]  rtol        relative residual.
+/// @param[in/out]  maxiter     max iteration number for iterative linear solver.
+/// @param[in/out]  precond     type of preconditioner.
+/// @param[in/out]  restart     Only take effects for GMRES and IDR.
+/// @note  The arrays are allocated by this routine (using new).
+///
+void readParaILS(const char *parafile,
+    double &shift_sigma,
+    LSOLVER &solflag,
+    const char *&solver,
+    std::string &atol,
+    std::string &rtol,
+    std::string &maxiter,
+    std::string &precond,
+    std::string &restart);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  Reads the parameter setting file for direct linear solver.
+///
+/// @param[in]      parafile    the path to the setting file.
+///
+/// @param[in/out]  shift_sigma shift for Laplacian matrix.
+///
+/// @param[in/out]  solflag     linear solver flag.
+/// @param[in/out]  solver      type of linear solver.
+/// @param[in/out]  tol         tolerance for direct linear solver.
+/// @note  The arrays are allocated by this routine (using new).
+///
+void readParaDLS(const char *parafile,
+    double &shift_sigma,
+    LSOLVER &solflag,
+    const char *&solver,
+    double &tol);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  Reads the parameter setting file for eigensolver.
+///
+/// @param[in]      parafile    the path to the setting file.
+///
+/// @param[in/out]  shift_sigma shift for Laplacian matrix.
+///
+/// @param[in/out]  mu0         initial guess of eigenvalue.
+/// @param[in/out]  eigtol      tolerance for eigensolver.
+/// @param[in/out]  eigmaxite   max iteration number for eigensolver.
+/// @note  The arrays are allocated by this routine (using new).
+///
+void readParaEVP(const char *parafile,
+    double &shift_sigma,
+    double &mu0,
+    double &eigtol,
+    int &eigmaxite);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Sets the graph type.
 ///
 /// @param[in]   E_size_c   number of data pair in edge lists.
 ///
 /// @param[out]  method     graph type.
 ///
-void setgraphtype(Method &method, int E_size_c)
+void setgraphtype(Method &method, int E_size_c);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Sets the graph type.
 ///
