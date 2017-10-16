@@ -142,7 +142,6 @@ void solveGraphCust(
   // argv : {"first item", ..., "last item"}.
   //        First item and last item are unused.
   int argc = 14;
-  cout << "precond: " << precond << endl;
   const string str[] = {"./solver", "--solver", solver, "--atol", atol, "--rtol", rtol, "--maxiter", maxiter, "--precond", precond, "restart", restart, "A.mtx"};
   char **argv = new char *[argc];
   int i, len;

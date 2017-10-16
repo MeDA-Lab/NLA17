@@ -114,7 +114,6 @@ int main( int argc, char** argv ){
         }
     }
     cout << " Done.  " << endl;
-    cout << "precond in main = " << precond << endl;
 
     // Construct Laplacian
     int *csrRowIndA, *csrColIndA;

@@ -524,7 +524,6 @@ void readParaILS(const char *parafile,
     			if ( str3 == "solver" )
     			{
     				pfile >> solver;
-    				cout << "solver in para: " << solver << endl;
     				pfile.ignore(4096, '\n');
     			}else{
     				cout << "Unknown parameter!" << endl;
