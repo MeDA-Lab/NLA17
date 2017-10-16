@@ -3,7 +3,7 @@
 ##   Create by Wei-Chien Liao                  ##
 ##   Modified by Yuhsiang Tsai				   ##
 ##   Date  : 2017/09/04                        ##
-##   Update: 2017/10/04                        ##
+##   Update: 2017/10/12                        ##
 #################################################
 
 #=======================
@@ -56,13 +56,20 @@ magma_obj = map_boundary.o verify_boundary_sparse.o write_object.o \
     solve_harmonic_sparse_magma.o
 
 sgp_obj = read_graph.o graph_adjacency.o graph_laplacian.o \
-	solve_shiftevp_cuda.o set_graph_type.o 
+	solve_shiftevp_cuda.o set_graph_type.o generate_RHS.o \
+	sgp_read_args.o read_para.o solve_sgp_sparse_magma.o \
+	cuda_solverinfo.o residual.o solve_ls_cuda.o \
+	lu_cuda.o chol_cuda.o qr_cuda.o
+
+sgp_magma_obj = read_graph.o graph_adjacency.o graph_laplacian.o \
+	solve_shiftevp_cuda.o set_graph_type.o generate_RHS.o \
+	solve_sgp_sparse_magma.o
 
 INCS = -I include
 
 .PHONY: all clean
 
-all: main_3Dface_evp.out sgp_main.out
+all: MakeExe
 
 
 %.o: %.cpp
@@ -80,10 +87,10 @@ all: main_3Dface_evp.out sgp_main.out
 %.o: src/magma/%.cpp
 	$(CC) $(CCFLAGS) -c $< $(INCS) $(MKLINCS) $(CUDAINCS) $(MAGMAINCS)
 
-MakeExe:sgp_main.out main_3Dface_evp.out
+MakeExe: main_3Dface_evp.out sgp_main.out
 
 sgp_main.out: sgp_main.o $(sgp_obj)
-	$(LOADER) $(CCFLAGS) -o $@ $< $(sgp_obj) $(MKLLNKS) $(CUDALNKS)
+	$(LOADER) $(CCFLAGS) -o $@ $< $(sgp_obj) $(MAGMALIBS) $(MAGMALNKS) $(MKLLNKS) $(CUDALNKS)
 
 main_3Dface_evp.out: main_3Dface_evp.o $(obj)
 	$(LOADER) $(CCFLAGS) -o $@ $< $(obj) $(MKLLNKS) $(CUDALNKS)

@@ -1,95 +1,80 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @file    solve_shiftevp_cuda.cpp
-/// @brief   The implementation of solving eigenvalueproblem by shift-method by CUDA
+/// @file    chol_cuda.cpp
+/// @brief   The implementation of solving linear system by Cholesky using CUDA
 ///
-/// @author  Yuhsiang Mike Tsai
 /// @author  William Liao
 ///
 
 #include <cuda_runtime.h>
 #include <cusolverSp.h>
 
-void solveShiftEVPHost(
+void chol_host(
     int m,
     int nnz,
     const double *A_val,
     const int *A_row,
     const int *A_col,
-    const double mu0,
-    double *mu,
+    const double *b,
     double *x
 ) {
     cusolverSpHandle_t sp_handle;
-    double *x0 = nullptr, tol = 1e-12;
-    int maxite = 1000;
+    double tol = 1e-12;
+    int reorder = 1, singularity;
     cusolverSpCreate(&sp_handle);
 
     cusparseMatDescr_t descrA;
     cusparseCreateMatDescr(&descrA); 
     cusparseSetMatType(descrA, CUSPARSE_MATRIX_TYPE_GENERAL);
     cusparseSetMatIndexBase(descrA, CUSPARSE_INDEX_BASE_ZERO);
-    //cusparseSetMatDiagType(descrA, CUSPARSE_DIAG_TYPE_NON_UNIT);
-    x0 = new double[m];
-    for (int i = 0; i < m; i++) {
-        x0[i] = 0;
-    }
-    x0[0] = 1.0;
-    cusolverSpDcsreigvsiHost(sp_handle, m, nnz, descrA, A_val, A_row, A_col,
-                             mu0, x0, maxite, tol, mu, x);
+    cusparseSetMatDiagType(descrA, CUSPARSE_DIAG_TYPE_NON_UNIT);
+
+    cusolverSpDcsrlsvcholHost(sp_handle, m, nnz, descrA, A_val, A_row, A_col, b, tol, reorder, x, &singularity);
+
     cusparseDestroyMatDescr(descrA);
     cusolverSpDestroy(sp_handle);
-    delete x0;
 }
 
-void solveShiftEVPHostCust(
+void chol_hostcust(
     int m,
     int nnz,
     const double *A_val,
     const int *A_row,
     const int *A_col,
-    const double mu0,
-    double *mu,
+    const double *b,
     double *x,
-    double tol, 
-    int maxite
+    double tol
 ) {
     cusolverSpHandle_t sp_handle;
-    double *x0 = nullptr;
+    int reorder = 1, singularity;
     cusolverSpCreate(&sp_handle);
 
     cusparseMatDescr_t descrA;
     cusparseCreateMatDescr(&descrA); 
     cusparseSetMatType(descrA, CUSPARSE_MATRIX_TYPE_GENERAL);
     cusparseSetMatIndexBase(descrA, CUSPARSE_INDEX_BASE_ZERO);
-    //cusparseSetMatDiagType(descrA, CUSPARSE_DIAG_TYPE_NON_UNIT);
-    x0 = new double[m];
-    for (int i = 0; i < m; i++) {
-        x0[i] = 0;
-    }
-    x0[0] = 1.0;
-    cusolverSpDcsreigvsiHost(sp_handle, m, nnz, descrA, A_val, A_row, A_col,
-                             mu0, x0, maxite, tol, mu, x);
+    cusparseSetMatDiagType(descrA, CUSPARSE_DIAG_TYPE_NON_UNIT);
+
+    cusolverSpDcsrlsvcholHost(sp_handle, m, nnz, descrA, A_val, A_row, A_col, b, tol, reorder, x, &singularity);
+
     cusparseDestroyMatDescr(descrA);
     cusolverSpDestroy(sp_handle);
-    delete x0;
 }
 
-void solveShiftEVP(
+void chol_dev(
     int m,
     int nnz,
     const double *A_val,
     const int *A_row,
     const int *A_col,
-    const double mu0,
-    double *mu,
+    const double *b,
     double *x
 ) {
     cusolverSpHandle_t sp_handle;
-    double *x0 = nullptr, tol = 1e-12;
-    double *dx0 = nullptr, *dmu = nullptr, *dx = nullptr;
+    double tol = 1e-12;
+    double *db = nullptr, *dx = nullptr;
     int *dA_row = nullptr, *dA_col = nullptr;
     double *dA_val = nullptr;
-    int maxite = 1000;
+    int reorder = 1, singularity;
     cusolverSpCreate(&sp_handle);
 
     cusparseMatDescr_t descrA;
@@ -97,58 +82,46 @@ void solveShiftEVP(
     cusparseSetMatType(descrA, CUSPARSE_MATRIX_TYPE_GENERAL);
     cusparseSetMatIndexBase(descrA, CUSPARSE_INDEX_BASE_ZERO);
     cusparseSetMatDiagType(descrA, CUSPARSE_DIAG_TYPE_NON_UNIT);
-    x0 = new double[m];
-    for (int i = 0; i < m; i++) {
-        x0[i] = 0;
-    }
-    x0[0] = 1;
 
-    cudaMalloc(&dx0, m*sizeof(double));
-    cudaMalloc(&dmu, sizeof(double));
+    cudaMalloc(&db, m*sizeof(double));
     cudaMalloc(&dx, m*sizeof(double));
     cudaMalloc(&dA_row, (m+1)*sizeof(int));
     cudaMalloc(&dA_col, nnz*sizeof(int));
     cudaMalloc(&dA_val, nnz*sizeof(double));
 
-    cudaMemcpy(dx0, x0, m*sizeof(double), cudaMemcpyHostToDevice);
+    cudaMemcpy(db, b, m*sizeof(double), cudaMemcpyHostToDevice);
     cudaMemcpy(dA_row, A_row, (m+1)*sizeof(int), cudaMemcpyHostToDevice);
     cudaMemcpy(dA_col, A_col, nnz*sizeof(int), cudaMemcpyHostToDevice);
     cudaMemcpy(dA_val, A_val, nnz*sizeof(double), cudaMemcpyHostToDevice);
 
-    cusolverSpDcsreigvsi(sp_handle, m, nnz, descrA, dA_val, dA_row, dA_col,
-                         mu0, dx0, maxite, tol, dmu, dx);
+    cusolverSpDcsrlsvchol(sp_handle, m, nnz, descrA, dA_val, dA_row, dA_col, db, tol, reorder, dx, &singularity);
 
-    cudaMemcpy(mu, dmu, sizeof(double), cudaMemcpyDeviceToHost);
     cudaMemcpy(x, dx, m*sizeof(double), cudaMemcpyDeviceToHost);
 
-    cudaFree(dx0);
-    cudaFree(dmu);
+    cudaFree(db);
     cudaFree(dx);
     cudaFree(dA_row);
     cudaFree(dA_col);
     cudaFree(dA_val);
     cusparseDestroyMatDescr(descrA);
     cusolverSpDestroy(sp_handle);
-    delete x0;
 }
 
-void solveShiftEVPCust(
+void chol_devcust(
     int m,
     int nnz,
     const double *A_val,
     const int *A_row,
     const int *A_col,
-    const double mu0,
-    double *mu,
+    const double *b,
     double *x,
-    double tol, 
-    int maxite
+    double tol
 ) {
     cusolverSpHandle_t sp_handle;
-    double *x0 = nullptr;
-    double *dx0 = nullptr, *dmu = nullptr, *dx = nullptr;
+    double *db = nullptr, *dx = nullptr;
     int *dA_row = nullptr, *dA_col = nullptr;
     double *dA_val = nullptr;
+    int reorder = 1, singularity;
     cusolverSpCreate(&sp_handle);
 
     cusparseMatDescr_t descrA;
@@ -156,37 +129,27 @@ void solveShiftEVPCust(
     cusparseSetMatType(descrA, CUSPARSE_MATRIX_TYPE_GENERAL);
     cusparseSetMatIndexBase(descrA, CUSPARSE_INDEX_BASE_ZERO);
     cusparseSetMatDiagType(descrA, CUSPARSE_DIAG_TYPE_NON_UNIT);
-    x0 = new double[m];
-    for (int i = 0; i < m; i++) {
-        x0[i] = 0;
-    }
-    x0[0] = 1;
 
-    cudaMalloc(&dx0, m*sizeof(double));
-    cudaMalloc(&dmu, sizeof(double));
+    cudaMalloc(&db, m*sizeof(double));
     cudaMalloc(&dx, m*sizeof(double));
     cudaMalloc(&dA_row, (m+1)*sizeof(int));
     cudaMalloc(&dA_col, nnz*sizeof(int));
     cudaMalloc(&dA_val, nnz*sizeof(double));
 
-    cudaMemcpy(dx0, x0, m*sizeof(double), cudaMemcpyHostToDevice);
+    cudaMemcpy(db, b, m*sizeof(double), cudaMemcpyHostToDevice);
     cudaMemcpy(dA_row, A_row, (m+1)*sizeof(int), cudaMemcpyHostToDevice);
     cudaMemcpy(dA_col, A_col, nnz*sizeof(int), cudaMemcpyHostToDevice);
     cudaMemcpy(dA_val, A_val, nnz*sizeof(double), cudaMemcpyHostToDevice);
 
-    cusolverSpDcsreigvsi(sp_handle, m, nnz, descrA, dA_val, dA_row, dA_col,
-                         mu0, dx0, maxite, tol, dmu, dx);
+    cusolverSpDcsrlsvchol(sp_handle, m, nnz, descrA, dA_val, dA_row, dA_col, db, tol, reorder, dx, &singularity);
 
-    cudaMemcpy(mu, dmu, sizeof(double), cudaMemcpyDeviceToHost);
     cudaMemcpy(x, dx, m*sizeof(double), cudaMemcpyDeviceToHost);
 
-    cudaFree(dx0);
-    cudaFree(dmu);
+    cudaFree(db);
     cudaFree(dx);
     cudaFree(dA_row);
     cudaFree(dA_col);
     cudaFree(dA_val);
     cusparseDestroyMatDescr(descrA);
     cusolverSpDestroy(sp_handle);
-    delete x0;
 }

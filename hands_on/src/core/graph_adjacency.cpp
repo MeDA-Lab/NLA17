@@ -17,7 +17,7 @@
 #include <cuda_runtime.h>
 #include "cusparse.h"
 #include "mkl.h"
-#include "sgp.hpp"
+
 using namespace std;
 
 int GraphAdjacency(int *E, int E_size,
