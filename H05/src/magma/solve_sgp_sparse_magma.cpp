@@ -81,7 +81,7 @@ void solveGraph(
     argv[i] = new char[len];
     strcpy(argv[i], str[i].c_str());
   }
-  
+
   // Init
   magma_dparse_opts(argc, argv, &dopts, &k, queue);
   magma_dsolverinfo_init(&dopts.solver_par, &dopts.precond_par, queue);
@@ -142,7 +142,7 @@ void solveGraphCust(
   // argv : {"first item", ..., "last item"}.
   //        First item and last item are unused.
   int argc = 14;
-  cout << "solver: " << solver << endl;
+  cout << "solver: " << *solver << endl;
   const string str[] = {"./solver", "--solver", solver, "--atol", atol, "--rtol", rtol, "--maxiter", maxiter, "--precond", precond, "restart", restart, "A.mtx"};
   char **argv = new char *[argc];
   int i, len;
