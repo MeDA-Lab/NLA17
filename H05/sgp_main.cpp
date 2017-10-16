@@ -152,7 +152,7 @@ int main( int argc, char** argv ){
         if ( ls != LS::ITERATIVE )
         {
             solverid = static_cast<int>(solflag);
-            cudasolverinfo(static_cast<int>(ls), solver);
+            cudasolverinfo(static_cast<int>(ls), solverid);
         }
         cout << "Solving Linear System......................." << flush;
 
