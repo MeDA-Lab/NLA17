@@ -38,9 +38,9 @@ void dispUsage( const char *bin ) {
   cout << "  -h,       --help           Display this information" << endl;
   cout << "  -f<file>, --file <file>    The graph data file" << endl;
   cout << "  -t<num>,  --type <num>     0: simple graph(default if the graph data has 2 columns)," << endl;
-  cout << setw(29) << "1: directed (multi) graph (not supported yet)" << endl;
-  cout << setw(29) << "2: directed weighted graph (not supported yet)" << endl;
-  cout << setw(29) << "3: undirected weighted graph (default if the graph data has 3 columns)" << endl;
+  cout << setw(74) << "1: directed (multi) graph (not supported yet)" << endl;
+  cout << setw(75) << "2: directed weighted graph (not supported yet)" << endl;
+  cout << setw(99) << "3: undirected weighted graph (default if the graph data has 3 columns)" << endl;
   cout << "  -p<file>, --para <file>  The parameter setting file" << endl;
   //cout << "  -o<file>, --output <file>  The output file" << endl;
   cout << "  -e<num>,  --evp <num>      0: None(default), 1: Host, 2: Device" << endl;
