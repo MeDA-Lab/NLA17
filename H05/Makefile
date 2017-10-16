@@ -87,7 +87,7 @@ all: MakeExe
 %.o: src/magma/%.cpp
 	$(CC) $(CCFLAGS) -c $< $(INCS) $(MKLINCS) $(CUDAINCS) $(MAGMAINCS)
 
-MakeExe: main_3Dface_evp.out sgp_main_ls_test.out sgp_main.out
+MakeExe: main_3Dface_evp.out sgp_main.out
 
 sgp_main.out: sgp_main.o $(sgp_obj)
 	$(LOADER) $(CCFLAGS) -o $@ $< $(sgp_obj) $(MAGMALIBS) $(MAGMALNKS) $(MKLLNKS) $(CUDALNKS)
