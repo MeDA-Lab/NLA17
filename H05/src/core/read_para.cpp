@@ -29,7 +29,7 @@ void readParaDEVP(const char *parafile,
 	string str, str1, str2, str3;
 	int count = 0, n = 0;
 
-	pfile.open(input, ios::in);
+	pfile.open(parafile, ios::in);
     assert( pfile );
 
     while( !pfile.eof() && pfile.peek()!=EOF ){
@@ -66,7 +66,7 @@ void readParaDEVP(const char *parafile,
     			pfile >> str3;
     			if ( str3 == "solver" )
     			{
-    				pfile >> solver;
+    				pfile >> *solver;
     				if ( solver == "LU" )
     				{
     					solflag = LSOLVER::LU;
