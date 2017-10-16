@@ -5,7 +5,7 @@ mu0 1.5 # Initial guess of eigenvalue
 eigtol 1e-12 # Tolerance for eigensolver
 eigmaxite 1000 # Maximum number of iterations for eigensolver
 % LS 1 option
-solver CHOL # Type of linear solver
+solver CG # Type of linear solver
 % DLS 1 option
 tol default # Tolerance for cuda direct linear solver
 % ILS 5 options
