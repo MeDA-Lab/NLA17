@@ -52,12 +52,12 @@ This is the C codes for hands-on of NLA17.
 	The following are current possible options:
 	
 	```
-	-h,       --help           Display this information
+	-h,       --help          Display this information
   -f<file>, --file <file>    The graph data file
   -t<num>,  --type <num>     0: simple graph(default if the graph data has 2 columns),
-                             1: directed (multi) graph (not supported yet)
-                             2: directed weighted graph (not supported yet)
-                             3: undirected weighted graph (default if the graph data has 3 columns)
+                              1: directed (multi) graph (not supported yet)
+                              2: directed weighted graph (not supported yet)
+                              3: undirected weighted graph (default if the graph data has 3 columns)
   -p<file>, --para <file>    The parameter setting file
   -e<num>,  --evp <num>      0: None(default), 1: Host, 2: Device
   -l<num>,  --ls <num>       0: None, 1: Direct Host, 2: Direct Device(default), 3: Iterative
