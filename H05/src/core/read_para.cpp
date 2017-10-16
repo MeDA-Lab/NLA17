@@ -27,7 +27,8 @@ void readParaDEVP(const char *parafile,
 	const char *&solver,
 	double &tol){
 	fstream pfile;
-	string str, str1, str2, str3;
+	string str1, str2, str3;
+	const string str = "default";
 	int count = 0, n = 0;
 
 	pfile.open(parafile, ios::in);
