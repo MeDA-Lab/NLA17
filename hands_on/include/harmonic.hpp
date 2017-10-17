@@ -8,6 +8,7 @@
 #ifndef SCSC_HARMONIC_HPP
 #define SCSC_HARMONIC_HPP
 
+#include <string>
 #include <cassert>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -38,7 +39,7 @@ enum class EVP {
 /// @param[out]  output  The output file.
 /// @param[out]  method  The method.
 ///
-void readArgs( int argc, char** argv, const char *&input, const char *&output, Method &method, EVP &evp);
+void readArgs( int argc, char** argv, const char *&input, const char *&output, Method &method, EVP &evp, double &mu0, std::string &solver_settings);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the object file.
@@ -200,7 +201,8 @@ void constructLaplacianSparse( const Method method, const int nv, const int nb, 
 ///
 /// @note  The output arrays should be allocated before calling this routine.
 ///
-void solveHarmonicSparse( const int nv, const int nb,
+void solveHarmonicSparse( std::string solver_settings,
+                          const int nv, const int nb,
                           const double *Lii_val, const int *Lii_row, const int *Lii_col,
                           const double *Lib_val, const int *Lib_row, const int *Lib_col,
                           double *U );

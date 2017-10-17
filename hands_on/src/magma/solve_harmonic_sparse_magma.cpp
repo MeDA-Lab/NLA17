@@ -7,6 +7,8 @@
 
 #include <harmonic.hpp>
 #include <iostream>
+#include <string>
+#include <cstring>
 #include "magma_v2.h"
 #include "magmasparse.h"
 #include "magma_lapack.h"
@@ -37,8 +39,27 @@ magma_dcsrset_gpu(
     return MAGMA_SUCCESS;
 }
 
+void string2arg(string str, int &argc, char **&argv) {
+  size_t found = -1;
+  argc = 0;
+  do {
+    found = str.find(" ", found+1);
+    argc++;
+  } while (found != string::npos);
+  argv = new char*[argc];
+  size_t s_start = -1, s_end;
+  string temp;
+  for (int i = 0; i < argc; i++) {
+    s_end = str.find(" ", s_start+1);
+    temp = str.substr(s_start+1, s_end-s_start-1);
+    argv[i] = new char[temp.length()+1];
+    strcpy(argv[i], temp.c_str());
+    s_start = s_end;
+  }
+}
 
 void solveHarmonicSparse(
+  string solver_settings,
   const int nv,
   const int nb,
   const double *Lii_val,
@@ -49,6 +70,11 @@ void solveHarmonicSparse(
   const int *Lib_col,
   double *U
 ) {
+  string magma_settings = "./solver "+solver_settings+" A.mtx";
+  std::cout << magma_settings << endl;
+  int argc = 0;
+  char **argv;
+  string2arg(magma_settings, argc, argv);
   magma_init();
   magma_queue_t queue;
   magma_queue_create(0, &queue);
@@ -82,8 +108,6 @@ void solveHarmonicSparse(
   // argc : length of argv
   // argv : {"first item", ..., "last item"}.
   //        First item and last item are unused.
-  int argc = 4;
-  char *argv[]={"./solver", "--solver", "CG", "A.mtx"};
   for (int i = 0; i < 2; i++) {
     magma_setvector(nb, sizeof(double), U+i*nv, 1, du.dval, 1, queue);
     magma_d_spmv(-1, dLib, du, 0, drhs, queue);

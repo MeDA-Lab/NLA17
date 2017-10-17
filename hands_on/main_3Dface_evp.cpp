@@ -22,12 +22,16 @@ int main( int argc, char** argv ) {
   const char *output = "output.obj";
   Method method  = Method::KIRCHHOFF;
   EVP evp = EVP::NONE;
-  int nv, nf, nb, *F = nullptr, *idx_b, *Lii_row = nullptr, *Lii_col = nullptr, *Lib_row = nullptr, *Lib_col = nullptr;
-  double timer, *V = nullptr, *C = nullptr, *Lii_val = nullptr, *Lib_val = nullptr, *U;
+  string solver_settings;
+  double mu0 = 1.5;
+  int nv, nf, nb, *F = nullptr, *idx_b = nullptr, *Lii_row = nullptr,
+    *Lii_col = nullptr, *Lib_row = nullptr, *Lib_col = nullptr;
+  double timer, *V = nullptr, *C = nullptr, *Lii_val = nullptr,
+    *Lib_val = nullptr, *U = nullptr;
 
 
   // Read arguments
-  readArgs(argc, argv, input, output, method, evp);
+  readArgs(argc, argv, input, output, method, evp, mu0, solver_settings);
 
   // Read object
   readObject(input, &nv, &nf, &V, &C, &F);
@@ -69,7 +73,8 @@ int main( int argc, char** argv ) {
   // Solve harmonic
   cout << "Solving Harmonic ......................." << flush;
   tic(&timer);
-  solveHarmonicSparse(nv, nb, Lii_val, Lii_row, Lii_col,
+  solveHarmonicSparse(solver_settings,
+    nv, nb, Lii_val, Lii_row, Lii_col,
     Lib_val, Lib_row, Lib_col, U);
     cout << " Done.  ";
   toc(&timer);
@@ -79,14 +84,9 @@ int main( int argc, char** argv ) {
 
   if (evp != EVP::NONE) {
     cout << "Solving Eigenvalue Problem ............." << flush;
-    double mu0 = 1.5, mu;  // Modify mu0 to change the initial
-                           // guess of eigenvalue
+    double mu = 0;
     double *x;
     x = new double[nv-nb];
-    char flag = 'D';      // Modify flag to choose solver on GPU
-                          // or CPU. Possible options are
-                          // 'H': solver on host    (CPU)
-                          // 'D': solver on device  (GPU)
     int nnz = Lii_row[nv-nb];
 
     switch (evp) {
