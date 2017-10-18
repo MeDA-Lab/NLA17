@@ -23,23 +23,26 @@ enum class Method {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  The enumeration of network format.
 ///
-enum class NETWORK {
-  UNDIRECTED = 0,  ///< undirected networks.
-  DIRECTED   = 1,  ///< directed network
-  BIPARTITE  = 2,  ///< Bipartite networks
+enum class Network {
+  UNDEFINED  = 0,  ///< undefined network format in file
+  UNDIRECTED = 1,  ///< undirected networks.
+  DIRECTED   = 2,  ///< directed network
+  BIPARTITE  = 3,  ///< Bipartite networks
   COUNT,           ///< Used for counting number of methods.
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  The enumeration of edge weight
 ///
-enum class EDGE {
-    UNWEIGHTED  = 0,  ///< unweighted edge
-    MULTIPLE    = 1,  ///< multiple edge
-    POSITIVE    = 2,  ///< positive weighted edge
-    SIGNED      = 3,  ///< signed weighted edge
-    RATING      = 4,  ///< rating networks
-    MULT_RATING = 5,  ///< mutliple ratings networks
-    DYNAMIC     = 6,  ///< Dynamic network
+enum class Edge {
+    UNDEFINED   = 0,  ///< undefined edge weight in file
+    UNWEIGHTED  = 1,  ///< unweighted edge
+    MULTIPLE    = 2,  ///< multiple edge
+    POSITIVE    = 3,  ///< positive weighted edge
+    SIGNED      = 4,  ///< signed weighted edge
+    MULT_SIGNED = 5,  ///< multiple signed weighted edge
+    RATING      = 6,  ///< rating networks
+    MULT_RATING = 7,  ///< multiple ratings networks
+    DYNAMIC     = 8,  ///< Dynamic network
     COUNT,            ///< Used for counting number of methods.
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -99,7 +102,8 @@ void readArgs( int argc, char** argv, const char *&input, const char *&para, Met
 /// @param[out]   E_size_c  number of data pair in edge lists.
 /// @note  The arrays are allocated by this routine (using new).
 ///
-int readGraph(const char *input, int **E, int *E_size_r, int *E_size_c);
+void readGraph(const char *input, int *E_size_r, int *E_size_c, int **E,
+    double **W, Network *network_type, Edge *edge_type);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the parameter setting file for direct linear solver and eigensolver.
 ///

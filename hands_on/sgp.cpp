@@ -35,9 +35,12 @@ int main( int argc, char** argv ){
 
     // Read file
     int E_size_r, E_size_c, *E;
+    double *W;
+    Network network_type = Network::UNDEFINED;
+    Edge edge_type = Edge::UNDEFINED;
     cout << "Read the graph data from file..............." << flush;
-    err_test = readGraph(input, &E, &E_size_r, &E_size_c);
-    assert( err_test == 0 ); cout << " Done.  " << endl;
+    readGraph(input, &E_size_r, &E_size_c, &E, &W, &network_type, &edge_type);
+    cout << " Done.  " << endl;
     cout << "Size of data is " << E_size_r << "x" << E_size_c << endl;
 
     // Set graph type
