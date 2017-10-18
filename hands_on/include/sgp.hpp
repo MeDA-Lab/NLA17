@@ -14,13 +14,34 @@
 /// @brief  The enumeration of Laplacian construction methods.
 ///
 enum class Method {
-  SIMPLE = 0,    ///< Simple graph.
-  DIRECTED = 1,  ///< Directed (multi) graph
-  WEIGHTED = 2,  ///< Directed weighted graph
-  UW = 3,        ///< Undirected weighted graph
-  COUNT,         ///< Used for counting number of methods.
+    SIMPLE = 0,    ///< Simple graph.
+    DIRECTED = 1,  ///< Directed (multi) graph
+    WEIGHTED = 2,  ///< Directed weighted graph
+    UW = 3,        ///< Undirected weighted graph
+    COUNT,         ///< Used for counting number of methods.
 };
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  The enumeration of network format.
+///
+enum class NETWORK {
+  UNDIRECTED = 0,  ///< undirected networks.
+  DIRECTED   = 1,  ///< directed network
+  BIPARTITE  = 2,  ///< Bipartite networks
+  COUNT,           ///< Used for counting number of methods.
+};
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  The enumeration of edge weight
+///
+enum class EDGE {
+    UNWEIGHTED  = 0,  ///< unweighted edge
+    MULTIPLE    = 1,  ///< multiple edge
+    POSITIVE    = 2,  ///< positive weighted edge
+    SIGNED      = 3,  ///< signed weighted edge
+    RATING      = 4,  ///< rating networks
+    MULT_RATING = 5,  ///< mutliple ratings networks
+    DYNAMIC     = 6,  ///< Dynamic network
+    COUNT,            ///< Used for counting number of methods.
+};
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  The enumeration of eigenvalue problem class.
 ///
