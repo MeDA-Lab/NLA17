@@ -201,34 +201,16 @@ int main( int argc, char** argv ){
 
         switch (evp){
             case EVP::HOST:
-                if ( pflag == 0 )
-                {
-                    tic(&timer);
-                    solveShiftEVPHost(n, nnz, csrValA, csrRowIndA, csrColIndA, mu0, &mu, x);
-                    cout << " Done.  ";
-                    toc(&timer);
-                }else if ( pflag == 1 )
-                {
-                    tic(&timer);
-                    solveShiftEVPHostCust(n, nnz, csrValA, csrRowIndA, csrColIndA, mu0, &mu, x, eigtol, eigmaxite);
-                    cout << " Done.  ";
-                    toc(&timer);
-                }
+                tic(&timer);
+                solveShiftEVPHost(n, nnz, csrValA, csrRowIndA, csrColIndA, mu0, eigmaxite, eigtol, &mu, x);
+                cout << " Done.  ";
+                toc(&timer);
                 break;
             case EVP::DEVICE:
-                if ( pflag == 0 )
-                {
-                    tic(&timer);
-                    solveShiftEVP(n, nnz, csrValA, csrRowIndA, csrColIndA, mu0, &mu, x);
-                    cout << " Done.  ";
-                    toc(&timer);
-                }else if ( pflag == 1 )
-                {
-                    tic(&timer);
-                    solveShiftEVPCust(n, nnz, csrValA, csrRowIndA, csrColIndA, mu0, &mu, x, eigtol, eigmaxite);
-                    cout << " Done.  ";
-                    toc(&timer);
-                }
+                tic(&timer);
+                solveShiftEVP(n, nnz, csrValA, csrRowIndA, csrColIndA, mu0, eigmaxite, eigtol, &mu, x);
+                cout << " Done.  ";
+                toc(&timer);
                 break;
         }
 

@@ -229,46 +229,12 @@ void solveShiftEVPHost(
     const int *A_row,
     const int *A_col,
     const double mu0,
+    const int maxite,
+    const double tol,
     double *mu,
     double *x
 );
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Solve eigenvalue near mu0 on host.
-///
-/// @param[in]  mu0     initial guess of eigenvalue.
-///
-/// @param[in]  nnz     number of nonzero elements in the matrix.
-///
-/// @param[in/out]  A_row     CSR row pointer; pointer.
-///
-/// @param[in/out]  A_col     CSR column index; pointer.
-///
-/// @param[in/out]  A_val  nonzero values of the matrix; pointer.
-///
-/// @param[in]  m        size of the matrix.
-///
-/// @param[in]  tol      tolerance.
-///
-/// @param[in]  maxite   upper limit for the iteration count.
-///
-/// @param[out] mu       estimated eigenvalue.
-///
-/// @param[out] x        estimated eigenvector w.r.t. mu; pointer.
-///
-/// @note  All inputs should be stored on host.
-///
-void solveShiftEVPHostCust(
-    int m,
-    int nnz,
-    const double *A_val,
-    const int *A_row,
-    const int *A_col,
-    const double mu0,
-    double *mu,
-    double *x,
-    double tol, 
-    int maxite
-);
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Solve eigenvalue near mu0 on device.
 ///
@@ -297,45 +263,10 @@ void solveShiftEVP(
     const int *A_row,
     const int *A_col,
     const double mu0,
+    const int maxite,
+    const double tol,
     double *mu,
     double *x
-);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Solve eigenvalue near mu0 on device.
-///
-/// @param[in]  mu0     initial guess of eigenvalue.
-///
-/// @param[in]  nnz     number of nonzero elements in the matrix.
-///
-/// @param[in/out]  A_row     CSR row pointer; pointer.
-///
-/// @param[in/out]  A_col     CSR column index; pointer.
-///
-/// @param[in/out]  A_val  nonzero values of the matrix; pointer.
-///
-/// @param[in]  m        size of the matrix.
-///
-/// @param[in]  tol      tolerance.
-///
-/// @param[in]  maxite   upper limit for the iteration count.
-///
-/// @param[out] mu       estimated eigenvalue.
-///
-/// @param[out] x        estimated eigenvector w.r.t. mu; pointer.
-///
-/// @note  All inputs should be stored on host.
-///
-void solveShiftEVPCust(
-    int m,
-    int nnz,
-    const double *A_val,
-    const int *A_row,
-    const int *A_col,
-    const double mu0,
-    double *mu,
-    double *x,
-    double tol, 
-    int maxite
 );
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Solve linear system Ax = b with requested solver on host.

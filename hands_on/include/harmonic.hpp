@@ -234,6 +234,8 @@ void solveShiftEVPHost(
     const int *A_row,
     const int *A_col,
     const double mu0,
+    const int maxite,
+    const double tol,
     double *mu,
     double *x
 );
@@ -265,6 +267,8 @@ void solveShiftEVP(
     const int *A_row,
     const int *A_col,
     const double mu0,
+    const int maxite,
+    const double tol,
     double *mu,
     double *x
 );

@@ -20,6 +20,8 @@ int main( int argc, char** argv ) {
 
   const char *input  = "input.obj";
   const char *output = "output.obj";
+  double eigtol = 1e-12;
+  int eigmaxite = 1000;
   Method method  = Method::KIRCHHOFF;
   EVP evp = EVP::NONE;
   string solver_settings;
@@ -93,13 +95,13 @@ int main( int argc, char** argv ) {
       case EVP::HOST:
         tic(&timer);
         solveShiftEVPHost(nv-nb, nnz, Lii_val, Lii_row, Lii_col,
-          mu0, &mu, x);
+          mu0, eigmaxite, eigtol, &mu, x);
           cout << " Done.  ";
         toc(&timer);
         break;
       case EVP::DEVICE:
         tic(&timer);
-        solveShiftEVP(nv-nb, nnz, Lii_val, Lii_row, Lii_col, mu0, &mu, x);
+        solveShiftEVP(nv-nb, nnz, Lii_val, Lii_row, Lii_col, mu0, eigmaxite, eigtol, &mu, x);
         cout << " Done.  ";
         toc(&timer);
         break;
