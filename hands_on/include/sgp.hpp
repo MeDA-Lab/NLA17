@@ -76,6 +76,15 @@ enum class LSOLVER {
     COUNT,         ///< Used for counting number of methods.
   };
 
+typedef struct {
+    char* file;
+    EVP evp;
+    LS ls;
+    std::string solver_settings;
+    double shift_sigma, mu0, eigtol, tol;
+    int eigmaxite;
+    LSOLVER lsover;
+} args;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the arguments.
 ///
@@ -90,8 +99,7 @@ enum class LSOLVER {
 /// @param[out]  tflag   Method flag.
 /// @param[out]  pflag   Parameter setting file flag.
 ///
-void readArgs( int argc, char** argv, const char *&input, const char *&para, Method &method, EVP &evp, LS &ls, int &tflag,
-  int &pflag, std::string &solver_settings);
+void readArgs( int argc, char** argv, args *setting);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the graph file.
 ///

@@ -47,11 +47,9 @@ void dispUsage( const char *bin ) {
   cout << "  -l<num>,  --ls <num>       0: None, 1: Direct Host, 2: Direct Device(default), 3: Iterative" << endl;
 }
 
-void readArgs(int argc, char** argv, const char *&input, const char *&para, Method &method, EVP &evp, LS &ls, int &tflag,
-  int &pflag, string &solver_settings) {
-  int fflag = 0;
-  tflag = 0, pflag = 0;
+void readArgs(int argc, char** argv, args *setting) {
   char c = 0;
+  int fflag = 0;
   while ( (c = getopt_long(argc, argv, short_opt, long_opt, NULL)) != -1 ) {
     switch ( c ) {
       case 'h': {
@@ -60,37 +58,23 @@ void readArgs(int argc, char** argv, const char *&input, const char *&para, Meth
       }
 
       case 'f': {
-        input = optarg;
+        setting->file = optarg;
         fflag = 1;
         break;
       }
-
-      case 't': {
-        method = static_cast<Method>(atoi(optarg));
-        assert(method >= Method::SIMPLE && method < Method::COUNT );
-        tflag = 1;
-        break;
-      }
-
-      case 'p': {
-        para = optarg;
-        pflag = 1;
-        break;
-      }
-      
       case 'e': {
-        evp = static_cast<EVP>(atoi(optarg));
-        assert(evp >= EVP::NONE && evp < EVP::COUNT );
+        setting->evp = static_cast<EVP>(atoi(optarg));
+        assert(setting->evp >= EVP::NONE && setting->evp < EVP::COUNT );
         break;
       }
 
       case 'l': {
-        ls = static_cast<LS>(atoi(optarg));
-        assert(ls >= LS::NONE && ls < LS::COUNT );
+        setting->ls = static_cast<LS>(atoi(optarg));
+        assert(setting->ls >= LS::NONE && setting->ls < LS::COUNT);
         break;
       }
       case 's': {
-        solver_settings = optarg;
+        setting->solver_settings = optarg;
         break;
       }
       case ':': {
