@@ -28,9 +28,9 @@ int main( int argc, char** argv ){
     LS  ls  = LS::DEVICE;
     // Flags to check certain conditions
 	int tflag, pflag, err_test;
-
+    std::string solver_settings;
 	// Read arguments
-    readArgs(argc, argv, input, parafile, method, evp, ls, tflag, pflag);
+    readArgs(argc, argv, input, parafile, method, evp, ls, tflag, pflag, solver_settings);
     assert( (evp != EVP::NONE) || (ls != LS::NONE) );
 
     // Read file
@@ -193,13 +193,7 @@ int main( int argc, char** argv ){
                 cout << "||Ax - b|| =  "  << res << endl;
                 break;
             case LS::ITERATIVE:
-                if ( pflag == 0 )
-                {
-                    solveGraph(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x);
-                }else if ( pflag == 1 )
-                {
-                    solveGraphCust(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x, solver, atol, rtol, maxiter, precond, restart);
-                }
+                solveGraph(solver_settings, n, nnz, csrValA, csrRowIndA, csrColIndA, b, x);
                 break;
         }
     }

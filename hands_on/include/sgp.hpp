@@ -3,11 +3,11 @@
 /// @brief   The main header for spectral graph partitioning.
 ///
 /// @author  William Liao
-///
-
+/// @author  Yuhsiang Mike Tsai
 #ifndef SCSC_SGP_HPP
 #define SCSC_SGP_HPP
 
+#include <string>
 #include <cassert>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,7 +67,7 @@ enum class LSOLVER {
 /// @param[out]  pflag   Parameter setting file flag.
 ///
 void readArgs( int argc, char** argv, const char *&input, const char *&para, Method &method, EVP &evp, LS &ls, int &tflag,
-  int &pflag);
+  int &pflag, std::string &solver_settings);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the graph file.
 ///
@@ -580,6 +580,7 @@ int cudasolverinfo(int flag, int solver);
 /// @param[out] x       the estimated solution.
 ///
 void solveGraph(
+    std::string solver_settings,
     int m,
     int nnz,
     const double *A_val,
@@ -588,48 +589,5 @@ void solveGraph(
     const double *b,
     double *x
 );
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  MAGMA iterative linear system solver wrapper.
-///
-/// @param[in]  m       size of the Laplacian matrix.
-///
-/// @param[in]  nnz     number of nonzeros of the Laplacian matrix.
-///
-/// @param[in]  A_val   value of the Laplacian matrix.
-///
-/// @param[in]  A_row   row pointer of the Laplacian matrix.
-///
-/// @param[in]  A_col   column index of the Laplacian matrix.
-///
-/// @param[in]  b       the RHS of AX = b.
-///
-/// @param[in]  solver  type of iterative solver.
-///
-/// @param[in]  atol    absolute residual.
-///
-/// @param[in]  rtol    relative residual.
-///
-/// @param[in]  maxiter upper limit for the iteration count.
-///
-/// @param[in]  precond type of preconditioner.
-///
-/// @param[in]  restart Only take effects for GMRES and IDR.
-///
-/// @param[out] x       the estimated solution.
-///
-void solveGraphCust(
-    int m,
-    int nnz,
-    const double *A_val,
-    const int *A_row,
-    const int *A_col,
-    const double *b,
-    double *x,
-    std::string solver, 
-    std::string atol,
-    std::string rtol, 
-    std::string maxiter,
-    std::string precond,
-    std::string restart
-);
+
 #endif  // SCSC_SGP_HPP

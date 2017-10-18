@@ -46,12 +46,12 @@ MAGMALNKS  = -lmagma_sparse -lmagma
 #==============================================================
 
 surfpara_obj = map_boundary.o verify_boundary_sparse.o write_object.o \
-			   read_args.o read_object.o reorder_vertex.o \
+			   read_args.o read_object.o reorder_vertex.o string2arg.o\
     		   construct_laplacian_sparse.o solve_shiftevp_cuda.o \
                solve_harmonic_sparse.o
 	  
 surfpara_magma_obj = map_boundary.o verify_boundary_sparse.o write_object.o \
-					 read_args.o read_object.o reorder_vertex.o \
+					 read_args.o read_object.o reorder_vertex.o string2arg.o\
     				 construct_laplacian_sparse.o solve_shiftevp_cuda.o \
     				 solve_harmonic_sparse_magma.o
 
@@ -59,11 +59,11 @@ sgp_obj = read_graph.o graph_adjacency.o graph_laplacian.o \
 	solve_shiftevp_cuda.o set_graph_type.o generate_RHS.o \
 	sgp_read_args.o read_para.o solve_sgp_sparse_magma.o \
 	cuda_solverinfo.o residual.o solve_ls_cuda.o \
-	lu_cuda.o chol_cuda.o qr_cuda.o
+	lu_cuda.o chol_cuda.o qr_cuda.o string2arg.o
 
 sgp_magma_obj = read_graph.o graph_adjacency.o graph_laplacian.o \
 	solve_shiftevp_cuda.o set_graph_type.o generate_RHS.o \
-	solve_sgp_sparse_magma.o
+	solve_sgp_sparse_magma.o string2arg.o
 
 INCS = -I include
 
@@ -76,6 +76,9 @@ all: MakeExe
 	$(CC) $(CCFLAGS) -c $< $(INCS)  $(MKLINCS)
 
 %.o: src/core/%.cpp
+	$(CC) $(CCFLAGS) -c $< $(INCS) $(MKLINCS) $(CUDAINCS)
+
+%.o: src/tool/%.cpp
 	$(CC) $(CCFLAGS) -c $< $(INCS) $(MKLINCS) $(CUDAINCS)
 
 %.o: src/cuda/%.cpp

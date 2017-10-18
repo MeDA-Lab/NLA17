@@ -1,9 +1,9 @@
 ## Usage
 You may need to load the required libraries first before building the program. Execute the following commands in a terminal:  
 	```
-	module load intel-mkl
-	module load cuda-dev/8.0
-	module load magma-dev/2.2f
+	module load intel-mkl  
+	module load cuda-dev/8.0  
+	module load magma-dev/2.2f  
 	```
 ## Build Surface Parameterization
 

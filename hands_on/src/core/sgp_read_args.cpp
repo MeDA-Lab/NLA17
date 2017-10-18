@@ -11,19 +11,19 @@
 #include <iomanip>
 #include <sgp.hpp>
 #include <getopt.h>
-
+#include <string>
 using namespace std;
 
-const char* const short_opt = "hf:t:e:l:p:";
+const char* const short_opt = "hf:t:e:l:p:s:";
 
 const struct option long_opt[] = {
   {"help",   0, NULL, 'h'},
   {"file",   1, NULL, 'f'},
   {"type",   1, NULL, 't'},
-  //{"output", 1, NULL, 'o'},
   {"evp",    1, NULL, 'e'},
   {"ls",     1, NULL, 'l'},
   {"para",   1, NULL, 'p'},
+  {"magmasolver", 1, NULL, 's'},
   {NULL,     0, NULL, 0}
 };
 
@@ -47,8 +47,8 @@ void dispUsage( const char *bin ) {
   cout << "  -l<num>,  --ls <num>       0: None, 1: Direct Host, 2: Direct Device(default), 3: Iterative" << endl;
 }
 
-void readArgs( int argc, char** argv, const char *&input, const char *&para, Method &method, EVP &evp, LS &ls, int &tflag,
-  int &pflag) {
+void readArgs(int argc, char** argv, const char *&input, const char *&para, Method &method, EVP &evp, LS &ls, int &tflag,
+  int &pflag, string &solver_settings) {
   int fflag = 0;
   tflag = 0, pflag = 0;
   char c = 0;
@@ -89,7 +89,10 @@ void readArgs( int argc, char** argv, const char *&input, const char *&para, Met
         assert(ls >= LS::NONE && ls < LS::COUNT );
         break;
       }
-
+      case 's': {
+        solver_settings = optarg;
+        break;
+      }
       case ':': {
         cout << "Option -" << c << " requires an argument.\n";
         abort();
