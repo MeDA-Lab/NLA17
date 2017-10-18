@@ -11,16 +11,6 @@
 #include <cassert>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  The enumeration of Laplacian construction methods.
-///
-enum class Method {
-    SIMPLE = 0,    ///< Simple graph.
-    DIRECTED = 1,  ///< Directed (multi) graph
-    WEIGHTED = 2,  ///< Directed weighted graph
-    UW = 3,        ///< Undirected weighted graph
-    COUNT,         ///< Used for counting number of methods.
-};
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  The enumeration of network format.
 ///
 enum class Network {
@@ -82,7 +72,7 @@ typedef struct {
     LS ls;
     std::string solver_settings;
     double shift_sigma, mu0, eigtol, tol;
-    int eigmaxite;
+    int eigmaxiter;
     LSOLVER lsover;
 } args;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,60 +102,7 @@ void readArgs( int argc, char** argv, args *setting);
 ///
 void readGraph(const char *input, int *E_size_r, int *E_size_c, int **E,
     double **W, Network *network_type, Edge *edge_type);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Reads the parameter setting file for direct linear solver and eigensolver.
-///
-/// @param[in]      parafile    the path to the setting file.
-///
-/// @param[in/out]  shift_sigma shift for Laplacian matrix.
-///
-/// @param[in/out]  mu0         initial guess of eigenvalue.
-/// @param[in/out]  eigtol      tolerance for eigensolver.
-/// @param[in/out]  eigmaxite   max iteration number for eigensolver.
-/// @param[in/out]  solflag     linear solver flag.
-/// @param[in/out]  tol         tolerance for direct linear solver.
-/// @note  The arrays are allocated by this routine (using new).
-///
-void readParaDEVP(const char *parafile,
-    double &shift_sigma,
-    double &mu0,
-    double &eigtol,
-    int &eigmaxite,
-    LSOLVER &solflag,
-    double &tol);
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Reads the parameter setting file for direct linear solver.
-///
-/// @param[in]      parafile    the path to the setting file.
-///
-/// @param[in/out]  shift_sigma shift for Laplacian matrix.
-///
-/// @param[in/out]  solflag     linear solver flag.
-/// @param[in/out]  tol         tolerance for direct linear solver.
-/// @note  The arrays are allocated by this routine (using new).
-///
-void readParaDLS(const char *parafile,
-    double &shift_sigma,
-    LSOLVER &solflag,
-    double &tol);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Reads the parameter setting file for eigensolver.
-///
-/// @param[in]      parafile    the path to the setting file.
-///
-/// @param[in/out]  shift_sigma shift for Laplacian matrix.
-///
-/// @param[in/out]  mu0         initial guess of eigenvalue.
-/// @param[in/out]  eigtol      tolerance for eigensolver.
-/// @param[in/out]  eigmaxite   max iteration number for eigensolver.
-/// @note  The arrays are allocated by this routine (using new).
-///
-void readParaEVP(const char *parafile,
-    double &shift_sigma,
-    double &mu0,
-    double &eigtol,
-    int &eigmaxite);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Construct adjacency matrix of graph.

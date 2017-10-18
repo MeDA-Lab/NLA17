@@ -3,7 +3,7 @@
 /// @brief   The main function.
 ///
 /// @author  William Liao
-///
+/// @author  Yuhsiang Mike Tsai
 
 #include <cstdio>
 #include <cstdlib>
@@ -20,14 +20,8 @@ using namespace std;
 /// @brief  Main function for spectral graph partitioning.
 ///
 int main( int argc, char** argv ){
-    const char *input = NULL;
-    const char *parafile = NULL;
-    LSOLVER solflag = LSOLVER::CHOL;
-    Method method;
-    EVP evp = EVP::NONE;
-    LS  ls  = LS::DEVICE;
     args setting;
-    setting.eigmaxite = 1000;
+    setting.eigmaxiter = 1000;
     setting.eigtol = 1e-12;
     setting.evp = EVP::NONE;
     setting.ls = LS::DEVICE;
@@ -113,7 +107,7 @@ int main( int argc, char** argv ){
         if ( setting.ls != LS::ITERATIVE )
         {
             solverid = static_cast<int>(setting.lsover);
-            cudasolverinfo(static_cast<int>(ls), solverid);
+            cudasolverinfo(static_cast<int>(setting.ls), solverid);
         }
         cout << "Solving Linear System......................." << flush;
 
@@ -155,13 +149,13 @@ int main( int argc, char** argv ){
         switch (setting.evp){
             case EVP::HOST:
                 tic(&timer);
-                solveShiftEVPHost(n, nnz, csrValA, csrRowIndA, csrColIndA, setting.mu0, setting.eigmaxite, setting.eigtol, &mu, x);
+                solveShiftEVPHost(n, nnz, csrValA, csrRowIndA, csrColIndA, setting.mu0, setting.eigmaxiter, setting.eigtol, &mu, x);
                 cout << " Done.  ";
                 toc(&timer);
                 break;
             case EVP::DEVICE:
                 tic(&timer);
-                solveShiftEVP(n, nnz, csrValA, csrRowIndA, csrColIndA, setting.mu0, setting.eigmaxite, setting.eigtol, &mu, x);
+                solveShiftEVP(n, nnz, csrValA, csrRowIndA, csrColIndA, setting.mu0, setting.eigmaxiter, setting.eigtol, &mu, x);
                 cout << " Done.  ";
                 toc(&timer);
                 break;
