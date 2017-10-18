@@ -1,31 +1,41 @@
-* For 3D face animation, the basic usage is
+## Usage
+You may need to load the required libraries first before building the program. Execute the following commands in a terminal:  
+	```
+	module load intel-mkl
+	module load cuda-dev/8.0
+	module load magma-dev/2.2f
+	```
+## Build Surface Parameterization
 
-	`./main_3Dface_evp.out [OPTIONS]`
+* `make surfpara.out` for __Surface Parameterization__ without any solvers.  
+* `make surfpara_magma.out` for __Surface Parameterization__ with magma solver.  
 
-	Type the following in terminal to get more information:
-	
-	`./main_3Dface_evp.out -h` or `./main_3Dface_evp.out --help`
-	
-	Example Usage: Type the following in terminal
-	
-	`./main_3Dface_evp.out -f data/obj/CYHo.obj -t 1`
-	
-	There are some prepared obj data files in the `data/obj` directory.
+## Command 
 
-For 3D face animation,  you will see output like
+`./surfpara_magma.out [OPTIONS]` or `./surfpara.out [OPTIONS]`  
+
+The following are current possible options:  
 
 ```
-dos2unix: converting file data/obj/CYHo.obj to Unix format ...
-Loads from "data/obj/CYHo.obj" with color.
-"data/obj/CYHo.obj" contains 61961 vertices and 123132 faces.
+Options:
+  -h,       --help           Display this information
+  -f<file>, --file <file>    The graph file (default: input.obj)
+  -t<num>,  --type <num>     0: KIRCHHOFF(default), 1: COTANGENT
+  -o<file>, --output <file>  The output file (default: output.obj)
+  -e<num>,  --evp <num>      0: None(default), 1: Host, 2: Device
+  -m<mu0>,  --mu0 <mu0>      The initial mu0 (default: 1.5)
+  -s"solver_settings", --magmasolver "solver_settings" default: "--solver CG"
+``` 
+## Solver Settings
+The magma solver settings is in [SolverSettings.md](SolverSettings.md)
 
-Verifying boundary ..................... Done.  Elapsed time is 0.131394 seconds.
-Reordering vertices .................... Done.  Elapsed time is 0.00719786 seconds.
-Constructing Laplacian ................. Done.  Elapsed time is 0.0773089 seconds.
-Mapping Boundary ....................... Done.  Elapsed time is 9.60827e-05 seconds.
-Solving Eigenvalue Problem ....................... Done.  Elapsed time is 86.1831 seconds.
+## Example
 
-n = 61173
-nnz = 425981
-The estimated eigenvalue near 1.1 = 0.0000000000000
-```
+1. `./surfpara_magma.out -f data/obj/CYHo.obj -o CYHo_surf.obj`  
+    Compute Surface Parameterization of CYHo.obj and output is CYHo_surf.obj  
+2. `./surfpara_magma.out -f data/obj/CYHo.obj -s "--solver BICGSTAB"`  
+    Compute Surface Parameterization of CYHo.obj with BICGSTAB solver  
+3. `./surfpara_magma.out -f data/obj/CYHo.obj -s "--solver PBICGSTAB --precond ILU"`  
+    Compute with PBICGSTAB solver with ILU preconditioner.
+4. `./surfpara_magma.out -f data/obj/CYHo.obj -e 1 -m 3`  
+    Compute the inverse power method with mu0 = 3 on HOST.  

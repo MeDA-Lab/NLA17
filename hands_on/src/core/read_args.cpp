@@ -40,7 +40,7 @@ void dispUsage( const char *bin ) {
   cout << "  -o<file>, --output <file>  The output file (default: output.obj)" << endl;
   cout << "  -e<num>,  --evp <num>      0: None(default), 1: Host, 2: Device" << endl;
   cout << "  -m<mu0>,  --mu0 <mu0>      The initial mu0 (default: 1.5)" << endl;
-  cout << "  -s""solver_settings"", --magmasolver ""solver_settings"" default: --solver CG" << endl;
+  cout << "  -s\"solver_settings\", --magmasolver \"solver_settings\" default: \"--solver CG\"" << endl;
 }
 
 void readArgs( int argc, char** argv, const char *&input, const char *&output, Method &method, EVP &evp, double &mu0, string &solver_settings) {
