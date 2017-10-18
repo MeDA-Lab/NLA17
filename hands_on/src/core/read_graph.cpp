@@ -140,7 +140,7 @@ void readGraph(const char *input, int *E_size_r, int *E_size_c, int **E,
         nth++;
     }
     for (int i = 0; i < count*2; i++) {
-        (*E)[nth]--;
+        (*E)[i]--;
     }
 
     pfile.close();

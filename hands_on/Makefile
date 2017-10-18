@@ -56,13 +56,13 @@ surfpara_magma_obj = map_boundary.o verify_boundary_sparse.o write_object.o \
     				 solve_harmonic_sparse_magma.o
 
 sgp_obj = read_graph.o graph_adjacency.o graph_laplacian.o \
-	solve_shiftevp_cuda.o set_graph_type.o generate_RHS.o \
+	solve_shiftevp_cuda.o generate_RHS.o \
 	sgp_read_args.o read_para.o solve_sgp_sparse_magma.o \
 	cuda_solverinfo.o residual.o solve_ls_cuda.o \
 	lu_cuda.o chol_cuda.o qr_cuda.o string2arg.o
 
 sgp_magma_obj = read_graph.o graph_adjacency.o graph_laplacian.o \
-	solve_shiftevp_cuda.o set_graph_type.o generate_RHS.o \
+	solve_shiftevp_cuda.o generate_RHS.o \
 	solve_sgp_sparse_magma.o string2arg.o
 
 INCS = -I include

@@ -42,11 +42,12 @@ void GraphAdjacency(int E_size, int *E, double *W,
     pos1 = cblas_idamax(E_size, tmp_array, 1);
     pos2 = cblas_idamax(E_size, tmp_array+E_size, 1);
     *n   = max(E[pos1] , E[pos2+E_size])+1;
-    
+
     // Note: ONLY support UNDIRECTED
     *cooRowIndA = new int[2*E_size];
     *cooColIndA = new int[2*E_size];
     *cooValA    = new double[2*E_size];
+
     // A+trans(A)
     *nnz = 2*E_size;
     copy(E , E+2*E_size , *cooRowIndA);
