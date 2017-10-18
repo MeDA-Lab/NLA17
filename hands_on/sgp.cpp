@@ -42,10 +42,6 @@ int main( int argc, char** argv ){
 
     // Set graph type
     char flag1;
-    if ( tflag == 0 )
-    {
-        setgraphtype(method, E_size_c);
-    }
 
     if ( method == Method::SIMPLE )
     {
