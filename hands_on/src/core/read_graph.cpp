@@ -102,9 +102,9 @@ void readGraph(const char *input, int *E_size_r, int *E_size_c, int **E,
     }
     *E_size_c = count;
     assert(count >= 2);
-    assert(*edge_type != Edge::UNWEIGHTED || count != 2);
-    assert(*edge_type != Edge::POSITIVE || count != 3);
-    assert(*edge_type != Edge::RATING || count != 3);
+    assert(!(*edge_type == Edge::UNWEIGHTED && count != 2));
+    assert(!(*edge_type == Edge::POSITIVE && count != 3));
+    assert(!(*edge_type == Edge::RATING && count != 3));
 
     // row
     pfile.clear();
@@ -136,6 +136,7 @@ void readGraph(const char *input, int *E_size_r, int *E_size_c, int **E,
             (*W)[nth] = 1;
         }
         getline(pfile, others[nth]);
+        // cout << (*E)[nth] << " " << (*E)[nth+count] << " " << (*W)[nth] << " " << others[nth] << endl;
         nth++;
     }
     for (int i = 0; i < count*2; i++) {

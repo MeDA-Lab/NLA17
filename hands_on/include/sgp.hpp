@@ -178,9 +178,8 @@ void readParaEVP(const char *parafile,
 ///
 /// @note  The output arrays are allocated by this routine (using new).
 ///
-int GraphAdjacency(int *E, int E_size,
-	int *nnz, int **cooRowIndA,
-	int **cooColIndA, double **cooValA, int *n, char flag);
+void GraphAdjacency(int E_size, int *E, double *W,
+    int *n, int *nnz, double **cooValA, int **cooRowIndA, int **cooColIndA);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Construct adjacency matrix of graph.
 ///
