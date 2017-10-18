@@ -100,56 +100,7 @@ void readParaDEVP(const char *parafile,
     int &eigmaxite,
     LSOLVER &solflag,
     double &tol);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Reads the parameter setting file for iterative linear solver and eigensolver.
-///
-/// @param[in]      parafile    the path to the setting file.
-///
-/// @param[in/out]  shift_sigma shift for Laplacian matrix.
-///
-/// @param[in/out]  mu0         initial guess of eigenvalue.
-/// @param[in/out]  eigtol      tolerance for eigensolver.
-/// @param[in/out]  eigmaxite   max iteration number for eigensolver.
-/// @param[in/out]  solver      type of linear solver.
-/// @param[in/out]  atol        absolute residual.
-/// @param[in/out]  rtol        relative residual.
-/// @param[in/out]  maxiter     max iteration number for iterative linear solver.
-/// @param[in/out]  precond     type of preconditioner.
-/// @param[in/out]  restart     Only take effects for GMRES and IDR.
-/// @note  The arrays are allocated by this routine (using new).
-///
-void readParaIEVP(const char *parafile,
-    double &shift_sigma,
-    double &mu0,
-    double &eigtol,
-    int &eigmaxite,
-    std::string &solver,
-    std::string &atol,
-    std::string &rtol,
-    std::string &maxiter,
-    std::string &precond,
-    std::string &restart);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Reads the parameter setting file for iterative linear solver.
-///
-/// @param[in]      parafile    the path to the setting file.
-///
-/// @param[in/out]  solver      type of linear solver.
-/// @param[in/out]  atol        absolute residual.
-/// @param[in/out]  rtol        relative residual.
-/// @param[in/out]  maxiter     max iteration number for iterative linear solver.
-/// @param[in/out]  precond     type of preconditioner.
-/// @param[in/out]  restart     Only take effects for GMRES and IDR.
-/// @note  The arrays are allocated by this routine (using new).
-///
-void readParaILS(const char *parafile,
-    double &shift_sigma,
-    std::string &solver,
-    std::string &atol,
-    std::string &rtol,
-    std::string &maxiter,
-    std::string &precond,
-    std::string &restart);
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the parameter setting file for direct linear solver.
 ///

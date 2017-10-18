@@ -81,8 +81,6 @@ int main( int argc, char** argv ){
     // Parameters for direct linear solver
     double tol;
     // Parameters for iterative linear solver
-    string atol, rtol, maxiter, precond, restart;
-    string solver; // type of linear solver
     cout << "Setting Laplacian and solver parameters....." << flush;
     if ( evp != EVP::NONE && ls != LS::NONE )
     {
@@ -91,9 +89,6 @@ int main( int argc, char** argv ){
         if ( pflag == 1 && ls != LS::ITERATIVE )
         {
             readParaDEVP(parafile, shift_sigma, mu0, eigtol, eigmaxite, solflag, tol);
-        }else if ( pflag == 1 && ls == LS::ITERATIVE )
-        {
-            readParaIEVP(parafile, shift_sigma, mu0, eigtol, eigmaxite, solver, atol, rtol, maxiter, precond, restart);
         }
     }else if ( evp != EVP::NONE && ls == LS::NONE )
     {
@@ -108,9 +103,6 @@ int main( int argc, char** argv ){
         if ( pflag == 1 && ls != LS::ITERATIVE )
         {
             readParaDLS(parafile, shift_sigma, solflag, tol);
-        }else if ( pflag == 1 && ls == LS::ITERATIVE )
-        {
-            readParaILS(parafile, shift_sigma, solver, atol, rtol, maxiter, precond, restart);
         }
     }
     cout << " Done.  " << endl;
