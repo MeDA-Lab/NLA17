@@ -45,15 +45,15 @@ MAGMALIBS  = -L$(MAGMAROOT)/lib
 MAGMALNKS  = -lmagma_sparse -lmagma
 #==============================================================
 
-obj = map_boundary.o verify_boundary_sparse.o write_object.o \
-	read_args.o read_object.o reorder_vertex.o \
-    construct_laplacian_sparse.o solve_shiftevp_cuda.o \
-    solve_harmonic_sparse.o
+surfpara_obj = map_boundary.o verify_boundary_sparse.o write_object.o \
+			   read_args.o read_object.o reorder_vertex.o \
+    		   construct_laplacian_sparse.o solve_shiftevp_cuda.o \
+               solve_harmonic_sparse.o
 	  
-magma_obj = map_boundary.o verify_boundary_sparse.o write_object.o \
-	read_args.o read_object.o reorder_vertex.o \
-    construct_laplacian_sparse.o solve_shiftevp_cuda.o \
-    solve_harmonic_sparse_magma.o
+surfpara_magma_obj = map_boundary.o verify_boundary_sparse.o write_object.o \
+					 read_args.o read_object.o reorder_vertex.o \
+    				 construct_laplacian_sparse.o solve_shiftevp_cuda.o \
+    				 solve_harmonic_sparse_magma.o
 
 sgp_obj = read_graph.o graph_adjacency.o graph_laplacian.o \
 	solve_shiftevp_cuda.o set_graph_type.o generate_RHS.o \
@@ -87,16 +87,16 @@ all: MakeExe
 %.o: src/magma/%.cpp
 	$(CC) $(CCFLAGS) -c $< $(INCS) $(MKLINCS) $(CUDAINCS) $(MAGMAINCS)
 
-MakeExe: main_3Dface_evp.out sgp_main.out
+MakeExe: surfpara_magma.out sgp.out
 
-sgp_main.out: sgp_main.o $(sgp_obj)
+sgp.out: sgp.o $(sgp_obj)
 	$(LOADER) $(CCFLAGS) -o $@ $< $(sgp_obj) $(MAGMALIBS) $(MAGMALNKS) $(MKLLNKS) $(CUDALNKS)
 
-main_3Dface_evp.out: main_3Dface_evp.o $(obj)
-	$(LOADER) $(CCFLAGS) -o $@ $< $(obj) $(MKLLNKS) $(CUDALNKS)
+surfpara.out: surfpara.o $(surfpara_obj)
+	$(LOADER) $(CCFLAGS) -o $@ $< $(surfpara_obj) $(MKLLNKS) $(CUDALNKS)
 
-magma_3Dface_evp.out: main_3Dface_evp.o $(magma_obj)
-	$(LOADER) $(CCFLAGS) -o $@ $< $(magma_obj) $(MKLLIBS) $(CUDALIBS) $(MAGMALIBS) $(MKLLNKS) $(CUDALNKS) $(MAGMALNKS)
+surfpara_magma.out: surfpara.o $(surfpara_magma_obj)
+	$(LOADER) $(CCFLAGS) -o $@ $< $(surfpara_magma_obj) $(MKLLIBS) $(CUDALIBS) $(MAGMALIBS) $(MKLLNKS) $(CUDALNKS) $(MAGMALNKS)
 
 clean:
 	-rm *.o -f

@@ -39,21 +39,22 @@ magma_dcsrset_gpu(
     return MAGMA_SUCCESS;
 }
 
-void string2arg(string str, int &argc, char **&argv) {
+void string2arg(string str, int *argc, char ***argv) {
   size_t found = -1;
-  argc = 0;
+
+  (*argc) = 0;
   do {
     found = str.find(" ", found+1);
-    argc++;
+    (*argc)++;
   } while (found != string::npos);
-  argv = new char*[argc];
+  *argv = new char*[*argc];
   size_t s_start = -1, s_end;
   string temp;
-  for (int i = 0; i < argc; i++) {
+  for (int i = 0; i < *argc; i++) {
     s_end = str.find(" ", s_start+1);
     temp = str.substr(s_start+1, s_end-s_start-1);
-    argv[i] = new char[temp.length()+1];
-    strcpy(argv[i], temp.c_str());
+    (*argv)[i] = new char[temp.length()+1];
+    snprintf((*argv)[i], temp.length()+1, "%s", temp.c_str());
     s_start = s_end;
   }
 }
@@ -71,10 +72,9 @@ void solveHarmonicSparse(
   double *U
 ) {
   string magma_settings = "./solver "+solver_settings+" A.mtx";
-  std::cout << magma_settings << endl;
   int argc = 0;
   char **argv;
-  string2arg(magma_settings, argc, argv);
+  string2arg(magma_settings, &argc, &argv);
   magma_init();
   magma_queue_t queue;
   magma_queue_create(0, &queue);
