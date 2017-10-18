@@ -16,49 +16,34 @@
 #include "sgp.hpp"
 using namespace std;
 void readKonectHeader(string str, Network *network, Edge *edge_type) {
-    cout << "The network format is ";
     if (str.find("bip") != string::npos) {
         *network = Network::BIPARTITE;
-        cout << "bipartite.\n";
     } else if (str.find("asym") != string::npos) {
         *network = Network::DIRECTED;
-        cout << "directed\n";
     } else if (str.find("sym") != string::npos) {
         *network = Network::UNDIRECTED;
-        cout << "undirected\n";
     } else {
         *network = Network::UNDEFINED;
-        cout << "undefined\n";
     }
 
-    cout << "The edge weight type is ";
     if (str.find("unweighted") != string::npos) {
         *edge_type = Edge::UNWEIGHTED;
-        cout << "unweighted edge type\n";
     } else if (str.find("positive") != string::npos) {
         *edge_type = Edge::MULTIPLE;
-        cout << "multiple edges type\n";
     } else if (str.find("posweighted") != string::npos) {
         *edge_type = Edge::POSITIVE;
-        cout << "positive weighted edge type\n";
     } else if (str.find("multisigned") != string::npos) {
         *edge_type = Edge::MULT_SIGNED;
-        cout << "multiple signed weighted edge type\n";
     } else if (str.find("signed") != string::npos) {
         *edge_type = Edge::SIGNED;
-        cout << "signed weighted edge type\n";
     } else if (str.find("multiweighted") != string::npos) {
         *edge_type = Edge::MULT_RATING;
-        cout << "multiple weighted edge type\n";
     } else if (str.find("weighted") != string::npos) {
         *edge_type = Edge::RATING;
-        cout << "rating weighted edge type\n";
     } else if (str.find("dynamic") != string::npos) {
         *edge_type = Edge::DYNAMIC;
-        cout << "dynamic edge type\n";
     } else {
         *edge_type = Edge::UNDEFINED;
-        cout << "undefined edge type\n";
     }
 }
 void readGraph(const char *input, int *E_size_r, int *E_size_c, int **E,

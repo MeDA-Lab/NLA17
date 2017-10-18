@@ -45,19 +45,7 @@ int main( int argc, char** argv ){
     readGraph(setting.file, &E_size_r, &E_size_c, &E, &W, &network_type, &edge_type);
     cout << " Done.  " << endl;
     cout << "Size of data is " << E_size_r << "x" << E_size_c << endl;
-
-    // Set graph type
-    char flag1;
-
-    if ( E_size_c == 2)
-    {
-        flag1 = 'S';
-        cout << "type of graph: simple graph" << endl;
-    }else if ( E_size_c == 3 )
-    {
-        flag1 = 'U';
-        cout << "type of graph: undirected weighted graph" << endl;
-    }
+    printKonectHeader(network_type, edge_type);
 
     // Construct adjacency matrix of graph
     int nnz, *cooRowIndA, *cooColIndA, n;

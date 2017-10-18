@@ -416,4 +416,5 @@ void solveGraph(
     double *x
 );
 
+void printKonectHeader(Network network, Edge edge_type);
 #endif  // SCSC_SGP_HPP

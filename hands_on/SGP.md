@@ -1,3 +1,6 @@
+## Data
+You can download __undirected__ network type with __unweighted__, __positive weighted__,  __rating__ edge type from [KONECT](http://konect.uni-koblenz.de).  
+Note. You do not fix anything of the graph now.  
 ## Usage
 You may need to load the required libraries first before building the program. Execute the following commands in a terminal:  
 	```
