@@ -43,17 +43,11 @@ int main( int argc, char** argv ){
     // Set graph type
     char flag1;
 
-    if ( method == Method::SIMPLE )
+    if ( E_size_c == 2)
     {
         flag1 = 'S';
         cout << "type of graph: simple graph" << endl;
-    }else if( method == Method::DIRECTED ){
-        flag1 = 'D';
-        cout << "type of graph: directed (multi) graph" << endl;
-    }else if ( method == Method::WEIGHTED ){
-        flag1 = 'W';
-        cout << "type of graph: directed weighted graph" << endl;
-    }else if ( method == Method::UW )
+    }else if ( E_size_c == 3 )
     {
         flag1 = 'U';
         cout << "type of graph: undirected weighted graph" << endl;
