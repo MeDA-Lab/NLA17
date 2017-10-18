@@ -1,3 +1,48 @@
+## Usage
+You may need to load the required libraries first before building the program. Execute the following commands in a terminal:  
+	```
+	module load intel-mkl  
+	module load cuda-dev/8.0  
+	module load magma-dev/2.2f  
+	```
+## Build Spectral Graph Patition
+
+* `make sgp.out` for __Spectral Graph Patition__  
+## Command 
+
+`./sgp.out [OPTIONS]`  
+
+The following are current possible options:  
+
+```
+Options:
+  -h,       --help           Display this information
+  -f<file>, --file <file>    The graph data file
+  -e<num>,  --evp <num>      0: None (default), 1: Host, 2: Device
+  -l<num>,  --ls <num>       0: None, 1: Direct Host, 2: Direct Device(default), 3: Iterative
+  -m<mu0>,  --mu0 <mu0>      The initial mu0 (default: 1.5)
+  -s"solver_settings", --magmasolver "solver_settings" default: "--solver CG"
+  --shift_sigma <value>,     The value of A+sigma*I
+  --eigtol <value>,          The tolerance of eigsolver
+  --lstol <value>,           The tolerance of direct lssover (not magma_solver)
+  --eigmaxiter <iter>,       The maximum iteration of eigsolver
+  --lssolver <num>,          0: LU (default), 1: Cholesky, 2: QR 
+``` 
+## Solver Settings
+The magma solver settings is in [SolverSettings.md](SolverSettings.md)
+
+## Example
+
+1. `./surfpara_magma.out -f data/obj/CYHo.obj -o CYHo_surf.obj`  
+    Compute Surface Parameterization of CYHo.obj and output is CYHo_surf.obj  
+2. `./surfpara_magma.out -f data/obj/CYHo.obj -s "--solver BICGSTAB"`  
+    Compute Surface Parameterization of CYHo.obj with BICGSTAB solver  
+3. `./surfpara_magma.out -f data/obj/CYHo.obj -s "--solver PBICGSTAB --precond ILU"`  
+    Compute with PBICGSTAB solver with ILU preconditioner.
+4. `./surfpara_magma.out -f data/obj/CYHo.obj -e 1 -m 3`  
+    Compute the inverse power method with mu0 = 3 on HOST.  
+
+
 * For graph laplacian, the usage is
 
 	`./sgp_main.out [OPTIONS]`
@@ -95,25 +140,3 @@ nnz of L = 4063
 Solving Eigenvalue Problem.................. Done.  Elapsed time is 0.396985 seconds.
 The estimated eigenvalue near 0.6 = 0.5833032584504
 ```
-
-
-## Setting Parameters
-### __Graph Laplacian__
-
-Modify the file `solverpara.txt` to set user-defined parameters. Current available parameters and values are listed in the following form:
-
-| Parameter | Value |
-| --------- | ----- |
-| `sigma`   | The shift sigma $A+\sigma I$. Can be any real number. Needs to be nonzero for solving linear system.|
-| `mu0` | Initial guess of eigenvalue. Can be any real number. No effect when `-e` is set to `0`. |
-| `eigtol` | Tolerance for eigensolver.  Can be any real number. No effect when `-e` is set to `0`. |
-| `eigmaxite` | Maximum number of iterations for the eigensolver. Positive integer. No effect when `-e` is set to `0`. |
-| `solver` | Name of the linear solver. Needs to match the `-l` option. If the solver name is an iterative solver, `-l` option must set to `3`. No effect when `-l` is set to `0`. |
-| `tol` | Tolerance for cuda direct linear solver. Only take effects when `-l` is set to `1` or `2`. When the value is set to `default`, then `tol = 1e-12` |
-| `atol` | Absolute residual for iterative linear solver. Only take effects when `-l` is set to `3` |
-| `rtol` | Relative residual for iterative linear solver. Only take effects when `-l` is set to `3` |
-| `maxiter` | Set an upper limit for the iteration count. Positive integer. Only take effects when `-l` is set to `3` |
-| `precond` | Possibility to choose a preconditioner. Only take effects when `-l` is set to `3`|
-| `restart` | For GMRES: possibility to choose the restart.|                                       
-|           | For IDR: Number of distinct subspaces (1,2,4,8). 
-|           | Only take effects when `-l` is set to `3` and `solver` is set to `GMRES` or `IDR` |
