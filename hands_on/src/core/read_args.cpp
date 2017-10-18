@@ -23,6 +23,9 @@ const struct option long_opt[] = {
   {"evp",    1, NULL, 'e'},
   {"mu0",    1, NULL, 'm'},
   {"magmasolver", 1, NULL, 's'},
+  {"shift_sigma", 1, NULL, 1001},
+  {"eigtol", 1, NULL, 1002},
+  {"eigmaxiter", 1, NULL, 1004},
   {NULL,     0, NULL, 0}
 };
 
@@ -41,10 +44,12 @@ void dispUsage( const char *bin ) {
   cout << "  -e<num>,  --evp <num>      0: None(default), 1: Host, 2: Device" << endl;
   cout << "  -m<mu0>,  --mu0 <mu0>      The initial mu0 (default: 1.5)" << endl;
   cout << "  -s\"solver_settings\", --magmasolver \"solver_settings\" default: \"--solver CG\"" << endl;
+  cout << "  --eigtol <value>,          The tolerance of eigsolver (default: 1e-12)" << endl;
+  cout << "  --eigmaxiter <iter>,       The maximum iteration of eigsolver (default: 1000)" << endl;
 }
 
-void readArgs( int argc, char** argv, const char *&input, const char *&output, Method &method, EVP &evp, double &mu0, string &solver_settings) {
-  char c = 0;
+void readArgs( int argc, char** argv, args *setting) {
+  int c = 0;
   while ( (c = getopt_long(argc, argv, short_opt, long_opt, NULL)) != -1 ) {
     switch (c) {
       case 'h': {
@@ -53,32 +58,40 @@ void readArgs( int argc, char** argv, const char *&input, const char *&output, M
       }
 
       case 'f': {
-        input = optarg;
+        setting->input = optarg;
         break;
       }
 
       case 't': {
-        method = static_cast<Method>(atoi(optarg));
-        assert(method >= Method::KIRCHHOFF && method < Method::COUNT );
+        setting->method = static_cast<Method>(atoi(optarg));
+        assert(setting->method >= Method::KIRCHHOFF && setting->method < Method::COUNT );
         break;
       }
 
       case 'o': {
-        output = optarg;
+        setting->output = optarg;
         break;
       }
       
       case 'e': {
-        evp = static_cast<EVP>(atoi(optarg));
-        assert(evp >= EVP::NONE && evp < EVP::COUNT );
+        setting->evp = static_cast<EVP>(atoi(optarg));
+        assert(setting->evp >= EVP::NONE && setting->evp < EVP::COUNT );
         break;
       }
       case 'm': {
-        mu0 = stod(optarg, nullptr);
+        setting->mu0 = stod(optarg, nullptr);
         break;
       }
       case 's': {
-        solver_settings = optarg;
+        setting->solver_settings = optarg;
+        break;
+      }
+      case 1002: {
+        setting->eigtol = stod(optarg, nullptr);
+        break;
+      }
+      case 1004: {
+        setting->eigmaxiter = stoi(optarg, nullptr);
         break;
       }
       case ':': {

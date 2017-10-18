@@ -29,6 +29,15 @@ enum class EVP {
     DEVICE = 2, ///< Use device function to calculate EVP
     COUNT,      ///< Used for counting number of methods.
   };
+
+typedef struct {
+    const char *input, *output;
+    EVP evp;
+    Method method;
+    std::string solver_settings;
+    double mu0, eigtol;
+    int eigmaxiter;
+} args;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the arguments.
 ///
@@ -39,7 +48,7 @@ enum class EVP {
 /// @param[out]  output  The output file.
 /// @param[out]  method  The method.
 ///
-void readArgs( int argc, char** argv, const char *&input, const char *&output, Method &method, EVP &evp, double &mu0, std::string &solver_settings);
+void readArgs( int argc, char** argv, args *setting);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the object file.

@@ -45,10 +45,10 @@ void dispUsage( const char *bin ) {
   cout << "  -l<num>,  --ls <num>       0: None, 1: Direct Host, 2: Direct Device(default), 3: Iterative" << endl;
   cout << "  -m<mu0>,  --mu0 <mu0>      The initial mu0 (default: 0.6)" << endl;
   cout << "  -s\"solver_settings\", --magmasolver \"solver_settings\" default: \"--solver CG\"" << endl;
-  cout << "  --shift_sigma <value>,     The value of A+sigma*I" << endl;
-  cout << "  --eigtol <value>,          The tolerance of eigsolver" << endl;
-  cout << "  --lstol <value>,           The tolerance of direct lssover (not magma_solver)" << endl;
-  cout << "  --eigmaxiter <iter>,       The maximum iteration of eigsolver" << endl;
+  cout << "  --shift_sigma <value>,     The value of A+sigma*I (default: 1e-5)" << endl;
+  cout << "  --eigtol <value>,          The tolerance of eigsolver (default: 1e-12)" << endl;
+  cout << "  --lstol <value>,           The tolerance of direct cuda lssover (default: 1e-12)" << endl;
+  cout << "  --eigmaxiter <iter>,       The maximum iteration of eigsolver (default: 1000)" << endl;
   cout << "  --lssolver <num>,          0: LU (default), 1: Cholesky, 2: QR " << endl;
 }
 

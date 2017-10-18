@@ -25,6 +25,8 @@ Options:
   -e<num>,  --evp <num>      0: None(default), 1: Host, 2: Device
   -m<mu0>,  --mu0 <mu0>      The initial mu0 (default: 1.5)
   -s"solver_settings", --magmasolver "solver_settings" default: "--solver CG"
+  --eigtol <value>,          The tolerance of eigsolver (default: 1e-12)
+  --eigmaxiter <iter>,       The maximum iteration of eigsolver (default: 1000)
 ``` 
 ## Solver Settings
 The magma solver settings is in [SolverSettings.md](SolverSettings.md)

@@ -25,10 +25,10 @@ Options:
   -l<num>,  --ls <num>       0: None, 1: Direct Host, 2: Direct Device(default), 3: Iterative
   -m<mu0>,  --mu0 <mu0>      The initial mu0 (default: 0.6)
   -s"solver_settings", --magmasolver "solver_settings" default: "--solver CG"
-  --shift_sigma <value>,     The value of A+sigma*I
-  --eigtol <value>,          The tolerance of eigsolver
-  --lstol <value>,           The tolerance of direct lssover (not magma_solver)
-  --eigmaxiter <iter>,       The maximum iteration of eigsolver
+  --shift_sigma <value>,     The value of A+sigma*I (default: 1e-5)
+  --eigtol <value>,          The tolerance of eigsolver (default: 1e-12)
+  --lstol <value>,           The tolerance of direct cuda lssover (default: 1e-12)
+  --eigmaxiter <iter>,       The maximum iteration of eigsolver (default: 1000)
   --lssolver <num>,          0: LU (default), 1: Cholesky, 2: QR 
 ``` 
 ## Solver Settings
