@@ -43,7 +43,7 @@ void dispUsage( const char *bin ) {
   cout << "  -f<file>, --file <file>    The graph data file" << endl;
   cout << "  -e<num>,  --evp <num>      0: None (default), 1: Host, 2: Device" << endl;
   cout << "  -l<num>,  --ls <num>       0: None, 1: Direct Host, 2: Direct Device(default), 3: Iterative" << endl;
-  cout << "  -m<mu0>,  --mu0 <mu0>      The initial mu0 (default: 1.5)" << endl;
+  cout << "  -m<mu0>,  --mu0 <mu0>      The initial mu0 (default: 0.6)" << endl;
   cout << "  -s\"solver_settings\", --magmasolver \"solver_settings\" default: \"--solver CG\"" << endl;
   cout << "  --shift_sigma <value>,     The value of A+sigma*I" << endl;
   cout << "  --eigtol <value>,          The tolerance of eigsolver" << endl;
