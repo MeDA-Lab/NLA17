@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @file    main_3Dface_evp.cpp
+/// @file    surfpara.cpp
 /// @brief   The main function. (sparse version)
 ///
 /// @author  Mu Yang <<emfomy@gmail.com>>
@@ -17,20 +17,26 @@ using namespace std;
 /// @brief  Main function
 ///
 int main( int argc, char** argv ) {
-
-  const char *input  = "input.obj";
-  const char *output = "output.obj";
-  Method method  = Method::KIRCHHOFF;
-  EVP evp = EVP::NONE;
-  int nv, nf, nb, *F = nullptr, *idx_b, *Lii_row = nullptr, *Lii_col = nullptr, *Lib_row = nullptr, *Lib_col = nullptr;
-  double timer, *V = nullptr, *C = nullptr, *Lii_val = nullptr, *Lib_val = nullptr, *U;
+  args setting;
+  setting.input = "input.obj";
+  setting.output = "output.obj";
+  setting.eigtol = 1e-12;
+  setting.eigmaxiter = 1000;
+  setting.method = Method::KIRCHHOFF;
+  setting.evp = EVP::NONE;
+  setting.solver_settings = "--solver CG";
+  setting.mu0 = 1.5;
+  int nv, nf, nb, *F = nullptr, *idx_b = nullptr, *Lii_row = nullptr,
+    *Lii_col = nullptr, *Lib_row = nullptr, *Lib_col = nullptr;
+  double timer, *V = nullptr, *C = nullptr, *Lii_val = nullptr,
+    *Lib_val = nullptr, *U = nullptr;
 
 
   // Read arguments
-  readArgs(argc, argv, input, output, method, evp);
+  readArgs(argc, argv, &setting);
 
   // Read object
-  readObject(input, &nv, &nf, &V, &C, &F);
+  readObject(setting.input, &nv, &nf, &V, &C, &F);
 
   cout << endl;
 
@@ -52,7 +58,7 @@ int main( int argc, char** argv ) {
   // Construct Laplacian
   cout << "Constructing Laplacian ................." << flush;
   tic(&timer);
-  constructLaplacianSparse(method, nv, nb, nf, V, F,
+  constructLaplacianSparse(setting.method, nv, nb, nf, V, F,
     &Lii_val, &Lii_row, &Lii_col,
     &Lib_val, &Lib_row, &Lib_col);
   cout << " Done.  ";
@@ -69,37 +75,34 @@ int main( int argc, char** argv ) {
   // Solve harmonic
   cout << "Solving Harmonic ......................." << flush;
   tic(&timer);
-  solveHarmonicSparse(nv, nb, Lii_val, Lii_row, Lii_col,
+  solveHarmonicSparse(setting.solver_settings,
+    nv, nb, Lii_val, Lii_row, Lii_col,
     Lib_val, Lib_row, Lib_col, U);
     cout << " Done.  ";
   toc(&timer);
   cout << endl;
   // Write object
-  writeObject(output, nv, nf, U, C, F);
+  writeObject(setting.output, nv, nf, U, C, F);
 
-  if (evp != EVP::NONE) {
+  if (setting.evp != EVP::NONE) {
     cout << "Solving Eigenvalue Problem ............." << flush;
-    double mu0 = 1.5, mu;  // Modify mu0 to change the initial
-                           // guess of eigenvalue
+    double mu = 0;
     double *x;
     x = new double[nv-nb];
-    char flag = 'D';      // Modify flag to choose solver on GPU
-                          // or CPU. Possible options are
-                          // 'H': solver on host    (CPU)
-                          // 'D': solver on device  (GPU)
     int nnz = Lii_row[nv-nb];
 
-    switch (evp) {
+    switch (setting.evp) {
       case EVP::HOST:
         tic(&timer);
         solveShiftEVPHost(nv-nb, nnz, Lii_val, Lii_row, Lii_col,
-          mu0, &mu, x);
+          setting.mu0, setting.eigmaxiter, setting.eigtol, &mu, x);
           cout << " Done.  ";
         toc(&timer);
         break;
       case EVP::DEVICE:
         tic(&timer);
-        solveShiftEVP(nv-nb, nnz, Lii_val, Lii_row, Lii_col, mu0, &mu, x);
+        solveShiftEVP(nv-nb, nnz, Lii_val, Lii_row, Lii_col,
+          setting.mu0, setting.eigmaxiter, setting.eigtol, &mu, x);
         cout << " Done.  ";
         toc(&timer);
         break;
@@ -108,7 +111,7 @@ int main( int argc, char** argv ) {
     cout << endl;
     cout << "n = " << nv-nb << endl;
     cout << "nnz = " << nnz << endl;
-    cout << "The estimated eigenvalue near "  << mu0 << " = ";
+    cout << "The estimated eigenvalue near "  << setting.mu0 << " = ";
     cout << fixed << setprecision(13) << mu << endl;
 
     cout << endl;

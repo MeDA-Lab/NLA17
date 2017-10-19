@@ -11,6 +11,7 @@
 /// @todo  To be implemented!
 ///
 void solveHarmonicSparse(
+  std::string solver_settings,
   const int     nv,
   const int     nb,
   const double *Lii_val,
@@ -21,6 +22,7 @@ void solveHarmonicSparse(
   const int    *Lib_col,
   double       *U
 ) {
+  static_cast<void>(solver_settings);
   static_cast<void>(nv);
   static_cast<void>(nb);
   static_cast<void>(Lii_val);

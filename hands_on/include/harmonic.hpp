@@ -8,6 +8,7 @@
 #ifndef SCSC_HARMONIC_HPP
 #define SCSC_HARMONIC_HPP
 
+#include <string>
 #include <cassert>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,6 +29,15 @@ enum class EVP {
     DEVICE = 2, ///< Use device function to calculate EVP
     COUNT,      ///< Used for counting number of methods.
   };
+
+typedef struct {
+    const char *input, *output;
+    EVP evp;
+    Method method;
+    std::string solver_settings;
+    double mu0, eigtol;
+    int eigmaxiter;
+} args;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the arguments.
 ///
@@ -38,7 +48,7 @@ enum class EVP {
 /// @param[out]  output  The output file.
 /// @param[out]  method  The method.
 ///
-void readArgs( int argc, char** argv, const char *&input, const char *&output, Method &method, EVP &evp);
+void readArgs( int argc, char** argv, args *setting);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the object file.
@@ -200,7 +210,8 @@ void constructLaplacianSparse( const Method method, const int nv, const int nb, 
 ///
 /// @note  The output arrays should be allocated before calling this routine.
 ///
-void solveHarmonicSparse( const int nv, const int nb,
+void solveHarmonicSparse( std::string solver_settings,
+                          const int nv, const int nb,
                           const double *Lii_val, const int *Lii_row, const int *Lii_col,
                           const double *Lib_val, const int *Lib_row, const int *Lib_col,
                           double *U );
@@ -232,6 +243,8 @@ void solveShiftEVPHost(
     const int *A_row,
     const int *A_col,
     const double mu0,
+    const int maxite,
+    const double tol,
     double *mu,
     double *x
 );
@@ -263,6 +276,8 @@ void solveShiftEVP(
     const int *A_row,
     const int *A_col,
     const double mu0,
+    const int maxite,
+    const double tol,
     double *mu,
     double *x
 );
