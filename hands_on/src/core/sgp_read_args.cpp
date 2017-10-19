@@ -105,6 +105,7 @@ void readArgs(int argc, char** argv, args *setting) {
       case 1005: {
         setting->lsover = static_cast<LSOLVER>(stoi(optarg, nullptr));
         assert(setting->lsover >= LSOLVER::LU && setting->lsover < LSOLVER::COUNT);
+        break;
       }
       case ':': {
         cout << "Option -" << c << " requires an argument.\n";
