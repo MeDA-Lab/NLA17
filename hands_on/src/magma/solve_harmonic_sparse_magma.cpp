@@ -7,10 +7,12 @@
 
 #include <harmonic.hpp>
 #include <iostream>
+#include <string>
+#include <cstring>
 #include "magma_v2.h"
 #include "magmasparse.h"
 #include "magma_lapack.h"
-// #include "testings.h"
+#include "tool.hpp"
 using namespace std;
 
 magma_int_t
@@ -37,8 +39,8 @@ magma_dcsrset_gpu(
     return MAGMA_SUCCESS;
 }
 
-
 void solveHarmonicSparse(
+  string solver_settings,
   const int nv,
   const int nb,
   const double *Lii_val,
@@ -49,6 +51,10 @@ void solveHarmonicSparse(
   const int *Lib_col,
   double *U
 ) {
+  string magma_settings = "./solver "+solver_settings+" A.mtx";
+  int argc = 0;
+  char **argv;
+  string2arg(magma_settings, &argc, &argv);
   magma_init();
   magma_queue_t queue;
   magma_queue_create(0, &queue);
@@ -82,8 +88,6 @@ void solveHarmonicSparse(
   // argc : length of argv
   // argv : {"first item", ..., "last item"}.
   //        First item and last item are unused.
-  int argc = 4;
-  char *argv[]={"./solver", "--solver", "CG", "A.mtx"};
   for (int i = 0; i < 2; i++) {
     magma_setvector(nb, sizeof(double), U+i*nv, 1, du.dval, 1, queue);
     magma_d_spmv(-1, dLib, du, 0, drhs, queue);

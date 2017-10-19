@@ -3,24 +3,38 @@
 /// @brief   The main header for spectral graph partitioning.
 ///
 /// @author  William Liao
-///
-
+/// @author  Yuhsiang Mike Tsai
 #ifndef SCSC_SGP_HPP
 #define SCSC_SGP_HPP
 
+#include <string>
 #include <cassert>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  The enumeration of Laplacian construction methods.
+/// @brief  The enumeration of network format.
 ///
-enum class Method {
-  SIMPLE = 0,    ///< Simple graph.
-  DIRECTED = 1,  ///< Directed (multi) graph
-  WEIGHTED = 2,  ///< Directed weighted graph
-  UW = 3,        ///< Undirected weighted graph
-  COUNT,         ///< Used for counting number of methods.
+enum class Network {
+  UNDEFINED  = 0,  ///< undefined network format in file
+  UNDIRECTED = 1,  ///< undirected networks.
+  DIRECTED   = 2,  ///< directed network
+  BIPARTITE  = 3,  ///< Bipartite networks
+  COUNT,           ///< Used for counting number of methods.
 };
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  The enumeration of edge weight
+///
+enum class Edge {
+    UNDEFINED   = 0,  ///< undefined edge weight in file
+    UNWEIGHTED  = 1,  ///< unweighted edge
+    MULTIPLE    = 2,  ///< multiple edge
+    POSITIVE    = 3,  ///< positive weighted edge
+    SIGNED      = 4,  ///< signed weighted edge
+    MULT_SIGNED = 5,  ///< multiple signed weighted edge
+    RATING      = 6,  ///< rating networks
+    MULT_RATING = 7,  ///< multiple ratings networks
+    DYNAMIC     = 8,  ///< Dynamic network
+    COUNT,            ///< Used for counting number of methods.
+};
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  The enumeration of eigenvalue problem class.
 ///
@@ -52,6 +66,15 @@ enum class LSOLVER {
     COUNT,         ///< Used for counting number of methods.
   };
 
+typedef struct {
+    char* file;
+    EVP evp;
+    LS ls;
+    std::string solver_settings;
+    double shift_sigma, mu0, eigtol, tol;
+    int eigmaxiter;
+    LSOLVER lsover;
+} args;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the arguments.
 ///
@@ -66,8 +89,7 @@ enum class LSOLVER {
 /// @param[out]  tflag   Method flag.
 /// @param[out]  pflag   Parameter setting file flag.
 ///
-void readArgs( int argc, char** argv, const char *&input, const char *&para, Method &method, EVP &evp, LS &ls, int &tflag,
-  int &pflag);
+void readArgs( int argc, char** argv, args *setting);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the graph file.
 ///
@@ -78,136 +100,10 @@ void readArgs( int argc, char** argv, const char *&input, const char *&para, Met
 /// @param[out]   E_size_c  number of data pair in edge lists.
 /// @note  The arrays are allocated by this routine (using new).
 ///
-int readGraph(const char *input, int **E, int *E_size_r, int *E_size_c);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Reads the parameter setting file for direct linear solver and eigensolver.
-///
-/// @param[in]      parafile    the path to the setting file.
-///
-/// @param[in/out]  shift_sigma shift for Laplacian matrix.
-///
-/// @param[in/out]  mu0         initial guess of eigenvalue.
-/// @param[in/out]  eigtol      tolerance for eigensolver.
-/// @param[in/out]  eigmaxite   max iteration number for eigensolver.
-/// @param[in/out]  solflag     linear solver flag.
-/// @param[in/out]  tol         tolerance for direct linear solver.
-/// @note  The arrays are allocated by this routine (using new).
-///
-void readParaDEVP(const char *parafile,
-    double &shift_sigma,
-    double &mu0,
-    double &eigtol,
-    int &eigmaxite,
-    LSOLVER &solflag,
-    double &tol);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Reads the parameter setting file for iterative linear solver and eigensolver.
-///
-/// @param[in]      parafile    the path to the setting file.
-///
-/// @param[in/out]  shift_sigma shift for Laplacian matrix.
-///
-/// @param[in/out]  mu0         initial guess of eigenvalue.
-/// @param[in/out]  eigtol      tolerance for eigensolver.
-/// @param[in/out]  eigmaxite   max iteration number for eigensolver.
-/// @param[in/out]  solver      type of linear solver.
-/// @param[in/out]  atol        absolute residual.
-/// @param[in/out]  rtol        relative residual.
-/// @param[in/out]  maxiter     max iteration number for iterative linear solver.
-/// @param[in/out]  precond     type of preconditioner.
-/// @param[in/out]  restart     Only take effects for GMRES and IDR.
-/// @note  The arrays are allocated by this routine (using new).
-///
-void readParaIEVP(const char *parafile,
-    double &shift_sigma,
-    double &mu0,
-    double &eigtol,
-    int &eigmaxite,
-    std::string &solver,
-    std::string &atol,
-    std::string &rtol,
-    std::string &maxiter,
-    std::string &precond,
-    std::string &restart);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Reads the parameter setting file for iterative linear solver.
-///
-/// @param[in]      parafile    the path to the setting file.
-///
-/// @param[in/out]  solver      type of linear solver.
-/// @param[in/out]  atol        absolute residual.
-/// @param[in/out]  rtol        relative residual.
-/// @param[in/out]  maxiter     max iteration number for iterative linear solver.
-/// @param[in/out]  precond     type of preconditioner.
-/// @param[in/out]  restart     Only take effects for GMRES and IDR.
-/// @note  The arrays are allocated by this routine (using new).
-///
-void readParaILS(const char *parafile,
-    double &shift_sigma,
-    std::string &solver,
-    std::string &atol,
-    std::string &rtol,
-    std::string &maxiter,
-    std::string &precond,
-    std::string &restart);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Reads the parameter setting file for direct linear solver.
-///
-/// @param[in]      parafile    the path to the setting file.
-///
-/// @param[in/out]  shift_sigma shift for Laplacian matrix.
-///
-/// @param[in/out]  solflag     linear solver flag.
-/// @param[in/out]  tol         tolerance for direct linear solver.
-/// @note  The arrays are allocated by this routine (using new).
-///
-void readParaDLS(const char *parafile,
-    double &shift_sigma,
-    LSOLVER &solflag,
-    double &tol);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Reads the parameter setting file for eigensolver.
-///
-/// @param[in]      parafile    the path to the setting file.
-///
-/// @param[in/out]  shift_sigma shift for Laplacian matrix.
-///
-/// @param[in/out]  mu0         initial guess of eigenvalue.
-/// @param[in/out]  eigtol      tolerance for eigensolver.
-/// @param[in/out]  eigmaxite   max iteration number for eigensolver.
-/// @note  The arrays are allocated by this routine (using new).
-///
-void readParaEVP(const char *parafile,
-    double &shift_sigma,
-    double &mu0,
-    double &eigtol,
-    int &eigmaxite);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Sets the graph type.
-///
-/// @param[in]   E_size_c   number of data pair in edge lists.
-///
-/// @param[out]  type  number of data pair in edge lists.
-///
-int setgraphtype(int E_size_c);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Sets the graph type.
-///
-/// @param[in]   E_size_c   number of data pair in edge lists.
-///
-/// @param[out]  method     graph type.
-///
-void setgraphtype(Method &method, int E_size_c);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Sets the graph type.
-///
-/// @param[in]   input      user defined type id from the command line.
-///
-/// @param[in]   E_size_c   number of data pair in edge lists.
-///
-/// @param[out]  type       graph type.
-///
-int setgraphtype(char *input, int E_size_c);
+void readGraph(const char *input, int *E_size_r, int *E_size_c, int **E,
+    double **W, Network *network_type, Edge *edge_type);
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Construct adjacency matrix of graph.
 ///
@@ -227,9 +123,8 @@ int setgraphtype(char *input, int E_size_c);
 ///
 /// @note  The output arrays are allocated by this routine (using new).
 ///
-int GraphAdjacency(int *E, int E_size,
-	int *nnz, int **cooRowIndA,
-	int **cooColIndA, double **cooValA, int *n, char flag);
+void GraphAdjacency(int E_size, int *E, double *W,
+    int *n, int *nnz, double **cooValA, int **cooRowIndA, int **cooColIndA);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Construct adjacency matrix of graph.
 ///
@@ -278,46 +173,12 @@ void solveShiftEVPHost(
     const int *A_row,
     const int *A_col,
     const double mu0,
+    const int maxite,
+    const double tol,
     double *mu,
     double *x
 );
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Solve eigenvalue near mu0 on host.
-///
-/// @param[in]  mu0     initial guess of eigenvalue.
-///
-/// @param[in]  nnz     number of nonzero elements in the matrix.
-///
-/// @param[in/out]  A_row     CSR row pointer; pointer.
-///
-/// @param[in/out]  A_col     CSR column index; pointer.
-///
-/// @param[in/out]  A_val  nonzero values of the matrix; pointer.
-///
-/// @param[in]  m        size of the matrix.
-///
-/// @param[in]  tol      tolerance.
-///
-/// @param[in]  maxite   upper limit for the iteration count.
-///
-/// @param[out] mu       estimated eigenvalue.
-///
-/// @param[out] x        estimated eigenvector w.r.t. mu; pointer.
-///
-/// @note  All inputs should be stored on host.
-///
-void solveShiftEVPHostCust(
-    int m,
-    int nnz,
-    const double *A_val,
-    const int *A_row,
-    const int *A_col,
-    const double mu0,
-    double *mu,
-    double *x,
-    double tol, 
-    int maxite
-);
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Solve eigenvalue near mu0 on device.
 ///
@@ -346,45 +207,10 @@ void solveShiftEVP(
     const int *A_row,
     const int *A_col,
     const double mu0,
+    const int maxite,
+    const double tol,
     double *mu,
     double *x
-);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Solve eigenvalue near mu0 on device.
-///
-/// @param[in]  mu0     initial guess of eigenvalue.
-///
-/// @param[in]  nnz     number of nonzero elements in the matrix.
-///
-/// @param[in/out]  A_row     CSR row pointer; pointer.
-///
-/// @param[in/out]  A_col     CSR column index; pointer.
-///
-/// @param[in/out]  A_val  nonzero values of the matrix; pointer.
-///
-/// @param[in]  m        size of the matrix.
-///
-/// @param[in]  tol      tolerance.
-///
-/// @param[in]  maxite   upper limit for the iteration count.
-///
-/// @param[out] mu       estimated eigenvalue.
-///
-/// @param[out] x        estimated eigenvector w.r.t. mu; pointer.
-///
-/// @note  All inputs should be stored on host.
-///
-void solveShiftEVPCust(
-    int m,
-    int nnz,
-    const double *A_val,
-    const int *A_row,
-    const int *A_col,
-    const double mu0,
-    double *mu,
-    double *x,
-    double tol, 
-    int maxite
 );
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Solve linear system Ax = b with requested solver on host.
@@ -580,6 +406,7 @@ int cudasolverinfo(int flag, int solver);
 /// @param[out] x       the estimated solution.
 ///
 void solveGraph(
+    std::string solver_settings,
     int m,
     int nnz,
     const double *A_val,
@@ -588,48 +415,6 @@ void solveGraph(
     const double *b,
     double *x
 );
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  MAGMA iterative linear system solver wrapper.
-///
-/// @param[in]  m       size of the Laplacian matrix.
-///
-/// @param[in]  nnz     number of nonzeros of the Laplacian matrix.
-///
-/// @param[in]  A_val   value of the Laplacian matrix.
-///
-/// @param[in]  A_row   row pointer of the Laplacian matrix.
-///
-/// @param[in]  A_col   column index of the Laplacian matrix.
-///
-/// @param[in]  b       the RHS of AX = b.
-///
-/// @param[in]  solver  type of iterative solver.
-///
-/// @param[in]  atol    absolute residual.
-///
-/// @param[in]  rtol    relative residual.
-///
-/// @param[in]  maxiter upper limit for the iteration count.
-///
-/// @param[in]  precond type of preconditioner.
-///
-/// @param[in]  restart Only take effects for GMRES and IDR.
-///
-/// @param[out] x       the estimated solution.
-///
-void solveGraphCust(
-    int m,
-    int nnz,
-    const double *A_val,
-    const int *A_row,
-    const int *A_col,
-    const double *b,
-    double *x,
-    std::string solver, 
-    std::string atol,
-    std::string rtol, 
-    std::string maxiter,
-    std::string precond,
-    std::string restart
-);
+
+void printKonectHeader(Network network, Edge edge_type);
 #endif  // SCSC_SGP_HPP

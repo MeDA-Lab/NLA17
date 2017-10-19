@@ -1,3 +1,6 @@
+ ## Magam Solver Settings.
+ There is subset of solver settings.  
+ ```
  --solver      Possibility to choose a solver:
                CG, PCG, BICGSTAB, PBICGSTAB, GMRES, PGMRES, LOBPCG, JACOBI,
                BAITER, IDR, PIDR, CGS, PCGS, TFQMR, PTFQMR, QMR, PQMR, BICG,
@@ -27,3 +30,4 @@
                       Corresponds to the relative fill-in in PARILUT.
  --prtol x     Set a relative residual stopping criterion for the preconditioner.
                       Corresponds to the replacement ratio in PARILUT.
+```
