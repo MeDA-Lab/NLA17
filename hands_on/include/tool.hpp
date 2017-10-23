@@ -16,5 +16,13 @@
 ///
 void string2arg(std::string str, int *argc, char ***argv);
 
+magma_int_t magma_dcsrset_gpu(
+    magma_int_t m,
+    magma_int_t n,
+    magmaIndex_ptr row,
+    magmaIndex_ptr col,
+    magmaDouble_ptr val,
+    magma_d_matrix *A,
+    magma_queue_t queue );
 
 #endif  // SCSC_TOOL_HPP
