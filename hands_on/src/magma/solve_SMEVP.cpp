@@ -44,16 +44,25 @@ void solveSMEVP(
   magma_d_matrix dA;
   magma_dcsrset_gpu(m, m, dA_row, dA_col, dA_val, &dA, queue);
 
+  magma_d_matrix dx, drhs;
+  magma_dvinit(&dx, Magma_DEV, m, 1, 0, queue);
+  magma_dvinit(&drhs, Magma_DEV, m, 1, 1, queue);
   magma_dopts dopts;
   int k = 1;
   magmaDoubleComplex *eigenvectors = new magmaDoubleComplex[ev_num*dA.num_rows];
   // Init
   magma_dparse_opts(argc, argv, &dopts, &k, queue);
-  dopts.solver_par.ev_length = dA.num_cols;
+  
   magma_dsolverinfo_init(&dopts.solver_par, &dopts.precond_par, queue);
+  dopts.solver_par.ev_length = dA.num_cols;
+  magma_deigensolverinfo_init( &dopts.solver_par, queue );
+  magma_d_precondsetup(dA, drhs,
+    &dopts.solver_par, &dopts.precond_par, queue);
   // Solve
-//   magma_d_solver(dA, drhs, &dx, &dopts, queue);
-  magma_dlobpcg(dA, &dopts.solver_par, &dopts.precond_par, queue);
+  cout << "?\n";
+  magma_d_solver(dA, drhs, &dx, &dopts, queue);
+  cout << "O\n";
+//   magma_dlobpcg(dA, &dopts.solver_par, &dopts.precond_par, queue);
   // Get Info
   magma_dsolverinfo(&dopts.solver_par, &dopts.precond_par, queue);
   magma_getvector(ev_num * dA.num_rows, sizeof(magmaDoubleComplex),

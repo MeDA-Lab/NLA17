@@ -78,7 +78,10 @@ int main( int argc, char** argv ){
     	tmp = csrRowIndA[i]-1;
         csrRowIndA[i] = tmp;
     }
-
+    cout << "------------------------------------\n";
+    double *eigval = new double[3], *eigvec = new double[3*n];
+    solveSMEVP(3, n, nnz, csrValA, csrRowIndA, csrColIndA, eigval, eigvec);
+    cout << "------------------------------------\n";
     if ( setting.ls != LS::NONE )
     {
         // Generate RHS

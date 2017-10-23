@@ -50,7 +50,7 @@ void solveGraph(
   magma_dvset_dev(m, 1, db, &drhs, queue);
 
   magma_dcsrset_gpu(m, m, dA_row, dA_col, dA_val, &dA, queue);
-
+  
   magma_dopts dopts;
   int k = 1;
 
