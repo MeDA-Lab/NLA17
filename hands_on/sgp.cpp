@@ -78,7 +78,9 @@ int main( int argc, char** argv ){
     	tmp = csrRowIndA[i]-1;
         csrRowIndA[i] = tmp;
     }
-
+    int ev_num = 5;
+    double *eigval = new double[ev_num], *eigvec = new double[ev_num*n];
+    solveSMEVP(ev_num, n, nnz, csrValA, csrRowIndA, csrColIndA, eigval, eigvec);
     if ( setting.ls != LS::NONE )
     {
         // Generate RHS

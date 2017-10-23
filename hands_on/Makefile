@@ -48,18 +48,19 @@ MAGMALNKS  = -lmagma_sparse -lmagma
 surfpara_obj = map_boundary.o verify_boundary_sparse.o write_object.o \
 			   read_args.o read_object.o reorder_vertex.o string2arg.o\
     		   construct_laplacian_sparse.o solve_shiftevp_cuda.o \
-               solve_harmonic_sparse.o
+               magma_dcsrset_gpu.o solve_harmonic_sparse.o
 	  
 surfpara_magma_obj = map_boundary.o verify_boundary_sparse.o write_object.o \
 					 read_args.o read_object.o reorder_vertex.o string2arg.o\
     				 construct_laplacian_sparse.o solve_shiftevp_cuda.o \
-    				 solve_harmonic_sparse_magma.o
+    				 magma_dcsrset_gpu.o solve_harmonic_sparse_magma.o
 
 sgp_obj = read_graph.o graph_adjacency.o graph_laplacian.o \
 	solve_shiftevp_cuda.o generate_RHS.o \
 	sgp_read_args.o solve_sgp_sparse_magma.o \
 	cuda_solverinfo.o residual.o solve_ls_cuda.o \
-	lu_cuda.o chol_cuda.o qr_cuda.o string2arg.o print_konect_header.o
+	lu_cuda.o chol_cuda.o qr_cuda.o string2arg.o print_konect_header.o \
+	solve_SMEVP.o magma_dcsrset_gpu.o
 
 
 INCS = -I include
