@@ -417,4 +417,15 @@ void solveGraph(
 );
 
 void printKonectHeader(Network network, Edge edge_type);
+
+void solveSMEVP(
+    const int ev_num,
+    const int m,
+    const int nnz,
+    const double *A_val,
+    const int *A_row,
+    const int *A_col,
+    double *eig_vals,
+    double *eig_vecs
+);
 #endif  // SCSC_SGP_HPP
