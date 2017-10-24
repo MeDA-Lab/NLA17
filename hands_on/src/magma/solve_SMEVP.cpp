@@ -61,14 +61,12 @@ void solveSMEVP(
   // magma_dlobpcg(dA, &dopts.solver_par, &dopts.precond_par, queue);
   // Get Info
   magma_dsolverinfo(&dopts.solver_par, &dopts.precond_par, queue);
-  magma_getvector(ev_num * dA.num_rows, sizeof(magmaDoubleComplex),
-    dopts.solver_par.eigenvectors, 1, eigenvectors, 1, queue);
+  magma_dgetvector(ev_num * dA.num_rows,
+    dopts.solver_par.eigenvectors, 1, eig_vecs, 1, queue);
   for (int i = 0; i < ev_num; i++) {
       eig_vals[i] = dopts.solver_par.eigenvalues[i];
   }
-  for (int i = 0; i < ev_num*dA.num_rows; i++) {
-      eig_vecs[i] = MAGMA_Z_REAL(eigenvectors[i]);
-  }
+  
   // Free Info
   magma_dsolverinfo_free(&dopts.solver_par, &dopts.precond_par, queue);
   delete [] eigenvectors;
