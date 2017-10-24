@@ -428,4 +428,13 @@ void solveSMEVP(
     double *eig_vals,
     double *eig_vecs
 );
+
+void writePartition(
+    const int nv,
+    const int E_size_r,
+    const double *E,
+    const double *eig_vals,
+    const double *eig_vecs,
+    std::string filename
+);
 #endif  // SCSC_SGP_HPP
