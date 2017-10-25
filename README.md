@@ -10,3 +10,4 @@ For Numerical Linear Algebra course
 - 09/29 : Update lab01 Hint and Release 
 [LinuxSimpleTutorial](LinuxSimpleTutorial.md)
 - 10/05 : release H03 (reference solution to lab02)
+- 10/26 : release ver1.0 in hands_on folder

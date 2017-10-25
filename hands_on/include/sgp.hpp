@@ -11,6 +11,16 @@
 #include <cassert>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  The enumeration of target 
+///
+enum class Target {
+    LOBPCG   = 0,  ///< solve m smallest eigenvectors
+    SIPM     = 1,  ///< use shift inverse power method to solve
+    LS       = 2,  ///< solve A+sigmaI linear system
+    COUNT,         ///< Used for counting number of methods.
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  The enumeration of network format.
 ///
 enum class Network {
@@ -38,42 +48,33 @@ enum class Edge {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  The enumeration of eigenvalue problem class.
 ///
-enum class EVP {
-    NONE = 0,   ///< Do not calculate EVP
-    HOST = 1,   ///< Use host function to calculate EVP
-    DEVICE = 2, ///< Use device function to calculate EVP
-    COUNT,      ///< Used for counting number of methods.
+enum class SIPM {
+    HOST = 0,    ///< Use host function to calculate EVP
+    DEVICE = 1,  ///< Use device function to calculate EVP
+    COUNT,       ///< Used for counting number of methods.
   };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  The enumeration of linear system problem class.
 ///
 enum class LS {
-    NONE = 0,      ///< Do not calculate LS
-    HOST = 1,      ///< Use host direct solver to calculate LS
-    DEVICE = 2,    ///< Use device direct solver to calculate LS
-    ITERATIVE = 3, ///< Use iterative solver to calculate LS
-    COUNT,         ///< Used for counting number of methods.
+    MAGMA       = 0,  ///< MAGMA Iterative solver
+    HOST_QR     = 1,  ///< HOST QR
+    HOST_CHOL   = 2,  ///< HOST CHOLESKY
+    HOST_LU     = 3,  ///< HOST LU
+    DEVICE_QR   = 4,  ///< DEVICE QR
+    DEVICE_CHOL = 5,  ///< DEVICE LU
+    COUNT,            ///< Used for counting number of methods.
   };
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  The enumeration of linear solver type.
-///
-enum class LSOLVER {
-    LU = 0,        ///< LU factorization
-    CHOL = 1,      ///< Cholesky factorization
-    QR = 2,        ///< QR factorization
-    COUNT,         ///< Used for counting number of methods.
-  };
 
 typedef struct {
-    char* file;
-    EVP evp;
+    Target target;
+    SIPM sipm;
     LS ls;
-    std::string solver_settings;
-    double shift_sigma, mu0, eigtol, tol;
-    int eigmaxiter;
-    LSOLVER lsover;
+    std::string solver_settings, file, output;
+    double sigma, tol;
+    int eig_maxiter;
 } args;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the arguments.
@@ -100,7 +101,7 @@ void readArgs( int argc, char** argv, args *setting);
 /// @param[out]   E_size_c  number of data pair in edge lists.
 /// @note  The arrays are allocated by this routine (using new).
 ///
-void readGraph(const char *input, int *E_size_r, int *E_size_c, int **E,
+void readGraph(const std::string input, int *E_size_r, int *E_size_c, int **E,
     double **W, Network *network_type, Edge *edge_type);
 
 
@@ -212,71 +213,7 @@ void solveShiftEVP(
     double *mu,
     double *x
 );
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Solve linear system Ax = b with requested solver on host.
-///
-/// @param[in]  solver    type of solver; Possible options are; 0:LU; 1:Cholesky; 2:QR
-///
-/// @param[in]  nnz     number of nonzero elements in the matrix.
-///
-/// @param[in/out]  A_row     CSR row pointer; pointer.
-///
-/// @param[in/out]  A_col     CSR column index; pointer.
-///
-/// @param[in/out]  A_val  nonzero values of the matrix; pointer.
-///
-/// @param[in]  m        size of the matrix.
-///
-/// @param[in]  b        RHS of the linear system; pointer.
-///
-/// @param[out] x        estimated solution; pointer.
-///
-/// @note  All inputs should be stored on host.
-///
-void solvelsHost(
-    int m,
-    int nnz,
-    const double *A_val,
-    const int *A_row,
-    const int *A_col,
-    const double *b,
-    double *x,
-    int solver
-);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  Solve linear system Ax = b with requested direct solver on host.
-///
-/// @param[in]  solver    type of solver; Possible options are; 0:LU; 1:Cholesky; 2:QR
-///
-/// @param[in]  nnz     number of nonzero elements in the matrix.
-///
-/// @param[in/out]  A_row     CSR row pointer; pointer.
-///
-/// @param[in/out]  A_col     CSR column index; pointer.
-///
-/// @param[in/out]  A_val  nonzero values of the matrix; pointer.
-///
-/// @param[in]  m        size of the matrix.
-///
-/// @param[in]  b        RHS of the linear system; pointer.
-///
-/// @param[out] x        estimated solution; pointer.
-///
-/// @param[out] tol      tolerance.
-///
-/// @note  All inputs should be stored on host.
-///
-void solvelsHostCust(
-    int m,
-    int nnz,
-    const double *A_val,
-    const int *A_row,
-    const int *A_col,
-    const double *b,
-    double *x,
-    int solver,
-    double tol
-);
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Solve linear system Ax = b with requested direct solver on device.
 ///
@@ -299,6 +236,7 @@ void solvelsHostCust(
 /// @note  All inputs should be stored on host.
 ///
 void solvels(
+    LS ls,
     int m,
     int nnz,
     const double *A_val,
@@ -306,7 +244,7 @@ void solvels(
     const int *A_col,
     const double *b,
     double *x,
-    int solver
+    double tol
 );
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Solve linear system Ax = b with requested direct solver on device.
@@ -417,4 +355,26 @@ void solveGraph(
 );
 
 void printKonectHeader(Network network, Edge edge_type);
+
+void solveSMEVP(
+    std::string solver_settings,
+    const int m,
+    const int nnz,
+    const double *A_val,
+    const int *A_row,
+    const int *A_col,
+    int *eig_num,
+    double **eig_vals,
+    double **eig_vecs
+);
+
+void writePartition(
+    const int nv,
+    const int E_size_r,
+    const int *E,
+    const int ev_num,
+    const double *eig_vals,
+    const double *eig_vecs,
+    const std::string filename
+);
 #endif  // SCSC_SGP_HPP

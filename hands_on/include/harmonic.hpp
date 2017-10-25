@@ -11,6 +11,38 @@
 #include <string>
 #include <cassert>
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  The enumeration of target 
+///
+enum class Target {
+    LS       = 0,  ///< solve LiiUi = LibUb
+    SIPM     = 1,  ///< use shift inverse power method to solve
+    COUNT,         ///< Used for counting number of methods.
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  The enumeration of eigenvalue problem class.
+///
+enum class SIPM {
+    HOST = 0,    ///< Use host function to calculate EVP
+    DEVICE = 1,  ///< Use device function to calculate EVP
+    COUNT,       ///< Used for counting number of methods.
+  };
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  The enumeration of linear system problem class.
+///
+enum class LS {
+    MAGMA       = 0,  ///< MAGMA Iterative solver
+    HOST_QR     = 1,  ///< HOST QR
+    HOST_CHOL   = 2,  ///< HOST CHOLESKY
+    HOST_LU     = 3,  ///< HOST LU
+    DEVICE_QR   = 4,  ///< DEVICE QR
+    DEVICE_CHOL = 5,  ///< DEVICE LU
+    COUNT,            ///< Used for counting number of methods.
+  };
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  The enumeration of Laplacian construction methods.
 ///
@@ -20,23 +52,14 @@ enum class Method {
   COUNT,          ///< Used for counting number of methods.
 };
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// @brief  The enumeration of Laplacian construction methods.
-///
-enum class EVP {
-    NONE = 0,   ///< Do not calculate EVP
-    HOST = 1,   ///< Use host function to calculate EVP
-    DEVICE = 2, ///< Use device function to calculate EVP
-    COUNT,      ///< Used for counting number of methods.
-  };
-
 typedef struct {
-    const char *input, *output;
-    EVP evp;
+    Target target;
+    SIPM sipm;
     Method method;
-    std::string solver_settings;
-    double mu0, eigtol;
-    int eigmaxiter;
+    LS ls;
+    std::string solver_settings, file, output;
+    double sigma, tol;
+    int eig_maxiter;
 } args;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the arguments.
@@ -63,7 +86,7 @@ void readArgs( int argc, char** argv, args *setting);
 ///
 /// @note  The arrays are allocated by this routine (using new).
 ///
-void readObject( const char *input, int *ptr_nv, int *ptr_nf, double **ptr_V, double **ptr_C, int **ptr_F );
+void readObject( const std::string input, int *ptr_nv, int *ptr_nf, double **ptr_V, double **ptr_C, int **ptr_F );
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Verify the boundary vertices.
@@ -151,7 +174,7 @@ void solveHarmonic( const int nv, const int nb, double *L, double *U );
 /// @param[in]   C   the color of vertices. RGB.
 /// @param[in]   F   the faces; nf by 3 matrix.
 ///
-void writeObject( const char *input, const int nv, const int nf, double *U, double *C, int *F );
+void writeObject( const std::string input, const int nv, const int nf, double *U, double *C, int *F );
 
 
 
