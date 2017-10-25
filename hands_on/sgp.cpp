@@ -64,7 +64,12 @@ int main( int argc, char** argv ){
     double  *csrValA;
     cout << "Construct Laplacian matrix of graph........." << flush;
     // setting.sigma = 0;
-    GraphLaplacian(&nnz, cooRowIndA, cooColIndA, cooValA, n, &csrRowIndA, &csrColIndA, &csrValA, setting.sigma);
+    double sigma = setting.sigma;
+    if (setting.target == Target::SIPM) {
+        // SIPM do not shift 
+        sigma = 0;
+    }
+    GraphLaplacian(&nnz, cooRowIndA, cooColIndA, cooValA, n, &csrRowIndA, &csrColIndA, &csrValA, sigma);
     cout << " Done.  " << endl;
     cout << "nnz of L = " << nnz << endl;
 
