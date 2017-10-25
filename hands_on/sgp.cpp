@@ -24,7 +24,7 @@ int main( int argc, char** argv ){
     setting.target = Target::LOBPCG;
     setting.sipm = SIPM::HOST;
     setting.ls = LS::MAGMA;
-    setting.solver_settings = "--solver LOBPCG --ev 4";
+    setting.solver_settings = "--solver LOBPCG --ev 4 --precond ILU";
     setting.file = "input.obj";
     setting.output = "output.obj";
     setting.sigma = 1e-5;

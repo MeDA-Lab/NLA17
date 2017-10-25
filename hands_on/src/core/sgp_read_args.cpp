@@ -14,7 +14,7 @@
 #include <string>
 using namespace std;
 
-const char* const short_opt = "hf:o:t:s:";;
+const char* const short_opt = "hf:o:t:s:";
 
 const struct option long_opt[] = {
   {"help",   0, NULL, 'h'},
@@ -39,14 +39,14 @@ void dispUsage( const char *bin ) {
   cout << "Usage: " << bin << " [OPTIONS]" << endl;
   cout << "Options:" << endl;
   cout << "  -h,       --help           Display this information" << endl;
-  cout << "  -f<file>, --file <file>    The graph data file" << endl;
-  cout << "  -o<file>, --output <file>  The Output file" << endl;
+  cout << "  -f<file>, --file <file>    The graph data file (defalut: input.obj)" << endl;
+  cout << "  -o<file>, --output <file>  The Output file (default: output.obj)" << endl;
   cout << "  -t<num>,  --target <num>   0: LOBPCG (solve some smallest eigenvectors) (default) \n"
        << "                             1: SIPM - Shift Inverse Power Method\n"
        << "                             2: LS   - Linear System (A+sigmaI)\n";
   cout << "  -s\"solver_settings\",    --magmasolver \"solver_settings\"\n"
        << "                        default settings: \"--solver CG\" for Iterative Linear System\n"
-       << "                                          \"--solver LOBPCG --ev 4\" for LOBPCG\n";
+       << "                                          \"--solver LOBPCG --ev 4 --precond ILU\" for LOBPCG\n";
   cout << "  --tol <num>           Tolerance of Direct Eigensolver or Linear System Solver\n";
   cout << "  --sigma <value>       SIPM: as mu0, LS: as shift element\n";
   cout << "  --eig_maxiter <value> The maximum iteration of eigensolver (default: 1000)\n";
@@ -118,7 +118,7 @@ void readArgs(int argc, char** argv, args *setting) {
   }
   if (isSolverSet == false) {
     if (setting->target == Target::LOBPCG) {
-      setting->solver_settings = "--solver LOBPCG --ev 4";
+      setting->solver_settings = "--solver LOBPCG --ev 4 --precond ILU";
     } else {
       setting->solver_settings = "--solver CG";
     }
@@ -126,6 +126,7 @@ void readArgs(int argc, char** argv, args *setting) {
   if (setting->solver_settings.find("LOBPCG") != string::npos
     && setting->target == Target::LS) {
     cerr << "Do not use LOBPCG in linear system\n";
+    cerr << "example: --solver LOBPCG ...\n";
     exit(1);
   }
   if (setting->solver_settings.find("LOBPCG") == string::npos

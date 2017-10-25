@@ -5,12 +5,13 @@
 /// @author  Yuhsiang Mike Tsai
 ///
 #include <harmonic.hpp>
+#include <string>
 #include <iostream>
 #include <fstream>
 using namespace std;
 
 void writeObject(
-    const char *input,
+    const string input,
     const int nv,
     const int nf,
     double *U,

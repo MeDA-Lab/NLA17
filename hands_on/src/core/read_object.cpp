@@ -15,7 +15,7 @@
 using namespace std;
 
 void readObject(
-    const char *input,
+    const string input,
     int *ptr_nv,
     int *ptr_nf,
     double **ptr_V,
