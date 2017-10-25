@@ -89,6 +89,8 @@ void GraphLaplacian(int *nnz, int *cooRowIndA,
   job[0] = 2;
   job[1] = 1;
   job[2] = 0;
+  job[3] = 0;
+  job[4] = 0; // It will be wrong job[4] < 0
   job[5] = 0;
   mkl_dcsrcoo(job, &n, acsr, ja, ia, nnz, cooValA, cooRowIndA, cooColIndA, &info);
   mkl_dcsrcoo(job, &n, dcsr, jd, id, &tmp1, cooValD, sumInd, sumInd, &info);
