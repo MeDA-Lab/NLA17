@@ -48,7 +48,7 @@ void dispUsage( const char *bin ) {
        << "                        default settings: \"--solver CG\" for Iterative Linear System\n"
        << "                                          \"--solver LOBPCG --ev 4 --precond ILU\" for LOBPCG\n";
   cout << "  --tol <num>           Tolerance of Direct Eigensolver or Linear System Solver\n";
-  cout << "  --sigma <value>       SIPM: as mu0, LS: as shift element\n";
+  cout << "  --sigma <value>       SIPM: as mu0, LS: as shift element (default: 0)\n";
   cout << "  --eig_maxiter <value> The maximum iteration of eigensolver (default: 1000)\n";
   cout << "  --sipm_option <num>   0: Host(default) 1: Device\n";
   cout << "  --ls_option <num>     Iterative - 0: MAGMA Iterative solver(default)\n"

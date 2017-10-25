@@ -27,7 +27,7 @@ int main( int argc, char** argv ){
     setting.solver_settings = "--solver LOBPCG --ev 4 --precond ILU";
     setting.file = "input.obj";
     setting.output = "output.obj";
-    setting.sigma = 1e-5;
+    setting.sigma = 0;
     setting.tol = 1e-12;
     setting.eig_maxiter = 1000;
     LS ls;
