@@ -44,7 +44,7 @@ void dispUsage( const char *bin ) {
   cout << "  -t<num>,  --target <num>   0: LOBPCG (solve some smallest eigenvectors) (default) \n"
        << "                             1: SIPM - Shift Inverse Power Method\n"
        << "                             2: LS   - Linear System (A+sigmaI)\n";
-  cout << "  -s\"solver_settings\",    --magmasolver \"solver_settings\"\n"
+  cout << "  -s\"solver_settings\",      --magmasolver \"solver_settings\"\n"
        << "                        default settings: \"--solver CG\" for Iterative Linear System\n"
        << "                                          \"--solver LOBPCG --ev 4 --precond ILU\" for LOBPCG\n";
   cout << "  --tol <num>           Tolerance of Direct Eigensolver or Linear System Solver\n";

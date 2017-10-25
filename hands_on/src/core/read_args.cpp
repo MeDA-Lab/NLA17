@@ -43,7 +43,7 @@ void dispUsage( const char *bin ) {
   cout << "  -o<file>, --output <file>  The Output file (default: output.obj)" << endl;
   cout << "  -t<num>,  --target <num>   0: LS   - Linear System (Lii Ui = Lib Ub) (default) \n"
        << "                             1: SIPM - Shift Inverse Power Method\n";
-  cout << "  -s\"solver_settings\",    --magmasolver \"solver_settings\"\n"
+  cout << "  -s\"solver_settings\",      --magmasolver \"solver_settings\"\n"
        << "                        default settings: \"--solver CG\" for Iterative Linear System\n";
   cout << "  --method <num>        Laplacian matrix, 0: KIRCHHOFF (default) 1: COTANGENT\n";
   cout << "  --tol <num>           Tolerance of Direct Eigensolver or Linear System Solver\n";

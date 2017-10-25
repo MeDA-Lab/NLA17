@@ -25,7 +25,7 @@ Options:
   -t<num>,  --target <num>   0: LOBPCG (solve some smallest eigenvectors) (default)
                              1: SIPM - Shift Inverse Power Method
                              2: LS   - Linear System (A+sigmaI)
-  -s"solver_settings",    --magmasolver "solver_settings"
+  -s"solver_settings",      --magmasolver "solver_settings"
                         default settings: "--solver CG" for Iterative Linear System
                                           "--solver LOBPCG --ev 4 --precond ILU" for LOBPCG
   --tol <num>           Tolerance of Direct Eigensolver or Linear System Solver
