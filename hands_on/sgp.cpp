@@ -21,20 +21,21 @@ using namespace std;
 ///
 int main( int argc, char** argv ){
     args setting;
-    setting.eigmaxiter = 1000;
-    setting.eigtol = 1e-12;
-    setting.evp = EVP::NONE;
-    setting.ls = LS::DEVICE;
-    setting.file = NULL;
-    setting.mu0 = 0.6;
-    setting.shift_sigma = 1e-5;
-    setting.solver_settings = "--solver CG";
+    setting.target = Target::LOBPCG;
+    setting.sipm = SIPM::HOST;
+    setting.ls = LS::MAGMA;
+    setting.solver_settings = "--solver LOBPCG --ev 4";
+    setting.file = "input.obj";
+    setting.output = "output.obj";
+    setting.sigma = 1e-5;
     setting.tol = 1e-12;
-    setting.lsover = LSOLVER::LU;
+    setting.eig_maxiter = 1000;
+    LS ls;
+    std::string solver_settings, file, output;
+    
     // Flags to check certain conditions
 	// Read arguments
     readArgs(argc, argv, &setting);
-    assert( (setting.evp != EVP::NONE) || (setting.ls != LS::NONE) );
 
     // Read file
     int E_size_r, E_size_c, *E;
@@ -62,100 +63,90 @@ int main( int argc, char** argv ){
     int *csrRowIndA, *csrColIndA;
     double  *csrValA;
     cout << "Construct Laplacian matrix of graph........." << flush;
-    GraphLaplacian(&nnz, cooRowIndA, cooColIndA, cooValA, n, &csrRowIndA, &csrColIndA, &csrValA, setting.shift_sigma);
+    // setting.sigma = 0;
+    GraphLaplacian(&nnz, cooRowIndA, cooColIndA, cooValA, n, &csrRowIndA, &csrColIndA, &csrValA, setting.sigma);
     cout << " Done.  " << endl;
     cout << "nnz of L = " << nnz << endl;
 
-    // Shift to zero-based indexing
-    int tmp;
-    for (int i = 0; i < nnz; i++)
-    {
-    	tmp = csrColIndA[i]-1;
-        csrColIndA[i] = tmp;
-    }
-    for (int i = 0; i < n+1; i++)
-    {
-    	tmp = csrRowIndA[i]-1;
-        csrRowIndA[i] = tmp;
-    }
-    int ev_num = 4;
-    double *eigval = new double[ev_num], *eigvec = new double[ev_num*n];
-    solveSMEVP(ev_num, n, nnz, csrValA, csrRowIndA, csrColIndA, eigval, eigvec);
-    writePartition(n, E_size_r, E, ev_num, eigval, eigvec, "output.obj");
+    double *eigval = nullptr, *eigvec = nullptr;
+    int eignum = 0;
+    solveSMEVP(setting.solver_settings, n, nnz, csrValA, csrRowIndA, csrColIndA,
+        &eignum, &eigval, &eigvec);
+    writePartition(n, E_size_r, E, eignum, eigval, eigvec, "output.obj");
 
-    if ( setting.ls != LS::NONE )
-    {
-        // Generate RHS
-        double *b;
-        b = new double[n];
-        genRHS(b, n, nnz, csrValA, csrRowIndA, csrColIndA);
+    // if ( setting.ls != LS::NONE )
+    // {
+    //     // Generate RHS
+    //     double *b;
+    //     b = new double[n];
+    //     genRHS(b, n, nnz, csrValA, csrRowIndA, csrColIndA);
 
-        // Solve LS
-        double *x, timer;
-        double res;
-        int solverid;
-        x = new double[n];
+    //     // Solve LS
+    //     double *x, timer;
+    //     double res;
+    //     int solverid;
+    //     x = new double[n];
 
-        if ( setting.ls != LS::ITERATIVE )
-        {
-            solverid = static_cast<int>(setting.lsover);
-            cudasolverinfo(static_cast<int>(setting.ls), solverid);
-        }
-        cout << "Solving Linear System......................." << flush;
+    //     if ( setting.ls != LS::ITERATIVE )
+    //     {
+    //         solverid = static_cast<int>(setting.lsover);
+    //         cudasolverinfo(static_cast<int>(setting.ls), solverid);
+    //     }
+    //     cout << "Solving Linear System......................." << flush;
 
-        switch (setting.ls ){
-            case LS::HOST:
-                tic(&timer);
-                solvelsHostCust(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x, solverid, setting.tol);
-                cout << " Done.  ";
-                toc(&timer);
-                // Compute redsidual
-                res = residual(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x);
-                cout << "||Ax - b|| =  "  << res << endl;
-                break;
-            case LS::DEVICE:
-                tic(&timer);
-                solvelsCust(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x, solverid, setting.tol);
-                cout << " Done.  ";
-                toc(&timer);
+    //     switch (setting.ls ){
+    //         case LS::HOST:
+    //             tic(&timer);
+    //             solvelsHostCust(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x, solverid, setting.tol);
+    //             cout << " Done.  ";
+    //             toc(&timer);
+    //             // Compute redsidual
+    //             res = residual(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x);
+    //             cout << "||Ax - b|| =  "  << res << endl;
+    //             break;
+    //         case LS::DEVICE:
+    //             tic(&timer);
+    //             solvelsCust(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x, solverid, setting.tol);
+    //             cout << " Done.  ";
+    //             toc(&timer);
                 
-                // Compute redsidual
-                res = residual(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x);
-                cout << "||Ax - b|| =  "  << res << endl;
-                break;
-            case LS::ITERATIVE:
-                solveGraph(setting.solver_settings, n, nnz, csrValA, csrRowIndA, csrColIndA, b, x);
-                break;
-        }
-    }
+    //             // Compute redsidual
+    //             res = residual(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x);
+    //             cout << "||Ax - b|| =  "  << res << endl;
+    //             break;
+    //         case LS::ITERATIVE:
+    //             solveGraph(setting.solver_settings, n, nnz, csrValA, csrRowIndA, csrColIndA, b, x);
+    //             break;
+    //     }
+    // }
 
-    if ( setting.evp != EVP::NONE )
-    {
-        // Solve EVP
-        double mu;
-        double *x, timer;
-        x = new double[n];
+    // if ( setting.evp != EVP::NONE )
+    // {
+    //     // Solve EVP
+    //     double mu;
+    //     double *x, timer;
+    //     x = new double[n];
 
-        cout << "Solving Eigenvalue Problem.................." << flush;
+    //     cout << "Solving Eigenvalue Problem.................." << flush;
 
-        switch (setting.evp){
-            case EVP::HOST:
-                tic(&timer);
-                solveShiftEVPHost(n, nnz, csrValA, csrRowIndA, csrColIndA, setting.mu0, setting.eigmaxiter, setting.eigtol, &mu, x);
-                cout << " Done.  ";
-                toc(&timer);
-                break;
-            case EVP::DEVICE:
-                tic(&timer);
-                solveShiftEVP(n, nnz, csrValA, csrRowIndA, csrColIndA, setting.mu0, setting.eigmaxiter, setting.eigtol, &mu, x);
-                cout << " Done.  ";
-                toc(&timer);
-                break;
-        }
+    //     switch (setting.evp){
+    //         case EVP::HOST:
+    //             tic(&timer);
+    //             solveShiftEVPHost(n, nnz, csrValA, csrRowIndA, csrColIndA, setting.mu0, setting.eigmaxiter, setting.eigtol, &mu, x);
+    //             cout << " Done.  ";
+    //             toc(&timer);
+    //             break;
+    //         case EVP::DEVICE:
+    //             tic(&timer);
+    //             solveShiftEVP(n, nnz, csrValA, csrRowIndA, csrColIndA, setting.mu0, setting.eigmaxiter, setting.eigtol, &mu, x);
+    //             cout << " Done.  ";
+    //             toc(&timer);
+    //             break;
+    //     }
 
-        cout << "The estimated eigenvalue near "  << setting.mu0 << " = ";
-        cout << fixed << setprecision(13) << mu << endl;
-    }
+    //     cout << "The estimated eigenvalue near "  << setting.mu0 << " = ";
+    //     cout << fixed << setprecision(13) << mu << endl;
+    // }
 
     return 0;
 }

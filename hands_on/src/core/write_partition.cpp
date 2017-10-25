@@ -26,7 +26,7 @@ void writePartition(
     const int ev_num,
     const double *eig_vals,
     const double *eig_vecs,
-    const char *filename
+    const string filename
 ) {
     double aszero = 1e-4;
     int zero_index = 0;
@@ -37,7 +37,7 @@ void writePartition(
         }
     }
     if (ev_num-zero_index < 2) {
-        cerr << "Error\n";
+        cerr << "The number of non-trivial eigenvectors is not enough\n";
         exit(1);
     }
     cout << "Stores in \"" << filename << "\"." << endl;
@@ -68,7 +68,7 @@ void writePartition(
                     +eig_vecs[(zero_index+j)*nv+e])/2;
             tc[j] = (color[color_i[s]][j] + color[color_i[e]][j])/2;
         }
-        tp[2] = 0; 
+        tp[2] = 0;
         fout << "v " << tp[0] << " " << tp[1] << " " << tp[2]
              << " "  << 1 << " " << 1 << " " << 1 << endl;
     }

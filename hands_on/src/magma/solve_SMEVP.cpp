@@ -15,17 +15,18 @@
 using namespace std;
 
 void solveSMEVP(
-    const int ev_num,
+    std::string solver_settings,
     const int m,
     const int nnz,
     const double *A_val,
     const int *A_row,
     const int *A_col,
-    double *eig_vals,
-    double *eig_vecs
+    int *eig_num,
+    double **eig_vals,
+    double **eig_vecs
 ) {
-  string ev_num_str = to_string(ev_num);
-  string magma_settings = "./solver --solver LOBPCG --ev "+ev_num_str+" A.mtx";
+  // string ev_num_str = to_string(ev_num);
+  string magma_settings = "./solver " + solver_settings + " A.mtx";
   int argc;
   char **argv;
   string2arg(magma_settings, &argc, &argv);
@@ -48,28 +49,27 @@ void solveSMEVP(
   magma_dvinit(&drhs, Magma_DEV, m, 1, 1, queue);
   magma_dopts dopts;
   int k = 1;
-  magmaDoubleComplex *eigenvectors = new magmaDoubleComplex[ev_num*dA.num_rows];
   // Init
   magma_dparse_opts(argc, argv, &dopts, &k, queue);
   magma_dsolverinfo_init(&dopts.solver_par, &dopts.precond_par, queue);
   dopts.solver_par.ev_length = dA.num_cols;
   magma_deigensolverinfo_init(&dopts.solver_par, queue);
+  *eig_num = dopts.solver_par.num_eigenvalues;
   magma_d_precondsetup(dA, drhs,
     &dopts.solver_par, &dopts.precond_par, queue);
   // Solve
   magma_d_solver(dA, drhs, &dx, &dopts, queue);
-  // magma_dlobpcg(dA, &dopts.solver_par, &dopts.precond_par, queue);
   // Get Info
   magma_dsolverinfo(&dopts.solver_par, &dopts.precond_par, queue);
-  magma_dgetvector(ev_num * dA.num_rows,
-    dopts.solver_par.eigenvectors, 1, eig_vecs, 1, queue);
-  for (int i = 0; i < ev_num; i++) {
-      eig_vals[i] = dopts.solver_par.eigenvalues[i];
+  *eig_vecs = new double[*eig_num * dA.num_rows];
+  *eig_vals = new double[*eig_num];
+  magma_dgetvector(*eig_num * dA.num_rows,
+    dopts.solver_par.eigenvectors, 1, *eig_vecs, 1, queue);
+  for (int i = 0; i < *eig_num; i++) {
+      (*eig_vals)[i] = dopts.solver_par.eigenvalues[i];
   }
-  
   // Free Info
   magma_dsolverinfo_free(&dopts.solver_par, &dopts.precond_par, queue);
-  delete [] eigenvectors;
   magma_dmfree(&dA, queue);
   magma_dmfree(&dx, queue);
   magma_dmfree(&drhs, queue);

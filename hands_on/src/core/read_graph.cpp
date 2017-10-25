@@ -46,7 +46,7 @@ void readKonectHeader(string str, Network *network, Edge *edge_type) {
         *edge_type = Edge::UNDEFINED;
     }
 }
-void readGraph(const char *input, int *E_size_r, int *E_size_c, int **E,
+void readGraph(const string input, int *E_size_r, int *E_size_c, int **E,
     double **W, Network *network_type, Edge *edge_type) {
     std::fstream pfile;
     int count = 0, n = 0;

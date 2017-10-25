@@ -105,7 +105,13 @@ void GraphLaplacian(int *nnz, int *cooRowIndA,
   assert( info == 0 );
   copy(tmp_RInd, tmp_RInd+(n+1), *csrRowIndA);
   *nnz = k;
-
+  // Shift to zero-based indexing
+  for (int i = 0; i < *nnz; i++) {
+    (*csrColIndA)[i]--;
+  }
+  for (int i = 0; i < n+1; i++) {
+    (*csrRowIndA)[i]--;
+  }
   delete rowsum;
   delete sumInd;
   delete cooValD;
