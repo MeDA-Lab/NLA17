@@ -5,6 +5,7 @@
                CG, PCG, BICGSTAB, PBICGSTAB, GMRES, PGMRES, LOBPCG, JACOBI,
                BAITER, IDR, PIDR, CGS, PCGS, TFQMR, PTFQMR, QMR, PQMR, BICG,
                PBICG, BOMBARDMENT, ITERREF.
+ --ev x        For eigensolvers, set number of eigenvalues/eigenvectors to compute.
  --restart     For GMRES: possibility to choose the restart.
                For IDR: Number of distinct subspaces (1,2,4,8).
  --atol x      Set an absolute residual stopping criterion.
