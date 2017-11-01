@@ -30,8 +30,6 @@ int main( int argc, char** argv ){
     setting.sigma = 0;
     setting.tol = 1e-12;
     setting.eig_maxiter = 1000;
-    LS ls;
-    std::string solver_settings, file, output;
     
     // Flags to check certain conditions
 	// Read arguments
@@ -118,7 +116,7 @@ int main( int argc, char** argv ){
             cout << "Solving Linear System......................." << flush;
             tic(&timer);
             if (setting.ls == LS::MAGMA) {
-                solveGraph(solver_settings, n, nnz,
+                solveGraph(setting.solver_settings, n, nnz,
                     csrValA, csrRowIndA, csrColIndA, b, x);
             } else {
                 solvels(setting.ls, n, nnz, csrValA, csrRowIndA, csrColIndA,
