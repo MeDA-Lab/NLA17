@@ -31,7 +31,7 @@ void writeRes(magma_d_solver_par *solver_par, string res_filename){
   }else{
     for (i = 0; i < (solver_par->numiter)+1; i++)
     {
-      fprintf(resvec, "%d %.16e\n", i*k, solver_par->res_vec[i]);
+      fprintf(resvec, "%d %.16e\n", i, solver_par->res_vec[i]);
     }
   }
   fclose(resvec);
