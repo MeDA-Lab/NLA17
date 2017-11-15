@@ -51,7 +51,7 @@ void dispUsage( const char *bin ) {
   cout << "  --sigma <value>       SIPM: as mu0 (default 1.5)\n";
   cout << "  --eig_maxiter <value> The maximum iteration of eigensolver (default: 1000)\n";
   cout << "  --sipm_option <num>   0: Host(default) 1: Device\n";
-  cout << "  --res [filename]      Write the residual vector to the file named [filename]. If [filename] is not set, default setting is writing the vector to residual.txt\n"
+  cout << "  --res [filename]      Write the residual vector to the file named [filename]. If [filename] is not set, default setting is writing the vector to residual.txt\n";
 }
 
 void readArgs(int argc, char** argv, args *setting) {
