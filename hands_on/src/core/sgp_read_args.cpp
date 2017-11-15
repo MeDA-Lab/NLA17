@@ -27,7 +27,7 @@ const struct option long_opt[] = {
   {"eig_maxiter", 1, NULL, 1004},
   {"sipm_option", 1, NULL, 1005},
   {"ls_option", 1, NULL, 1006},
-  {"res", 2, NULL, 1007},
+  {"res", 1, NULL, 1007},
   {NULL,     0, NULL, 0}
 };
 
