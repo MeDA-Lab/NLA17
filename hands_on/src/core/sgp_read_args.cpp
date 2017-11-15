@@ -46,16 +46,17 @@ void dispUsage( const char *bin ) {
        << "                             1: SIPM - Shift Inverse Power Method\n"
        << "                             2: LS   - Linear System (A+sigmaI)\n";
   cout << "  -s\"solver_settings\",      --magmasolver \"solver_settings\"\n"
-       << "                        default settings: \"--solver CG\" for Iterative Linear System\n"
+       << "                            default settings: \"--solver CG\" for Iterative Linear System\n"
        << "                                          \"--solver LOBPCG --ev 4 --precond ILU\" for LOBPCG\n";
-  cout << "  --tol <num>           Tolerance of Direct Eigensolver or Linear System Solver\n";
-  cout << "  --sigma <value>       SIPM: as mu0, LS: as shift element (default: 0)\n";
-  cout << "  --eig_maxiter <value> The maximum iteration of eigensolver (default: 1000)\n";
-  cout << "  --sipm_option <num>   0: Host(default) 1: Device\n";
-  cout << "  --ls_option <num>     Iterative - 0: MAGMA Iterative solver(default)\n"
-       << "                        Direct    - 1: HOST_QR   2:HOST_CHOL   3: HOST_LU\n"
-       << "                                    4: DEVICE_QR 5:DEVICE_CHOL\n";
-  cout << "  --res [filename]      Write the residual vector to the file named [filename]. If [filename] is not set, default setting is writing the vector to residual.txt\n";
+  cout << "  --tol <num>               Tolerance of Direct Eigensolver or Linear System Solver\n";
+  cout << "  --sigma <value>           SIPM: as mu0, LS: as shift element (default: 0)\n";
+  cout << "  --eig_maxiter <value>     The maximum iteration of eigensolver (default: 1000)\n";
+  cout << "  --sipm_option <num>       0: Host(default) 1: Device\n";
+  cout << "  --ls_option <num>         Iterative - 0: MAGMA Iterative solver(default)\n"
+       << "                            Direct    - 1: HOST_QR   2:HOST_CHOL   3: HOST_LU\n"
+       << "                                        4: DEVICE_QR 5:DEVICE_CHOL\n";
+  cout << "  --res [filename]          Write the residual vector to the file named [filename]. If [filename] is not set,\n"
+  cout << "                            default setting is writing the vector to residual.txt\n";
 }
 
 void readArgs(int argc, char** argv, args *setting) {
@@ -109,6 +110,7 @@ void readArgs(int argc, char** argv, args *setting) {
       }
       case 1007: {
         setting->res_flag = 1;
+        cout << "res_flag: " << res_flag << endl;
         setting->res_filename = optarg;
         break;
       }
