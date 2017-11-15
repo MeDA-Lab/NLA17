@@ -56,8 +56,7 @@ void dispUsage( const char *bin ) {
        << "                             Direct    - 1: HOST_QR   2:HOST_CHOL   3: HOST_LU\n"
        << "                                         4: DEVICE_QR 5:DEVICE_CHOL\n";
   cout << "  --res [filename]           Write the residual vector to the file named [filename].\n";
-  cout << "                             If [filename] is not set,\n";
-  cout << "                             default setting is writing the vector to residual.txt\n";
+  cout << "                             Must be used with MAGMA verbose option > 0\n";
 }
 
 void readArgs(int argc, char** argv, args *setting) {
@@ -111,8 +110,8 @@ void readArgs(int argc, char** argv, args *setting) {
       }
       case 1007: {
         setting->res_flag = 1;
-        cout << "res_flag: " << setting->res_flag << endl;
         setting->res_filename = optarg;
+        cout << "residual will be written to " << setting->res_filename << endl;
         cout << "test point" << endl;
         break;
       }
@@ -145,9 +144,5 @@ void readArgs(int argc, char** argv, args *setting) {
     cerr << "only use LOBPCG in LOBPCG\n";
     exit(1);
   }
-  if ( setting->res_filename.empty() == true )
-  {
-    setting->res_filename = "residual.txt";
-  }
-  cout << "residual will be written to " << setting->res_filename << endl;
+  
 }
