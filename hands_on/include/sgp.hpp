@@ -67,14 +67,17 @@ enum class LS {
     COUNT,            ///< Used for counting number of methods.
   };
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  The structure wrapper of all possible input arguments.
+///
 typedef struct {
     Target target;
     SIPM sipm;
     LS ls;
-    std::string solver_settings, file, output;
+    std::string solver_settings, file, output, res_filename;
     double sigma, tol;
     int eig_maxiter;
+    int res_flag;
 } args;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the arguments.
@@ -341,10 +344,18 @@ int cudasolverinfo(int flag, int solver);
 ///
 /// @param[in]  b       the RHS of AX = b.
 ///
+/// @param[in]  solver_settings       MAGMA solver settings.
+///
+/// @param[in]  res_flag       write residual vector to file if equals 1.
+///
+/// @param[in]  res_filename   destination file to write the residual vector if res_flag=1.
+///
 /// @param[out] x       the estimated solution.
 ///
 void solveGraph(
     std::string solver_settings,
+    int res_flag,
+    std::string res_filename,
     int m,
     int nnz,
     const double *A_val,
@@ -353,9 +364,17 @@ void solveGraph(
     const double *b,
     double *x
 );
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  Display informations of the input graph data.
+///
+/// @param[in]  network       specify the type of graph.
+///
+/// @param[in]  edge_type     specify the edge property of graph.
+///
 void printKonectHeader(Network network, Edge edge_type);
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  Solve spectral graph partitioning problem by LOBPCG.
+///
 void solveSMEVP(
     std::string solver_settings,
     const int m,
@@ -367,7 +386,9 @@ void solveSMEVP(
     double **eig_vals,
     double **eig_vecs
 );
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  Write the result to file.
+///
 void writePartition(
     const int nv,
     const int E_size_r,

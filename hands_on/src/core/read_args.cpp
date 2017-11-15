@@ -26,6 +26,7 @@ const struct option long_opt[] = {
   {"sigma", 1, NULL, 1003},
   {"eig_maxiter", 1, NULL, 1004},
   {"sipm_option", 1, NULL, 1005},
+  {"res", 2, NULL, 1006},
   {NULL,     0, NULL, 0}
 };
 
@@ -50,6 +51,7 @@ void dispUsage( const char *bin ) {
   cout << "  --sigma <value>       SIPM: as mu0 (default 1.5)\n";
   cout << "  --eig_maxiter <value> The maximum iteration of eigensolver (default: 1000)\n";
   cout << "  --sipm_option <num>   0: Host(default) 1: Device\n";
+  cout << "  --res [filename]      Write the residual vector to the file named [filename]. If [filename] is not set, default setting is writing the vector to residual.txt\n"
 }
 
 void readArgs(int argc, char** argv, args *setting) {
@@ -101,6 +103,11 @@ void readArgs(int argc, char** argv, args *setting) {
         assert(setting->sipm >= SIPM::HOST && setting->sipm < SIPM::COUNT);
         break;
       }
+      case 1006: {
+        setting->res_flag = 1;
+        setting->res_filename = optarg;
+        break;
+      }
       case ':': {
         cout << "Option -" << c << " requires an argument.\n";
         abort();
@@ -119,6 +126,10 @@ void readArgs(int argc, char** argv, args *setting) {
     && setting->target == Target::LS) {
     cerr << "Do not use LOBPCG in linear system\n";
     exit(1);
+  }
+  if ( setting->res_filename.empty() == true )
+  {
+    setting->res_filename = "residual.txt";
   }
 
 }
