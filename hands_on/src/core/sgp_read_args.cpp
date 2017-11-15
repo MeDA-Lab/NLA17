@@ -55,7 +55,7 @@ void dispUsage( const char *bin ) {
   cout << "  --ls_option <num>         Iterative - 0: MAGMA Iterative solver(default)\n"
        << "                            Direct    - 1: HOST_QR   2:HOST_CHOL   3: HOST_LU\n"
        << "                                        4: DEVICE_QR 5:DEVICE_CHOL\n";
-  cout << "  --res [filename]          Write the residual vector to the file named [filename]. If [filename] is not set,\n"
+  cout << "  --res [filename]          Write the residual vector to the file named [filename]. If [filename] is not set,\n";
   cout << "                            default setting is writing the vector to residual.txt\n";
 }
 
@@ -110,7 +110,7 @@ void readArgs(int argc, char** argv, args *setting) {
       }
       case 1007: {
         setting->res_flag = 1;
-        cout << "res_flag: " << res_flag << endl;
+        cout << "res_flag: " << setting->res_flag << endl;
         setting->res_filename = optarg;
         break;
       }
