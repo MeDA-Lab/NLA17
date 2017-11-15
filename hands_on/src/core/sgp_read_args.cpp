@@ -112,6 +112,7 @@ void readArgs(int argc, char** argv, args *setting) {
         setting->res_flag = 1;
         cout << "res_flag: " << setting->res_flag << endl;
         setting->res_filename = optarg;
+        cout << "test point" << endl;
         break;
       }
       case ':': {
