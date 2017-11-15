@@ -23,17 +23,10 @@ void writeRes(magma_d_solver_par *solver_par, string res_filename){
   resvec=fopen(res_filename.c_str(),"w");
   if ( solver_par->verbose > 0)
   {
-    cout << "test 1" << endl;
     int m = solver_par->verbose;
     for (i = 0; i < (solver_par->numiter)/m+1; i++)
     {
       fprintf(resvec, "%d %.16e\n", i*m, solver_par->res_vec[i]);
-    }
-  }else{
-    cout << "test 2" << endl;
-    for (i = 0; i < (solver_par->numiter)+1; i++)
-    {
-      fprintf(resvec, "%d %.16e\n", i, solver_par->res_vec[i]);
     }
   }
   fclose(resvec);
@@ -88,7 +81,7 @@ void solveGraph(
   // Get Info
   magma_dsolverinfo(&dopts.solver_par, &dopts.precond_par, queue);
   magma_getvector(m, sizeof(double), dx.dval, 1, x, 1, queue);
-  if ( res_flag == 1 )
+  if ( dopts.solver_par.verbose>0 && res_flag == 1 )
   {
     writeRes(&dopts.solver_par, res_filename);
   }
