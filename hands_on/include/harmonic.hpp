@@ -236,7 +236,7 @@ void constructLaplacianSparse( const Method method, const int nv, const int nb, 
 ///
 void solveHarmonicSparse( std::string solver_settings,
                           int res_flag,
-                          string res_filename,
+                          std::string res_filename,
                           const int nv, const int nb,
                           const double *Lii_val, const int *Lii_row, const int *Lii_col,
                           const double *Lib_val, const int *Lib_row, const int *Lib_col,
