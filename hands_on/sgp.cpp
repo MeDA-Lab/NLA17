@@ -66,9 +66,9 @@ int main( int argc, char** argv ){
         // SIPM do not shift 
         sigma = 0;
     }
-    cout << "sigma = " << sigma << endl;
     GraphLaplacian(&nnz, cooRowIndA, cooColIndA, cooValA, n, &csrRowIndA, &csrColIndA, &csrValA, sigma);
     cout << " Done.  " << endl;
+    cout << "sigma = " << sigma << endl;
     cout << "nnz of L = " << nnz << endl;
 
     switch (setting.target) {

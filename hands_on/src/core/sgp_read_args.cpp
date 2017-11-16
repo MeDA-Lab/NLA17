@@ -55,8 +55,8 @@ void dispUsage( const char *bin ) {
   cout << "  --ls_option <num>          Iterative - 0: MAGMA Iterative solver(default)\n"
        << "                             Direct    - 1: HOST_QR   2:HOST_CHOL   3: HOST_LU\n"
        << "                                         4: DEVICE_QR 5:DEVICE_CHOL\n";
-  cout << "  --res [filename]           Write the residual vector to the file named [filename].\n";
-  cout << "                             Must be used with MAGMA verbose option > 0\n";
+  cout << "  --res <filename>           Write the residual vector to the file named <filename>.\n";
+  cout << "                             Must be used with the verbose option in --magmasolver > 0\n";
 }
 
 void readArgs(int argc, char** argv, args *setting) {
@@ -112,7 +112,6 @@ void readArgs(int argc, char** argv, args *setting) {
         setting->res_flag = 1;
         setting->res_filename = optarg;
         cout << "residual will be written to " << setting->res_filename << endl;
-        cout << "test point" << endl;
         break;
       }
       case ':': {
