@@ -36,7 +36,7 @@ Options:
                              Direct    - 1: HOST_QR   2:HOST_CHOL   3: HOST_LU
                                     4: DEVICE_QR 5:DEVICE_CHOL
   --res <filename>           Write the residual vector to the file named <filename>.
-                             Must be used with the verbose option in --magmasolver > 0
+                             Must be used with the verbose option value > 0 in --magmasolver
 ``` 
 ## Solver Settings
 The magma solver settings is in [SolverSettings.md](SolverSettings.md)
