@@ -11,3 +11,5 @@ For Numerical Linear Algebra course
 [LinuxSimpleTutorial](LinuxSimpleTutorial.md)
 - 10/05 : release H03 (reference solution to lab02)
 - 10/26 : release ver1.0 in hands_on folder
+- 11/01 : release ver1.1 in hands_on folder
+- 11/16 : release ver1.2 in hands_on folder

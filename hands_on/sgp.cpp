@@ -56,7 +56,6 @@ int main( int argc, char** argv ){
     cout << "size of matrix = " << n << endl;
     cout << "nnz of A = " << nnz << endl;
 
-
     // Construct Laplacian
     int *csrRowIndA, *csrColIndA;
     double  *csrValA;
@@ -69,6 +68,7 @@ int main( int argc, char** argv ){
     }
     GraphLaplacian(&nnz, cooRowIndA, cooColIndA, cooValA, n, &csrRowIndA, &csrColIndA, &csrValA, sigma);
     cout << " Done.  " << endl;
+    cout << "sigma = " << sigma << endl;
     cout << "nnz of L = " << nnz << endl;
 
     switch (setting.target) {
@@ -116,7 +116,7 @@ int main( int argc, char** argv ){
             cout << "Solving Linear System......................." << flush;
             tic(&timer);
             if (setting.ls == LS::MAGMA) {
-                solveGraph(setting.solver_settings, n, nnz,
+                solveGraph(setting.solver_settings, setting.res_flag, setting.res_filename, n, nnz,
                     csrValA, csrRowIndA, csrColIndA, b, x);
             } else {
                 solvels(setting.ls, n, nnz, csrValA, csrRowIndA, csrColIndA,

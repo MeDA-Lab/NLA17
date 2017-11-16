@@ -57,9 +57,10 @@ typedef struct {
     SIPM sipm;
     Method method;
     LS ls;
-    std::string solver_settings, file, output;
+    std::string solver_settings, file, output, res_filename;
     double sigma, tol;
     int eig_maxiter;
+    int res_flag;
 } args;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the arguments.
@@ -234,6 +235,8 @@ void constructLaplacianSparse( const Method method, const int nv, const int nb, 
 /// @note  The output arrays should be allocated before calling this routine.
 ///
 void solveHarmonicSparse( std::string solver_settings,
+                          int res_flag,
+                          std::string res_filename,
                           const int nv, const int nb,
                           const double *Lii_val, const int *Lii_row, const int *Lii_col,
                           const double *Lib_val, const int *Lib_row, const int *Lib_col,
