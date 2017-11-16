@@ -78,7 +78,7 @@ int main( int argc, char** argv ) {
       // Solve harmonic
       cout << "Solving Harmonic ......................." << flush;
       tic(&timer);
-      solveHarmonicSparse(setting.solver_settings,
+      solveHarmonicSparse(setting.solver_settings, setting.res_flag, setting.res_filename,
         nv, nb, Lii_val, Lii_row, Lii_col,
         Lib_val, Lib_row, Lib_col, U);
         cout << " Done.  ";
