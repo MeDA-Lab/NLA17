@@ -7,6 +7,8 @@
 ///
 
 #include <iostream>
+#include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <string>
 #include "magma_v2.h"
@@ -15,10 +17,25 @@
 #include "tool.hpp"
 using namespace std;
 
-
+void writeRes(magma_d_solver_par *solver_par, string res_filename){
+  int i;
+  FILE *resvec;
+  resvec=fopen(res_filename.c_str(),"w");
+  if ( solver_par->verbose > 0)
+  {
+    int m = solver_par->verbose;
+    for (i = 0; i < (solver_par->numiter)/m+1; i++)
+    {
+      fprintf(resvec, "%d %.16e\n", i*m, solver_par->res_vec[i]);
+    }
+  }
+  fclose(resvec);
+}
 
 void solveGraph(
     string solver_settings,
+    int res_flag,
+    string res_filename,
     int m,
     int nnz,
     const double *A_val,
@@ -64,6 +81,10 @@ void solveGraph(
   // Get Info
   magma_dsolverinfo(&dopts.solver_par, &dopts.precond_par, queue);
   magma_getvector(m, sizeof(double), dx.dval, 1, x, 1, queue);
+  if ( dopts.solver_par.verbose>0 && res_flag == 1 )
+  {
+    writeRes(&dopts.solver_par, res_filename);
+  }
   // Free Info
   magma_dsolverinfo_free(&dopts.solver_par, &dopts.precond_par, queue);
   magma_dmfree(&dA, queue);
