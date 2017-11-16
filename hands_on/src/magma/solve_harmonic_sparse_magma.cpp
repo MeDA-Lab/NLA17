@@ -8,6 +8,8 @@
 #include <harmonic.hpp>
 #include <iostream>
 #include <string>
+#include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include "magma_v2.h"
 #include "magmasparse.h"
@@ -15,9 +17,25 @@
 #include "tool.hpp"
 using namespace std;
 
+void writeRes(magma_d_solver_par *solver_par, string res_filename){
+  int i;
+  FILE *resvec;
+  resvec=fopen(res_filename.c_str(),"w");
+  if ( solver_par->verbose > 0)
+  {
+    int m = solver_par->verbose;
+    for (i = 0; i < (solver_par->numiter)/m+1; i++)
+    {
+      fprintf(resvec, "%d %.16e\n", i*m, solver_par->res_vec[i]);
+    }
+  }
+  fclose(resvec);
+}
 
 void solveHarmonicSparse(
   string solver_settings,
+  int res_flag,
+  string res_filename,
   const int nv,
   const int nb,
   const double *Lii_val,
@@ -78,6 +96,10 @@ void solveHarmonicSparse(
     // Get Info
     magma_dsolverinfo(&dopts.solver_par, &dopts.precond_par, queue);
     magma_getvector(ni, sizeof(double), dx.dval, 1, U+i*nv+nb, 1, queue);
+    if ( dopts.solver_par.verbose>0 && res_flag == 1 )
+    {
+      writeRes(&dopts.solver_par, res_filename);
+    }
     // Free Info
     magma_dsolverinfo_free(&dopts.solver_par, &dopts.precond_par, queue);
   }

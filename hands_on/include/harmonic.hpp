@@ -57,9 +57,10 @@ typedef struct {
     SIPM sipm;
     Method method;
     LS ls;
-    std::string solver_settings, file, output;
+    std::string solver_settings, file, output, res_filename;
     double sigma, tol;
     int eig_maxiter;
+    int res_flag;
 } args;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Reads the arguments.

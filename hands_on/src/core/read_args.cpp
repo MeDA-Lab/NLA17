@@ -51,8 +51,8 @@ void dispUsage( const char *bin ) {
   cout << "  --sigma <value>            SIPM: as mu0 (default 1.5)\n";
   cout << "  --eig_maxiter <value>      The maximum iteration of eigensolver (default: 1000)\n";
   cout << "  --sipm_option <num>        0: Host(default) 1: Device\n";
-  cout << "  --res <filename>                Write the residual vector to the file named <filename>.\n";
-  cout << "                                  Must be used with the verbose option value > 0 in --magmasolver \n";
+  cout << "  --res <filename>           Write the residual vector to the file named <filename>.\n";
+  cout << "                             Must be used with the verbose option value > 0 in --magmasolver \n";
 }
 
 void readArgs(int argc, char** argv, args *setting) {
@@ -102,6 +102,12 @@ void readArgs(int argc, char** argv, args *setting) {
       case 1005: {
         setting->sipm = static_cast<SIPM>(atoi(optarg));
         assert(setting->sipm >= SIPM::HOST && setting->sipm < SIPM::COUNT);
+        break;
+      }
+      case 1006: {
+        setting->res_flag = 1;
+        setting->res_filename = optarg;
+        cout << "residual will be written to " << setting->res_filename << endl;
         break;
       }
       case ':': {
