@@ -56,7 +56,7 @@ void dispUsage( const char *bin ) {
        << "                             Direct    - 1: HOST_QR   2:HOST_CHOL   3: HOST_LU\n"
        << "                                         4: DEVICE_QR 5:DEVICE_CHOL\n";
   cout << "  --res <filename>           Write the residual vector to the file named <filename>.\n";
-  cout << "                             Must be used with the verbose option in --magmasolver > 0\n";
+  cout << "                             Must be used with the verbose option value > 0 in --magmasolver \n";
 }
 
 void readArgs(int argc, char** argv, args *setting) {

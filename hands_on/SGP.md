@@ -25,16 +25,18 @@ Options:
   -t<num>,  --target <num>   0: LOBPCG (solve some smallest eigenvectors) (default)
                              1: SIPM - Shift Inverse Power Method
                              2: LS   - Linear System (A+sigmaI)
-  -s"solver_settings",      --magmasolver "solver_settings"
-                        default settings: "--solver CG" for Iterative Linear System
-                                          "--solver LOBPCG --ev 4 --precond ILU" for LOBPCG
-  --tol <num>           Tolerance of Direct Eigensolver or Linear System Solver
-  --sigma <value>       SIPM: as mu0, LS: as shift element (default: 0)
-  --eig_maxiter <value> The maximum iteration of eigensolver (default: 1000)
-  --sipm_option <num>   0: Host(default) 1: Device
-  --ls_option <num>     Iterative - 0: MAGMA Iterative solver(default)
-                        Direct    - 1: HOST_QR   2:HOST_CHOL   3: HOST_LU
+  -s"solver_settings",       --magmasolver "solver_settings"
+                             default settings: "--solver CG" for Iterative Linear System
+                                               "--solver LOBPCG --ev 4 --precond ILU" for LOBPCG
+  --tol <num>                Tolerance of Direct Eigensolver or Linear System Solver
+  --sigma <value>            SIPM: as mu0, LS: as shift element (default: 0)
+  --eig_maxiter <value>      The maximum iteration of eigensolver (default: 1000)
+  --sipm_option <num>        0: Host(default) 1: Device
+  --ls_option <num>          Iterative - 0: MAGMA Iterative solver(default)
+                             Direct    - 1: HOST_QR   2:HOST_CHOL   3: HOST_LU
                                     4: DEVICE_QR 5:DEVICE_CHOL
+  --res <filename>           Write the residual vector to the file named <filename>.
+                             Must be used with the verbose option in --magmasolver > 0
 ``` 
 ## Solver Settings
 The magma solver settings is in [SolverSettings.md](SolverSettings.md)
