@@ -85,7 +85,6 @@ typedef struct {
 ///
 typedef struct
 {
-    LS_INFO LS_info;
     double tol;
     int    maxit;
     int    Nwant;
