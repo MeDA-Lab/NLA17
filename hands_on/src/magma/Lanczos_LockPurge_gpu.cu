@@ -8,6 +8,7 @@
 #include "sgp.hpp"
 #include "Lanczos.cuh"
 #include <cublas_v2.h>
+#include <helper_cuda.h>
 
 int Lanczos_LockPurge_gpu( double           *Talpha,
                            double           *Tbeta,
