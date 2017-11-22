@@ -8,6 +8,7 @@
 #ifndef SCSC_Lanczos_CUH
 #define SCSC_Lanczos_CUH
 
+#include "sgp.hpp"
 #include <string>
 
 int GVqrrq_g(double *v, double *u, double *c, double *s, double shift, int n, 
@@ -17,7 +18,7 @@ int Lanczos_LockPurge_gpu( double           *Talpha,
                            double           *Tbeta,
                            double           *U,
                            double           *T_d,
-                           EV_INFO          EV_info, 
+                           LSEV_INFO        LSEV_info, 
                            const int        Asize, 
                            cublasHandle_t   cublas_handle);
 

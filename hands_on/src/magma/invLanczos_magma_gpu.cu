@@ -19,9 +19,9 @@
 using namespace std;
 
 static __host__ void zfill_matrix(
-    magma_int_t m, magma_int_t n, magmaDoubleComplex *A, magma_int_t lda );
+    magma_int_t m, magma_int_t n, double *A, magma_int_t lda );
 
-void invLanczos_gpu(int            m,
+int invLanczos_gpu(int           m,
                    int            nnz,
                    double         csrValA,
                    int            csrRowIndA,
@@ -30,14 +30,14 @@ void invLanczos_gpu(int            m,
                    double         *egval,
                    string         solver_settings)
 {
-    int     iter, i, tmpIdx, l, flag, errFlag;
+    int     iter, i, tmpIdx, errFlag, flag;
     double  TOL;
     int    MAXIT, Nwant, Nstep, Asize, conv;
     
-    TOL     = LSEV_info.EV_info.tol;
-    MAXIT   = LSEV_info.EV_info.maxit;
-    Nwant   = LSEV_info.EV_info.Nwant;
-    Nstep   = LSEV_info.EV_info.Nstep;
+    TOL     = LSEV_info.tol;
+    MAXIT   = LSEV_info.maxit;
+    Nwant   = LSEV_info.Nwant;
+    Nstep   = LSEV_info.Nstep;
     Asize   = m;
 
     /* Variables for MAGMA*/
@@ -63,7 +63,6 @@ void invLanczos_gpu(int            m,
     z      = new double[Nstep*Nstep];
     cudaMalloc(&U, 2*m*(Nstep+1)*sizeof(double));
 
-    cublasStatus_t cublas_status = CUBLAS_STATUS_SUCCESS;
     cublasHandle_t cublas_handle;
     cublasCreate(&cublas_handle);
 
@@ -124,6 +123,8 @@ void invLanczos_gpu(int            m,
     } // end of iter
 
     for (i=0; i<Nwant; i++) {   egval[i] = 1.0/T_d[i];  }
+
+    return flag;
 }
 
 static __host__ void zfill_matrix(

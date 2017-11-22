@@ -13,13 +13,13 @@ int Lanczos_LockPurge_gpu( double           *Talpha,
                            double           *Tbeta,
                            double           *U,
                            double           *T_d,
-                           EV_INFO          EV_info, 
+                           LSEV_INFO        LSEV_info, 
                            const int        Asize, 
                            cublasHandle_t   cublas_handle)
 {
     int      j, jj;
-    int      Nwant = EV_info.Nwant;
-    int      Nstep = EV_info.Nstep;
+    int      Nwant = LSEV_info.Nwant;
+    int      Nstep = LSEV_info.Nstep;
     double   cublas_scale;
     double  *c      = new double[Nstep-1];
     double  *s      = new double[Nstep-1];
