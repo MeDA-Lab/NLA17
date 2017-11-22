@@ -10,6 +10,8 @@
 #include "sgp.hpp"
 #include <cstdio>
 #include <cstdlib>
+#include <cmath>
+#include <cstring>
 
 int GVqrrq_g(double *v, double *u, double *c, double *s, double shift, int n, 
              double *u_temp, double *uu){
