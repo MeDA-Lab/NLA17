@@ -21,11 +21,11 @@ using namespace std;
 static __host__ void zfill_matrix(
     magma_int_t m, magma_int_t n, double *A, magma_int_t lda );
 
-int invLanczos_gpu(int           m,
+int invLanczos_gpu(int            m,
                    int            nnz,
-                   double         csrValA,
-                   int            csrRowIndA,
-                   int            csrColIndA,
+                   double         *csrValA,
+                   int            *csrRowIndA,
+                   int            *csrColIndA,
                    LSEV_INFO      LSEV_info, 
                    double         *egval,
                    string         solver_settings)
