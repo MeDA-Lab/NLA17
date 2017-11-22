@@ -5,15 +5,19 @@
 /// @author  William Liao
 ///
 
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
 #include "sgp.hpp"
 #include <string>
 #include <cublas_v2.h>
+#include <helper_cuda.h>
 
 using namespace std;
 
 #define BLOCK_SIZE 256
 
-static __global__ void Lanczos_init_kernel(cmpxGPU *U, const int Asize);
+static __global__ void Lanczos_init_kernel(double *U, const int Asize);
 
 int Lanczos_decomp_gpu(int         m,
                        int         nnz,
@@ -35,8 +39,8 @@ int Lanczos_decomp_gpu(int         m,
     double cublas_zcale, alpha_tmp, Loss;
     cublasStatus_t cublasErr;
 
-    Nwant = LSEV_info.EV_info.Nwant;
-    Nstep = LSEV_info.EV_info.Nstep;
+    Nwant = LSEV_info.Nwant;
+    Nstep = LSEV_info.Nstep;
     Asize = m;
     
     switch (isInit){
@@ -47,7 +51,7 @@ int Lanczos_decomp_gpu(int         m,
             dim3 DimBlock( BLOCK_SIZE, 1, 1);
             dim3 DimGrid( (Asize-1)/BLOCK_SIZE +1, 1, 1);
             Lanczos_init_kernel<<<DimGrid, DimBlock>>>(U, Asize);
-            GLCE("Lanczos_init_kernel");
+            getLastCudaError("Lanczos_init_kernel");
 
             solveGraph(solver_settings, 0, "NAN", m, nnz, csrValA, csrRowIndA, csrColIndA, U, U+Asize);
         
