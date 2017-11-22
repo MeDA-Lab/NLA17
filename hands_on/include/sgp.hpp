@@ -17,6 +17,7 @@ enum class Target {
     LOBPCG   = 0,  ///< solve m smallest eigenvectors
     SIPM     = 1,  ///< use shift inverse power method to solve
     LS       = 2,  ///< solve A+sigmaI linear system
+    LANCZOS  = 3,  ///< use inverse Lanczos to solve
     COUNT,         ///< Used for counting number of methods.
 };
 
@@ -78,6 +79,7 @@ typedef struct {
     double sigma, tol;
     int eig_maxiter;
     int res_flag;
+    LSEV_INFO LSEV_info;
 } args;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -409,4 +411,15 @@ void writePartition(
     const double *eig_vecs,
     const std::string filename
 );
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  Inverse Lanczos eigensolver.
+///
+int invLanczos_gpu(int            m,
+                   int            nnz,
+                   double         *csrValA,
+                   int            *csrRowIndA,
+                   int            *csrColIndA,
+                   LSEV_INFO      LSEV_info, 
+                   double         *egval,
+                   string         solver_settings);
 #endif  // SCSC_SGP_HPP

@@ -27,6 +27,8 @@ const struct option long_opt[] = {
   {"eig_maxiter", 1, NULL, 1004},
   {"sipm_option", 1, NULL, 1005},
   {"res", 1, NULL, 1006},
+  {"nwant", 1, NULL, 1007},
+  {"nstep", 1, NULL, 1008},
   {NULL,     0, NULL, 0}
 };
 
@@ -53,6 +55,8 @@ void dispUsage( const char *bin ) {
   cout << "  --sipm_option <num>        0: Host(default) 1: Device\n";
   cout << "  --res <filename>           Write the residual vector to the file named <filename>.\n";
   cout << "                             Must be used with the verbose option value > 0 in --magmasolver \n";
+  cout << "  --nwant <num>              Number of eigenvalues to solve in Lanczos.\n";
+  cout << "  --nstep <num>              Number of steps in Lanczos.\n";
 }
 
 void readArgs(int argc, char** argv, args *setting) {
@@ -89,6 +93,7 @@ void readArgs(int argc, char** argv, args *setting) {
       }
       case 1002: {
         setting->tol = stod(optarg, nullptr);
+        (setting->LSEV_info).tol = stod(optarg, nullptr);
         break;
       }
       case 1003: {
@@ -97,6 +102,7 @@ void readArgs(int argc, char** argv, args *setting) {
       }
       case 1004: {
         setting->eig_maxiter = stoi(optarg, nullptr);
+        (setting->LSEV_info).maxit = stoi(optarg, nullptr);
         break;
       }
       case 1005: {
@@ -108,6 +114,14 @@ void readArgs(int argc, char** argv, args *setting) {
         setting->res_flag = 1;
         setting->res_filename = optarg;
         cout << "residual will be written to " << setting->res_filename << endl;
+        break;
+      }
+      case 1007: {
+        (setting->LSEV_info).Nwant = stoi(optarg, nullptr);
+        break;
+      }
+      case 1008: {
+        (setting->LSEV_info).Nstep = stoi(optarg, nullptr);
         break;
       }
       case ':': {

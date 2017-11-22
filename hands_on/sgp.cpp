@@ -30,6 +30,10 @@ int main( int argc, char** argv ){
     setting.sigma = 0;
     setting.tol = 1e-12;
     setting.eig_maxiter = 1000;
+    setting.LSEV_info.tol = 1e-12;
+    setting.LSEV_info.maxit = 1000;
+    setting.LSEV_info.Nwant = 10;
+    setting.LSEV_info.Nstep = 30;
     
     // Flags to check certain conditions
 	// Read arguments
@@ -126,6 +130,26 @@ int main( int argc, char** argv ){
             toc(&timer);
             res = residual(n, nnz, csrValA, csrRowIndA, csrColIndA, b, x);
             cout << "||Ax - b|| =  "  << res << endl;
+        }
+        case Target::LANCZOS : {
+            int flag, Nwant;
+            double *mu;
+            double *x, timer;
+            x = new double[n];
+            Nwant = LSEV_info.Nwant;
+            mu = new double[Nwant];
+            cout << "Solving Eigenvalue Problem.................." << flush;
+            tic(&timer);
+            flag = invLanczos_gpu(n, nnz, csrValA, csrRowIndA, csrColIndA, setting.LSEV_info, mu, setting.solver_settings);
+            toc(&timer);
+            cout << "Number of iterations: " << flag << endl;
+            cout << "=================================" << endl;
+            cout << "Computed eigenvalues" << endl;
+            cout << "=================================" << endl;
+            for (int i = 0; i < Nwant; i++)
+            {
+                cout << fixed << setprecision(13) << mu[i] << endl;
+            }
         }
     }
     return 0;
