@@ -32,7 +32,7 @@ int Lanczos_decomp_gpu(int         m,
                        double      *U,
                        double      *Talpha,
                        double      *Tbeta,
-                       bool        isInit,
+                       int         isInit,
                        std::string      solver_settings,
                        cublasHandle_t cublas_handle);
 #endif
