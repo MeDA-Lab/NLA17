@@ -52,7 +52,7 @@ int Lanczos_decomp_gpu(int         m,
             Lanczos_init_kernel<<<DimGrid, DimBlock>>>(U, Asize);
             getLastCudaError("Lanczos_init_kernel");
 
-            solveGraph(solver_settings, 0, "NAN", m, nnz, csrValA, csrRowIndA, csrColIndA, U, U+Asize);
+            solveGraphLS(solver_settings, m, nnz, csrValA, csrRowIndA, csrColIndA, U, U+Asize);
         
             cublasErr = cublasDdot(cublas_handle, Asize, U+Asize, 1, U, 1, &alpha_tmp );
             assert( cublasErr == CUBLAS_STATUS_SUCCESS );
@@ -84,7 +84,7 @@ int Lanczos_decomp_gpu(int         m,
 
     for (j=loopStart; j<Nstep; j++){
 
-        solveGraph(solver_settings, 0, "NAN", m, nnz, csrValA, csrRowIndA, csrColIndA, U+Asize*j, U+Asize*(j+1));
+        solveGraphLS(solver_settings, m, nnz, csrValA, csrRowIndA, csrColIndA, U+Asize*j, U+Asize*(j+1));
 
         cublas_zcale = -1.0*Tbeta[j-1];
         cublasErr = cublasDaxpy(cublas_handle, Asize, &cublas_zcale, U+Asize*(j-1), 1, U+Asize*(j+1), 1);

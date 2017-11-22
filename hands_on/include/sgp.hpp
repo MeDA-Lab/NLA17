@@ -422,4 +422,17 @@ int invLanczos_gpu(int            m,
                    LSEV_INFO      LSEV_info, 
                    double         *egval,
                    std::string         solver_settings);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @brief  Internal Linear Solver for Inverse Lanczos eigensolver.
+///
+void solveGraphLS(
+    std::string solver_settings,
+    int m,
+    int nnz,
+    const double *A_val,
+    const int *A_row,
+    const int *A_col,
+    const double *b,
+    double *x
+)
 #endif  // SCSC_SGP_HPP
