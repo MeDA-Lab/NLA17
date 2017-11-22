@@ -21,9 +21,9 @@ static __global__ void Lanczos_init_kernel(double *U, const int Asize);
 
 int Lanczos_decomp_gpu(int         m,
                        int         nnz,
-                       double      csrValA,
-                       int         csrRowIndA,
-                       int         csrColIndA,
+                       double      *csrValA,
+                       int         *csrRowIndA,
+                       int         *csrColIndA,
                        LSEV_INFO   LSEV_info,
                        double      *U,
                        double      *Talpha,
@@ -33,7 +33,6 @@ int Lanczos_decomp_gpu(int         m,
                        cublasHandle_t cublas_handle)
 {
     int i, j, loopStart;
-    int errFlag;
     int Nwant, Nstep, Asize;
     double cublas_scale;
     double cublas_zcale, alpha_tmp, Loss;
@@ -91,11 +90,11 @@ int Lanczos_decomp_gpu(int         m,
         cublasErr = cublasDaxpy(cublas_handle, Asize, &cublas_zcale, U+Asize*(j-1), 1, U+Asize*(j+1), 1);
         assert( cublasErr == CUBLAS_STATUS_SUCCESS );
       
-        cublasErr = cublasDdot(.cublas_handle, Asize, U+Asize*(j+1), 1, U+Asize*j, 1, &alpha_tmp );
+        cublasErr = cublasDdot(cublas_handle, Asize, U+Asize*(j+1), 1, U+Asize*j, 1, &alpha_tmp );
         assert( cublasErr == CUBLAS_STATUS_SUCCESS );
 
         cublas_zcale = -1.0*alpha_tmp;
-        cublasErr = cublasDaxpy(cuHandles.cublas_handle, Asize, &cublas_zcale, U+Asize*j, 1, U+Asize*(j+1), 1);
+        cublasErr = cublasDaxpy(cublas_handle, Asize, &cublas_zcale, U+Asize*j, 1, U+Asize*(j+1), 1);
         assert( cublasErr == CUBLAS_STATUS_SUCCESS );
 
         /* Full Reorthogonalization */
@@ -118,7 +117,7 @@ int Lanczos_decomp_gpu(int         m,
         assert( cublasErr == CUBLAS_STATUS_SUCCESS );
 
         cublas_scale = 1.0 / Tbeta[j];
-        cublasErr = cublasDscal( cuHandles.cublas_handle, Asize, &(cublas_scale), U+Asize*(j+1), 1 );
+        cublasErr = cublasDscal( cublas_handle, Asize, &(cublas_scale), U+Asize*(j+1), 1 );
         assert( cublasErr == CUBLAS_STATUS_SUCCESS );
 
     } // end of j
