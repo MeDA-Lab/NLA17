@@ -6,8 +6,8 @@
 ///
 
 #include "sgp.hpp"
-#include <string>
 #include "Lanczos.cuh"
+#include <string>
 #include <thrust/sort.h>
 #include <thrust/functional.h>
 #include <magma_v2.h>
