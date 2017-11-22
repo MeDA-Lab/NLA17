@@ -83,7 +83,7 @@ int invLanczos_gpu(int           m,
         memcpy( T_e, Tbeta,  (Nstep-1)* sizeof(double) );
 
         /* Get the Ritz values */
-        megma_dstedx_m( ngpu, range, n, vl, vu, il, iu, T_d, T_e, z,
+        magma_dstedx_m( ngpu, range, n, vl, vu, il, iu, T_d, T_e, z,
         ldz, rwork, lrwork, iwork, liwork, info );
 
         /* Note that T_d will stored in descending order */

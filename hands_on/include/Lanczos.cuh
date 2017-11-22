@@ -9,6 +9,7 @@
 #define SCSC_Lanczos_CUH
 
 #include "sgp.hpp"
+#include "cublas_v2.h"
 #include <string>
 
 int GVqrrq_g(double *v, double *u, double *c, double *s, double shift, int n, 
