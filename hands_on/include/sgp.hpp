@@ -434,5 +434,5 @@ void solveGraphLS(
     const int *A_col,
     const double *b,
     double *x
-)
+);
 #endif  // SCSC_SGP_HPP
