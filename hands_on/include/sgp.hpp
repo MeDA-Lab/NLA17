@@ -421,5 +421,5 @@ int invLanczos_gpu(int            m,
                    int            *csrColIndA,
                    LSEV_INFO      LSEV_info, 
                    double         *egval,
-                   string         solver_settings);
+                   std::string         solver_settings);
 #endif  // SCSC_SGP_HPP

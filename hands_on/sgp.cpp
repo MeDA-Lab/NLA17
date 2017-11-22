@@ -136,7 +136,7 @@ int main( int argc, char** argv ){
             double *mu;
             double *x, timer;
             x = new double[n];
-            Nwant = LSEV_info.Nwant;
+            Nwant = setting.LSEV_info.Nwant;
             mu = new double[Nwant];
             cout << "Solving Eigenvalue Problem.................." << flush;
             tic(&timer);
