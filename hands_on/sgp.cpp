@@ -144,13 +144,13 @@ int main( int argc, char** argv ){
             flag = invLanczos_gpu(n, nnz, csrValA, csrRowIndA, csrColIndA, setting.LSEV_info, mu, res, setting.solver_settings);
             toc(&timer);
             cout << "Number of iterations: " << flag << endl;
-            cout << "=================================" << endl;
+            cout << "=============================================" << endl;
             cout << "Computed eigenvalues     |       Residual" << endl;
-            cout << "=================================" << endl;
+            cout << "=============================================" << endl;
             for (int i = 0; i < Nwant; i++)
             {
                 cout << fixed << setprecision(13) << mu[i];
-                cout << "          " << scientific << res[i] << endl;
+                cout << "                  " << scientific << res[i] << endl;
             }
         }
     }
