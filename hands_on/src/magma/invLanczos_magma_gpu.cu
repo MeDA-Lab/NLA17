@@ -94,7 +94,7 @@ int invLanczos_gpu(int            m,
         conv = 0;
         for (i=0; i<Nwant; i++){
             tmpIdx = Nstep-1+Nstep*(Nstep-i-1);
-            T_e[i] =  abs(Tbeta[Nstep-1]*norm(z[tmpIdx]));
+            T_e[i] =  abs(Tbeta[Nstep-1]*z[tmpIdx]);
             res[Nwant-(i+1)] = T_e[i];
             if ( T_e[i] < TOL ){
                 conv++;
