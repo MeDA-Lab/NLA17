@@ -8,7 +8,6 @@
 #include "sgp.hpp"
 #include <string>
 #include "Lanczos.cuh"
-#include "Lanczos_LockPurge_gpu.cuh"
 #include <thrust/sort.h>
 #include <thrust/functional.h>
 #include <magma_v2.h>

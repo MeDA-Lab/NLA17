@@ -6,7 +6,7 @@
 ///
 
 #include "sgp.hpp"
-#include "GVqrrq_g.h"
+#include "Lanczos.cuh"
 #include <cublas_v2.h>
 
 int Lanczos_LockPurge_gpu( double           *Talpha,
