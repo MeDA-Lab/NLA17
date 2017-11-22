@@ -28,7 +28,7 @@ int Lanczos_decomp_gpu(int         m,
                        double      *U,
                        double      *Talpha,
                        double      *Tbeta,
-                       bool        isInit,
+                       int         isInit,
                        string      solver_settings,
                        cublasHandle_t cublas_handle)
 {

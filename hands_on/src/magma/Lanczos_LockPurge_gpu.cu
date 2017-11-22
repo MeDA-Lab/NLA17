@@ -57,7 +57,7 @@ int Lanczos_LockPurge_gpu( double           *Talpha,
 
         jj++;
         /* Purge U(:,Nstep-j) */
-        CCE( cudaMemset( U+Asize*jj, 0, Asize*sizeof(double) ) );
+        checkCudaErrors( cudaMemset( U+Asize*jj, 0, Asize*sizeof(double) ) );
     
     } // end of j
     

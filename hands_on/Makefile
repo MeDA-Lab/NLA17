@@ -21,7 +21,7 @@ RANLIB      = ranlib
 # Flag settings.
 #=======================
 CCFLAGS		= -O3 -m64 -std=c++11 -fopenmp
-NVCCFLAGS	= -std=c++11
+NVCCFLAGS	= -std=c++11 -Wno-deprecated-gpu-targets
 
 #======================
 # Library PATH settings
