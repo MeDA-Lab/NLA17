@@ -28,6 +28,7 @@ int invLanczos_gpu(int            m,
                    int            *csrColIndA,
                    LSEV_INFO      LSEV_info, 
                    double         *egval,
+                   double         *res,
                    string         solver_settings)
 {
     int     iter, i, tmpIdx, errFlag, flag;
@@ -94,6 +95,7 @@ int invLanczos_gpu(int            m,
         for (i=0; i<Nwant; i++){
             tmpIdx = Nstep-1+Nstep*(Nstep-i-1);
             T_e[i] =  abs(Tbeta[Nstep-1]*z[tmpIdx]*z[tmpIdx]);
+            res[Nwant-(i+1)] = T_e[i];
             if ( T_e[i] < TOL ){
                 conv++;
             }else{

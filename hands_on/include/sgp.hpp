@@ -421,7 +421,8 @@ int invLanczos_gpu(int            m,
                    int            *csrColIndA,
                    LSEV_INFO      LSEV_info, 
                    double         *egval,
-                   std::string         solver_settings);
+                   double         *res,
+                   std::string    solver_settings);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief  Internal Linear Solver for Inverse Lanczos eigensolver.
 ///

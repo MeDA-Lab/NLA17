@@ -133,22 +133,24 @@ int main( int argc, char** argv ){
         }
         case Target::LANCZOS : {
             int flag, Nwant;
-            double *mu;
+            double *mu, *res;
             double *x, timer;
-            x = new double[n];
+            x   = new double[n];
             Nwant = setting.LSEV_info.Nwant;
-            mu = new double[Nwant];
+            mu  = new double[Nwant];
+            res = new double[Nwant];
             cout << "Solving Eigenvalue Problem.................." << endl;
             tic(&timer);
-            flag = invLanczos_gpu(n, nnz, csrValA, csrRowIndA, csrColIndA, setting.LSEV_info, mu, setting.solver_settings);
+            flag = invLanczos_gpu(n, nnz, csrValA, csrRowIndA, csrColIndA, setting.LSEV_info, mu, res, setting.solver_settings);
             toc(&timer);
             cout << "Number of iterations: " << flag << endl;
             cout << "=================================" << endl;
-            cout << "Computed eigenvalues" << endl;
+            cout << "Computed eigenvalues     |       Residual" << endl;
             cout << "=================================" << endl;
             for (int i = 0; i < Nwant; i++)
             {
-                cout << fixed << setprecision(13) << mu[i] << endl;
+                cout << fixed << setprecision(13) << mu[i];
+                cout << "          " << scientific << res[i] << endl;
             }
         }
     }
