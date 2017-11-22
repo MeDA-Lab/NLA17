@@ -34,7 +34,7 @@ MKLLNKS =  -Wl,--no-as-needed -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpth
 
 #CUDA
 CUDAROOT ?= /usr/local/cuda-8.0
-CUDAINCS  = -I$(CUDAROOT)/include -I$(CUDA_PATH)/samples/common/inc
+CUDAINCS  = -I$(CUDAROOT)/include -I$(CUDAROOT)/samples/common/inc
 CUDALIBS  = -L$(CUDAROOT)/lib64
 CUDALNKS  = -lcublas -lcusparse -lcudart -lcusolver
 
