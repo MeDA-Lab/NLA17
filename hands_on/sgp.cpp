@@ -138,7 +138,7 @@ int main( int argc, char** argv ){
             x = new double[n];
             Nwant = setting.LSEV_info.Nwant;
             mu = new double[Nwant];
-            cout << "Solving Eigenvalue Problem.................." << flush;
+            cout << "Solving Eigenvalue Problem.................." << endl;
             tic(&timer);
             flag = invLanczos_gpu(n, nnz, csrValA, csrRowIndA, csrColIndA, setting.LSEV_info, mu, setting.solver_settings);
             toc(&timer);
