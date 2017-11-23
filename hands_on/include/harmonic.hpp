@@ -18,6 +18,7 @@
 enum class Target {
     LS       = 0,  ///< solve LiiUi = LibUb
     SIPM     = 1,  ///< use shift inverse power method to solve
+    LANCZOS  = 2,  ///< use inverse Lanczos to solve
     COUNT,         ///< Used for counting number of methods.
 };
 
@@ -49,7 +50,6 @@ enum class LS {
 enum class Method {
   KIRCHHOFF = 0,  ///< Kirchhoff Laplacian matrix.
   COTANGENT = 1,  ///< Cotangent Laplacian matrix.
-  LANCZOS   = 2,  ///< use inverse Lanczos to solve
   COUNT,          ///< Used for counting number of methods.
 };
 
