@@ -140,7 +140,7 @@ int main( int argc, char** argv ) {
             cout << "=====================================================" << endl;
             for (int i = 0; i < Nwant; i++)
             {
-                cout << fixed << setprecision(13) << mu[i];
+                cout << fixed << setprecision(12) << scientific << mu[i];
                 cout << "               " << scientific << res[i] << endl;
             }
         }
