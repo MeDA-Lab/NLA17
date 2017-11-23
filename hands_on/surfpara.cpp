@@ -131,7 +131,7 @@ int main( int argc, char** argv ) {
             res = new double[Nwant];
             cout << "Solving Eigenvalue Problem.................." << endl;
             tic(&timer);
-            flag = invLanczos_gpu(n, nnz, csrValA, csrRowIndA, csrColIndA, setting.LSEV_info, mu, res, setting.solver_settings);
+            flag = invLanczos_gpu(nv-nb, nnz, Lii_val, Lii_row, Lii_col, setting.LSEV_info, mu, res, setting.solver_settings);
             toc(&timer);
             cout << "Number of iterations: " << flag << endl;
             cout << "=====================================================" << endl;
