@@ -54,6 +54,8 @@ surfpara_magma_obj = map_boundary.o verify_boundary_sparse.o write_object.o \
 					 read_args.o read_object.o reorder_vertex.o string2arg.o\
     				 construct_laplacian_sparse.o solve_shiftevp_cuda.o \
     				 magma_dcsrset_gpu.o solve_harmonic_sparse_magma.o \
+    				 invLanczos_magma_gpu.o Lanczos_decomp_gpu.o \
+	Lanczos_LockPurge_gpu.o GVqrrq_g.o
 
 sgp_obj = read_graph.o graph_adjacency.o graph_laplacian.o \
 	solve_shiftevp_cuda.o generate_RHS.o \
