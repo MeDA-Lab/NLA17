@@ -125,7 +125,8 @@ int main( int argc, char** argv ) {
             int flag, Nwant;
             double *mu, *res;
             double *x, timer;
-            x   = new double[n];
+            int nnz = Lii_row[nv-nb];
+            x   = new double[nv-nb];
             Nwant = setting.LSEV_info.Nwant;
             mu  = new double[Nwant];
             res = new double[Nwant];
