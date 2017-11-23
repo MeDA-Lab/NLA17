@@ -28,6 +28,10 @@ int main( int argc, char** argv ) {
   setting.sigma = 1.5;
   setting.tol = 1e-12;
   setting.eig_maxiter = 1000;
+  setting.LSEV_info.tol = 1e-12;
+  setting.LSEV_info.maxit = 1000;
+  setting.LSEV_info.Nwant = 10;
+  setting.LSEV_info.Nstep = 30;
   int nv, nf, nb, *F = nullptr, *idx_b = nullptr, *Lii_row = nullptr,
     *Lii_col = nullptr, *Lib_row = nullptr, *Lib_col = nullptr;
   double timer, *V = nullptr, *C = nullptr, *Lii_val = nullptr,
@@ -117,6 +121,28 @@ int main( int argc, char** argv ) {
       cout << endl;
       delete x;
     }
+    case Target::LANCZOS : {
+            int flag, Nwant;
+            double *mu, *res;
+            double *x, timer;
+            x   = new double[n];
+            Nwant = setting.LSEV_info.Nwant;
+            mu  = new double[Nwant];
+            res = new double[Nwant];
+            cout << "Solving Eigenvalue Problem.................." << endl;
+            tic(&timer);
+            flag = invLanczos_gpu(n, nnz, csrValA, csrRowIndA, csrColIndA, setting.LSEV_info, mu, res, setting.solver_settings);
+            toc(&timer);
+            cout << "Number of iterations: " << flag << endl;
+            cout << "=====================================================" << endl;
+            cout << "Computed eigenvalues     |       Residual" << endl;
+            cout << "=====================================================" << endl;
+            for (int i = 0; i < Nwant; i++)
+            {
+                cout << fixed << setprecision(13) << mu[i];
+                cout << "               " << scientific << res[i] << endl;
+            }
+        }
   }
   // Free memory
   delete[] V;

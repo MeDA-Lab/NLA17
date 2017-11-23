@@ -436,4 +436,5 @@ void solveGraphLS(
     const double *b,
     double *x
 );
+
 #endif  // SCSC_SGP_HPP
