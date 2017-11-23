@@ -45,7 +45,7 @@ void dispUsage( const char *bin ) {
   cout << "  -f<file>, --file <file>    The Object file (default: input.obj)" << endl;
   cout << "  -o<file>, --output <file>  The Output file (default: output.obj)" << endl;
   cout << "  -t<num>,  --target <num>   0: LS   - Linear System (Lii Ui = Lib Ub) (default) \n"
-       << "                             1: SIPM - Shift Inverse Power Method\n";
+       << "                             1: SIPM - Shift Inverse Power Method\n"
        << "                             2: LANCZOS   - Lanczos Iteration\n";
   cout << "  -s\"solver_settings\",       --magmasolver \"solver_settings\"\n"
        << "                             default settings: \"--solver CG\" for Iterative Linear System\n";
