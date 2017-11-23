@@ -28,6 +28,8 @@ const struct option long_opt[] = {
   {"sipm_option", 1, NULL, 1005},
   {"ls_option", 1, NULL, 1006},
   {"res", 1, NULL, 1007},
+  {"nwant", 1, NULL, 1008},
+  {"nstep", 1, NULL, 1009},
   {NULL,     0, NULL, 0}
 };
 
@@ -44,7 +46,8 @@ void dispUsage( const char *bin ) {
   cout << "  -o<file>, --output <file>  The Output file (default: output.obj)" << endl;
   cout << "  -t<num>,  --target <num>   0: LOBPCG (solve some smallest eigenvectors) (default) \n"
        << "                             1: SIPM - Shift Inverse Power Method\n"
-       << "                             2: LS   - Linear System (A+sigmaI)\n";
+       << "                             2: LS   - Linear System (A+sigmaI)\n"
+       << "                             3: LANCZOS   - Lanczos Iteration\n";
   cout << "  -s\"solver_settings\",       --magmasolver \"solver_settings\"\n"
        << "                             default settings: \"--solver CG\" for Iterative Linear System\n"
        << "                                               \"--solver LOBPCG --ev 4 --precond ILU\" for LOBPCG\n";
@@ -57,6 +60,8 @@ void dispUsage( const char *bin ) {
        << "                                         4: DEVICE_QR 5:DEVICE_CHOL\n";
   cout << "  --res <filename>           Write the residual vector to the file named <filename>.\n";
   cout << "                             Must be used with the verbose option value > 0 in --magmasolver \n";
+  cout << "  --nwant <num>              Number of eigenvalues to solve in Lanczos.\n";
+  cout << "  --nstep <num>              Number of steps in Lanczos.\n";
 }
 
 void readArgs(int argc, char** argv, args *setting) {
@@ -88,6 +93,7 @@ void readArgs(int argc, char** argv, args *setting) {
       }
       case 1002: {
         setting->tol = stod(optarg, nullptr);
+        (setting->LSEV_info).tol = stod(optarg, nullptr);
         break;
       }
       case 1003: {
@@ -96,6 +102,7 @@ void readArgs(int argc, char** argv, args *setting) {
       }
       case 1004: {
         setting->eig_maxiter = stoi(optarg, nullptr);
+        (setting->LSEV_info).maxit = stoi(optarg, nullptr);
         break;
       }
       case 1005: {
@@ -112,6 +119,14 @@ void readArgs(int argc, char** argv, args *setting) {
         setting->res_flag = 1;
         setting->res_filename = optarg;
         cout << "residual will be written to " << setting->res_filename << endl;
+        break;
+      }
+      case 1008: {
+        (setting->LSEV_info).Nwant = stoi(optarg, nullptr);
+        break;
+      }
+      case 1009: {
+        (setting->LSEV_info).Nstep = stoi(optarg, nullptr);
         break;
       }
       case ':': {

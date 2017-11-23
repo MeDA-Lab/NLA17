@@ -13,3 +13,4 @@ For Numerical Linear Algebra course
 - 10/26 : release ver1.0 in hands_on folder
 - 11/01 : release ver1.1 in hands_on folder
 - 11/16 : release ver1.2 in hands_on folder
+- 11/23 : release ver1.3 in hands_on folder
